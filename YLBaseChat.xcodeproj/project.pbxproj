@@ -1,0 +1,372 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		29FFACFF73F7B70AD81DD44E /* Pods_YLBaseChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */; };
+		794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30791EC1580100AB4605 /* AppDelegate.swift */; };
+		794C307C1EC1580100AB4605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C307B1EC1580100AB4605 /* ViewController.swift */; };
+		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
+		794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794C30821EC1580100AB4605 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YLBaseChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.debug.xcconfig"; sourceTree = "<group>"; };
+		794C30761EC1580100AB4605 /* YLBaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLBaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		794C30791EC1580100AB4605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		794C307B1EC1580100AB4605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		794C30801EC1580100AB4605 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		794C30831EC1580100AB4605 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		794C30851EC1580100AB4605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		794C30731EC1580100AB4605 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				29FFACFF73F7B70AD81DD44E /* Pods_YLBaseChat.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		794C306D1EC1580100AB4605 = {
+			isa = PBXGroup;
+			children = (
+				794C30781EC1580100AB4605 /* YLBaseChat */,
+				794C30771EC1580100AB4605 /* Products */,
+				FC254F3399E57ECCA00BC6EF /* Pods */,
+				EF76B2E0E1C8B0EA4D1191BD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		794C30771EC1580100AB4605 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				794C30761EC1580100AB4605 /* YLBaseChat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		794C30781EC1580100AB4605 /* YLBaseChat */ = {
+			isa = PBXGroup;
+			children = (
+				794C30791EC1580100AB4605 /* AppDelegate.swift */,
+				794C307B1EC1580100AB4605 /* ViewController.swift */,
+				794C30801EC1580100AB4605 /* Assets.xcassets */,
+				794C30821EC1580100AB4605 /* LaunchScreen.storyboard */,
+				794C30851EC1580100AB4605 /* Info.plist */,
+			);
+			path = YLBaseChat;
+			sourceTree = "<group>";
+		};
+		EF76B2E0E1C8B0EA4D1191BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC254F3399E57ECCA00BC6EF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */,
+				E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		794C30751EC1580100AB4605 /* YLBaseChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 794C30881EC1580100AB4605 /* Build configuration list for PBXNativeTarget "YLBaseChat" */;
+			buildPhases = (
+				F8AC4CBBBD994510C93EE0B5 /* [CP] Check Pods Manifest.lock */,
+				794C30721EC1580100AB4605 /* Sources */,
+				794C30731EC1580100AB4605 /* Frameworks */,
+				794C30741EC1580100AB4605 /* Resources */,
+				FC0ADE0C588993F776E34A65 /* [CP] Embed Pods Frameworks */,
+				31782628DBA851E55B093853 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YLBaseChat;
+			productName = YLBaseChat;
+			productReference = 794C30761EC1580100AB4605 /* YLBaseChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		794C306E1EC1580100AB4605 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = yl;
+				TargetAttributes = {
+					794C30751EC1580100AB4605 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 794C30711EC1580100AB4605 /* Build configuration list for PBXProject "YLBaseChat" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 794C306D1EC1580100AB4605;
+			productRefGroup = 794C30771EC1580100AB4605 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				794C30751EC1580100AB4605 /* YLBaseChat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		794C30741EC1580100AB4605 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */,
+				794C30811EC1580100AB4605 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31782628DBA851E55B093853 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8AC4CBBBD994510C93EE0B5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FC0ADE0C588993F776E34A65 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		794C30721EC1580100AB4605 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
+				794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		794C30821EC1580100AB4605 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				794C30831EC1580100AB4605 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		794C30861EC1580100AB4605 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		794C30871EC1580100AB4605 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		794C30891EC1580100AB4605 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = YLBaseChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = yl.YLBaseChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		794C308A1EC1580100AB4605 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = YLBaseChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = yl.YLBaseChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		794C30711EC1580100AB4605 /* Build configuration list for PBXProject "YLBaseChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				794C30861EC1580100AB4605 /* Debug */,
+				794C30871EC1580100AB4605 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		794C30881EC1580100AB4605 /* Build configuration list for PBXNativeTarget "YLBaseChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				794C30891EC1580100AB4605 /* Debug */,
+				794C308A1EC1580100AB4605 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 794C306E1EC1580100AB4605 /* Project object */;
+}
