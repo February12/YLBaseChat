@@ -15,6 +15,7 @@ class RealmManagers{
     static let shared = RealmManagers.init()
     private init(){}
     
+    // 提交事务
     func commitWrite(_ complated:() -> ()){
         let realm = try! Realm()
         try! realm.write {
