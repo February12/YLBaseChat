@@ -18,10 +18,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let realm = try!Realm()
-        
-        dataArray = dataArray + realm.objects(UserInfo.self)
-        
+        dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
+
         tableView.delegate = self
         tableView.dataSource = self
         
