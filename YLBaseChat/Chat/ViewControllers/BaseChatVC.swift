@@ -57,9 +57,9 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
         let message = dataArray[indexPath.row]
 
-        let messageBody = message.messageBody as! TextMessageBody
+        let messageBody = message.messageBody
         
-        cell.textLabel?.text = messageBody.text
+        cell.textLabel?.text = messageBody?.text
         
         return cell
     }

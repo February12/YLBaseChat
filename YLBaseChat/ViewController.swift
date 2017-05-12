@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
@@ -17,6 +16,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let message = Message()
+        message.timestamp = String(Int(Date().timeIntervalSince1970))
+        
+        let messageBody = MessageBody()
+        messageBody.type = MessageBodyType.MessageBodyTypeText.rawValue
+        messageBody.text = "消息"
+        
+        message.messageBody = messageBody
+        
+        let userInfo = RealmManagers.shared.selectModel(UserInfo.self, predicate: NSPredicate.init(format: "nickname = %@", "龙五")).first!
+        
+    
+        RealmManagers.shared.commitWrite {
+            userInfo.messages.append(message)
+        }
         
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
 

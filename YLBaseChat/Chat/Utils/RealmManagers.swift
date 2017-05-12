@@ -15,6 +15,13 @@ class RealmManagers{
     static let shared = RealmManagers.init()
     private init(){}
     
+    func commitWrite(_ complated:() -> ()){
+        let realm = try! Realm()
+        try! realm.write {
+            complated()
+        }
+    }
+    
     // 同步保存数据
     func addSynModel(_ obj:Object){
         let realm = try! Realm()
