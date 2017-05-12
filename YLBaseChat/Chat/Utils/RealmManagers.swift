@@ -19,7 +19,7 @@ class RealmManagers{
     func addSynModel(_ obj:Object){
         let realm = try! Realm()
         try! realm.write {
-            realm.add(obj)
+            realm.add(obj , update:true)
         }
     }
     
@@ -33,7 +33,7 @@ class RealmManagers{
                 
                 realm.beginWrite()
                 
-                realm.add(obj)
+                realm.add(obj , update:true)
                 
                 // 提交写入事务以确保数据在其他线程可用
                 try! realm.commitWrite()
@@ -55,6 +55,14 @@ class RealmManagers{
         }
         
         return objs
+    }
+    
+    // 同步删除数据
+    func deleteSynModel(_ obj:Object){
+        let realm = try! Realm()
+        try! realm.write {
+            realm.delete(obj)
+        }
     }
     
 }
