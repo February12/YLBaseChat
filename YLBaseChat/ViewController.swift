@@ -39,21 +39,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!;
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         
-        let userInfo = dataArray[indexPath.row];
+        let userInfo = dataArray[indexPath.row]
         
         cell.textLabel?.text = userInfo.nickname
         
-        return cell;
+        return cell
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let baseChatVC = BaseChatVC()
+        let nav = UINavigationController.init(rootViewController: baseChatVC)
+        
+        self.present(nav, animated: true, completion: nil)
     }
-
-
 }
 

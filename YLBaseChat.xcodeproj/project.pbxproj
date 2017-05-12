@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		29FFACFF73F7B70AD81DD44E /* Pods_YLBaseChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */; };
 		7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7903C3A51EC4257F0015D151 /* RealmManagers.swift */; };
+		7923C7EB1EC58CBC00B922E9 /* BaseChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923C7EA1EC58CBC00B922E9 /* BaseChatVC.swift */; };
 		794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30791EC1580100AB4605 /* AppDelegate.swift */; };
 		794C307C1EC1580100AB4605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C307B1EC1580100AB4605 /* ViewController.swift */; };
 		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 		05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YLBaseChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.debug.xcconfig"; sourceTree = "<group>"; };
 		7903C3A51EC4257F0015D151 /* RealmManagers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManagers.swift; sourceTree = "<group>"; };
+		7923C7EA1EC58CBC00B922E9 /* BaseChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatVC.swift; sourceTree = "<group>"; };
 		794C30761EC1580100AB4605 /* YLBaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLBaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		794C30791EC1580100AB4605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		794C307B1EC1580100AB4605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		794C30901EC15EDF00AB4605 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7923C7EA1EC58CBC00B922E9 /* BaseChatVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
 				794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */,
+				7923C7EB1EC58CBC00B922E9 /* BaseChatVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
