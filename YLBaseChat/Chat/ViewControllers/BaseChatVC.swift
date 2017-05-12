@@ -17,6 +17,8 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     var dataArray = Array<Message>()
     
+    var userInfo:UserInfo!
+    
     deinit {
         print("====\(self)=====>被释放")
     }
@@ -26,21 +28,33 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         
         view.backgroundColor = UIColor.lightGray
         
-        navigationController?.title = "聊天室"
+        title = "聊天室"
         
         layoutUI()
+        
+        loadData()
     }
+    
     
     func layoutUI() {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        tableView.dataSource = self
+//        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
         }
         
+    }
+    
+    func loadData() {
+        
+        dataArray += userInfo.messages
+        
+        tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -59,8 +73,19 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
         let messageBody = message.messageBody
         
-        cell.textLabel?.text = messageBody?.text
+        if(message.direction == MessageDirection.MessageDirectionSend.rawValue){
+            cell.textLabel?.text = "我:  " + (messageBody?.text)!
+        }else{
+            cell.textLabel?.text = "对方: " + (messageBody?.text)!
+        }
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
 }

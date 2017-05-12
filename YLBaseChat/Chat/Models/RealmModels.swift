@@ -23,12 +23,21 @@ class UserInfo: Object {
     }
 }
 
+// 消息方向类型
+enum MessageDirection:Int{
+    case MessageDirectionSend = 1 // 发送的消息
+    case MessageDirectionReceive  // 接收的消息
+    
+}
+
 // 消息model
 class Message: Object {
     
     dynamic var messageId = NSUUID().uuidString // 消息id
     
     dynamic var timestamp = ""   // 时间戳
+    
+    dynamic var direction = 0    // 消息方向
     
     dynamic var messageBody:MessageBody! // 消息体
     

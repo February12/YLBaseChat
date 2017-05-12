@@ -17,21 +17,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let message = Message()
-        message.timestamp = String(Int(Date().timeIntervalSince1970))
-        
-        let messageBody = MessageBody()
-        messageBody.type = MessageBodyType.MessageBodyTypeText.rawValue
-        messageBody.text = "消息"
-        
-        message.messageBody = messageBody
-        
-        let userInfo = RealmManagers.shared.selectModel(UserInfo.self, predicate: NSPredicate.init(format: "nickname = %@", "龙五")).first!
-        
-    
-        RealmManagers.shared.commitWrite {
-            userInfo.messages.append(message)
-        }
+//        let message = Message()
+//        message.timestamp = String(Int(Date().timeIntervalSince1970))
+//        message.direction = 1
+//        
+//        let messageBody = MessageBody()
+//        messageBody.type = MessageBodyType.MessageBodyTypeText.rawValue
+//        messageBody.text = "消息"
+//        
+//        message.messageBody = messageBody
+//        
+//        let userInfo = RealmManagers.shared.selectModel(UserInfo.self, predicate: NSPredicate.init(format: "nickname = %@", "龙五")).first!
+//        
+//    
+//        RealmManagers.shared.commitWrite {
+//            userInfo.messages.append(message)
+//        }
         
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
 
@@ -69,6 +70,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         let baseChatVC = BaseChatVC()
         let nav = UINavigationController.init(rootViewController: baseChatVC)
+        
+        let userInfo = dataArray[indexPath.row]
+        
+        baseChatVC.userInfo = userInfo
         
         self.present(nav, animated: true, completion: nil)
     }
