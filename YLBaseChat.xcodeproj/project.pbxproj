@@ -18,6 +18,7 @@
 		79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB61EC94741005B8D9A /* YLInputView.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */; };
+		79DA2FBD1EC99F4E005B8D9A /* YLBaseReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		79DA2FB61EC94741005B8D9A /* YLInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLInputView.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPTextView.swift; sourceTree = "<group>"; };
+		79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLBaseReplyView.swift; sourceTree = "<group>"; };
 		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +132,7 @@
 			children = (
 				79DA2FB61EC94741005B8D9A /* YLInputView.swift */,
 				79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */,
+				79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */,
 			);
 			path = YLInputView;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			files = (
 				79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */,
 				79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */,
+				79DA2FBD1EC99F4E005B8D9A /* YLBaseReplyView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,

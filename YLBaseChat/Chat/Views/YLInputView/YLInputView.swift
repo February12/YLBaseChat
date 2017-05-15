@@ -11,11 +11,11 @@ import UIKit
 import SnapKit
 
 let defaultInputViewH = 46.0
-let defaultInputViewBtnWH = 30.0
-let defaultInputViewBtnBottom = 7.5
+private let defaultInputViewBtnWH = 30.0
+private let defaultInputViewBtnBottom = 7.5
 
-let defaultTextViewMaxH = 100.0
-let defaultTextViewMinH = 35.0
+private let defaultTextViewMaxH = 100.0
+private let defaultTextViewMinH = 35.0
 
 enum YLInputViewBtnState:Int{
     
@@ -29,9 +29,7 @@ enum YLInputViewBtnState:Int{
 protocol YLInputViewDelegate:NSObjectProtocol {
     
     // 按钮点击
-    func epBtnClickHandle(inputViewBtnState:YLInputViewBtnState)
-    // 删除操作
-    func epDidDeleteTextView() -> Bool
+    func epBtnClickHandle(_ inputViewBtnState:YLInputViewBtnState)
     // 发送操作
     func epSendMessageText()
 }
@@ -47,17 +45,17 @@ class YLInputView: UIView,UITextViewDelegate {
    
     weak var delegate:YLInputViewDelegate?
     
-    var inputTextView = YLPTextView.init(frame: CGRect.zero)
+    private var inputTextView = YLPTextView.init(frame: CGRect.zero)
     
-    var recordBtn:UIButton!
-    var recordOperationBtn:UIButton!
+    private var recordBtn:UIButton!
+    private var recordOperationBtn:UIButton!
     
-    var faceBtn:UIButton!
-    var moreBtn:UIButton!
-    var keyboardBtn:UIButton!
-    var selectedRange:NSRange = NSRange.init(location: 0, length: 0)
+    private var faceBtn:UIButton!
+    private var moreBtn:UIButton!
+    private var keyboardBtn:UIButton!
+    private var selectedRange:NSRange = NSRange.init(location: 0, length: 0)
     
-    var textViewFrame = YLTextViewFrame()
+    private var textViewFrame = YLTextViewFrame()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,15 +68,15 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 初始化UI
-    func efLayoutUI() {
+    private func efLayoutUI() {
         
-        layer.borderColor = Definition.colorFromRGB(rgb: 0xdcdcdc).cgColor
+        layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
         layer.borderWidth = 1
-        backgroundColor = Definition.colorFromRGB(rgb: 0xf2f2f2)
+        backgroundColor = Definition.colorFromRGB(0xf2f2f2)
         isUserInteractionEnabled = true
         
         // 录音按钮
-        recordBtn = createBtn(imageName: "foot_sound")
+        recordBtn = createBtn("foot_sound")
         recordBtn.tag = YLInputViewBtnState.record.rawValue
         
         recordBtn.snp.makeConstraints { (make) in
@@ -90,7 +88,7 @@ class YLInputView: UIView,UITextViewDelegate {
         textViewFrame.left = 42
         
         // 更多
-        moreBtn = createBtn(imageName: "foot_more")
+        moreBtn = createBtn("foot_more")
         moreBtn.tag = YLInputViewBtnState.more.rawValue
         
         moreBtn.snp.makeConstraints { (make) in
@@ -100,7 +98,7 @@ class YLInputView: UIView,UITextViewDelegate {
         }
         
         // 表情
-        faceBtn = createBtn(imageName: "btn_expression")
+        faceBtn = createBtn("btn_expression")
         faceBtn.tag = YLInputViewBtnState.face.rawValue
         
         faceBtn.snp.makeConstraints { (make) in
@@ -110,7 +108,7 @@ class YLInputView: UIView,UITextViewDelegate {
         }
         
         // 键盘
-        keyboardBtn = createBtn(imageName: "btn_keyboard")
+        keyboardBtn = createBtn("btn_keyboard")
         keyboardBtn.tag = YLInputViewBtnState.keyboard.rawValue
         keyboardBtn.isHidden = false
         
@@ -118,7 +116,7 @@ class YLInputView: UIView,UITextViewDelegate {
         inputTextView.backgroundColor = UIColor.white
         inputTextView.clipsToBounds = true
         inputTextView.layer.cornerRadius = 5.0
-        inputTextView.layer.borderColor = Definition.colorFromRGB(rgb: 0xdcdcdc).cgColor
+        inputTextView.layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
         inputTextView.layer.borderWidth = 1
         inputTextView.delegate = self
         inputTextView.font = UIFont.systemFont(ofSize: 16)
@@ -154,12 +152,12 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 创建按钮
-    func createBtn(imageName:String)-> UIButton {
+    private func createBtn(_ imageName:String)-> UIButton {
     
         let btn = UIButton()
         btn.setBackgroundImage(UIImage.init(named: imageName), for: UIControlState.normal)
         
-        btn.addTarget(self, action: #selector(YLInputView.btnClickHandle(btn:)), for: UIControlEvents.touchUpInside)
+      btn.addTarget(self, action: #selector(YLInputView.btnClickHandle(_:)), for: UIControlEvents.touchUpInside)
         
         addSubview(btn)
         
@@ -167,8 +165,8 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 按钮点击处理
-    func btnClickHandle(btn:UIButton){
-        delegate?.epBtnClickHandle(inputViewBtnState: YLInputViewBtnState.init(rawValue: btn.tag)!)
+    func btnClickHandle(_ btn:UIButton){
+        delegate?.epBtnClickHandle(YLInputViewBtnState.init(rawValue: btn.tag)!)
     }
     
     // textView 文本内容改变
@@ -200,7 +198,7 @@ class YLInputView: UIView,UITextViewDelegate {
     // textView Delegate
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        delegate?.epBtnClickHandle(inputViewBtnState: YLInputViewBtnState.keyboard)
+        delegate?.epBtnClickHandle(YLInputViewBtnState.keyboard)
         return true
     }
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
@@ -213,11 +211,7 @@ class YLInputView: UIView,UITextViewDelegate {
             delegate?.epSendMessageText()
             return false
         }
-        
-//        if(text.characters.count == 0){
-//            return (delegate?.epDidDeleteTextView())!
-//        }
-        
+                
         return true
     }
     

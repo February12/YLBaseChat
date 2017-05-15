@@ -15,7 +15,7 @@ let YLScreenHeight = UIScreen.main.bounds.height
 
 public class Definition{
     
-    class func colorFromRGB(rgb:Int) -> UIColor {
+    class func colorFromRGB(_ rgb:Int) -> UIColor {
         
         return UIColor(red: CGFloat(CGFloat((rgb & 0xFF0000) >> 16) / 255.0) ,
                        green: CGFloat(CGFloat((rgb & 0xFF00) >> 8) / 255.0) ,
