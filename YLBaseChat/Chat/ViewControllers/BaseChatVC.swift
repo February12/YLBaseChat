@@ -38,15 +38,25 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func layoutUI() {
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView()
-        view.addSubview(tableView)
+        let inputView = YLInputView.init(frame: CGRect.zero)
+        view.addSubview(inputView)
         
-        tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+        inputView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(0)
+            make.bottom.equalTo(0)
+            make.height.equalTo(defaultInputViewH).priority(750)
         }
+        
+        
+//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.tableFooterView = UIView()
+//        view.addSubview(tableView)
+//        
+//        tableView.snp.makeConstraints { (make) in
+//            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+//        }
         
     }
     
@@ -73,7 +83,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
         let messageBody = message.messageBody
         
-        if(message.direction == MessageDirection.MessageDirectionSend.rawValue){
+        if(message.direction == MessageDirection.send.rawValue){
             cell.textLabel?.text = "我:  " + (messageBody?.text)!
         }else{
             cell.textLabel?.text = "对方: " + (messageBody?.text)!

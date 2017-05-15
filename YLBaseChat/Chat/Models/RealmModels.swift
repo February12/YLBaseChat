@@ -25,8 +25,8 @@ class UserInfo: Object {
 
 // 消息方向类型
 enum MessageDirection:Int{
-    case MessageDirectionSend = 1 // 发送的消息
-    case MessageDirectionReceive  // 接收的消息
+    case send = 1 // 发送的消息
+    case receive  // 接收的消息
     
 }
 
@@ -48,8 +48,8 @@ class Message: Object {
 
 // 消息体类型
 enum MessageBodyType:Int{
-    case MessageBodyTypeText = 1
-    case MessageBodyTypeImage
+    case text = 1
+    case image
 
 }
 
