@@ -41,7 +41,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
@@ -84,7 +84,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        self.dismiss(animated: true, completion: nil)
+        
     }
     
     

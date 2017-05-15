@@ -69,13 +69,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         tableView.deselectRow(at: indexPath, animated: true)
         
         let baseChatVC = BaseChatVC()
-        let nav = UINavigationController.init(rootViewController: baseChatVC)
         
         let userInfo = dataArray[indexPath.row]
         
         baseChatVC.userInfo = userInfo
         
-        self.present(nav, animated: true, completion: nil)
+        self.navigationController?.pushViewController(baseChatVC, animated: true)
     }
 }
 
