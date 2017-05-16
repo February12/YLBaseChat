@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 // 表情框
-private let defaultPanelViewH = 210
+private let defaultPanelViewH:CGFloat = 210.0
 
 enum YLReplyViewState:Int {
     // 普通状态
@@ -27,7 +27,7 @@ enum YLReplyViewState:Int {
 
 class YLBaseReplyView: UIView,YLInputViewDelegate {
     
-    fileprivate var evInputView:YLInputView! // 输入框
+    var evInputView:YLInputView! // 输入框
     
     fileprivate var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
     
@@ -76,12 +76,11 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     // 编辑InputView 约束
     fileprivate func editInputViewConstraintWithBottom(_ bottom:CGFloat) {
         
-        evInputView.snp.makeConstraints { (make) in
+        evInputView.snp.remakeConstraints { (make) in
             make.left.right.equalTo(0)
             make.bottom.equalTo(bottom)
             make.height.equalTo(defaultInputViewH).priority(750)
         }
-        
         layoutIfNeeded()
     }
     
@@ -142,7 +141,7 @@ extension YLBaseReplyView{
             evInputView.inputTextView.resignFirstResponder()
             evInputView.textViewDidChanged()
             
-            UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
                 self?.editInputViewConstraintWithBottom(0)
             }, completion: { [weak self] (_) in
                 self?.evFacePanelView.isHidden = true
@@ -163,7 +162,7 @@ extension YLBaseReplyView{
             
             showKeyboardBtn(evInputView.recordBtn)
             
-            UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
                 self?.editInputViewConstraintWithBottom(0)
                 }, completion: { [weak self] (_) in
                     self?.evFacePanelView.isHidden = true
@@ -188,7 +187,7 @@ extension YLBaseReplyView{
             evInputView.textViewDidChanged()
             
             UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                self?.editInputViewConstraintWithBottom(-defaultInputViewH)
+                self?.editInputViewConstraintWithBottom(-defaultPanelViewH)
             })
             
             perform(#selector(YLBaseReplyView.efDidRecoverReplyViewStateForEdit), with: nil, afterDelay: 0.0)
@@ -207,7 +206,7 @@ extension YLBaseReplyView{
             evInputView.textViewDidChanged()
             
             UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                self?.editInputViewConstraintWithBottom(-defaultInputViewH)
+                self?.editInputViewConstraintWithBottom(-defaultPanelViewH)
             })
             
             perform(#selector(YLBaseReplyView.efDidRecoverReplyViewStateForEdit), with: nil, afterDelay: 0.0)

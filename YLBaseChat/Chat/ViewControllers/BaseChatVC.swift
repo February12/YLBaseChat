@@ -54,8 +54,9 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         chatView.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
-            make.top.left.right.equalTo(0)
-            make.bottom.equalTo(chatView.snp.top)
+            make.top.equalTo(64)
+            make.left.right.equalTo(0)
+            make.bottom.equalTo(chatView.evInputView.snp.top)
         }
         
     }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-let defaultInputViewH:CGFloat = 46.0
+let defaultInputViewH = 46.0
 let defaultInputViewBtnWH = 30.0
 fileprivate let defaultInputViewBtnBottom = 7.5
 
