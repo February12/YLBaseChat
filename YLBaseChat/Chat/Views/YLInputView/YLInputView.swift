@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 import SnapKit
 
-let defaultInputViewH = 46.0
-private let defaultInputViewBtnWH = 30.0
-private let defaultInputViewBtnBottom = 7.5
+let defaultInputViewH:CGFloat = 46.0
+let defaultInputViewBtnWH = 30.0
+fileprivate let defaultInputViewBtnBottom = 7.5
 
-private let defaultTextViewMaxH = 100.0
-private let defaultTextViewMinH = 35.0
+fileprivate let defaultTextViewMaxH = 100.0
+fileprivate let defaultTextViewMinH = 35.0
 
 enum YLInputViewBtnState:Int{
     
@@ -45,30 +45,34 @@ class YLInputView: UIView,UITextViewDelegate {
    
     weak var delegate:YLInputViewDelegate?
     
-    private var inputTextView = YLPTextView.init(frame: CGRect.zero)
+    var inputTextView = YLPTextView.init(frame: CGRect.zero)
     
-    private var recordBtn:UIButton!
-    private var recordOperationBtn:UIButton!
+    var recordBtn:UIButton!
+    var recordOperationBtn:UIButton!
     
-    private var faceBtn:UIButton!
-    private var moreBtn:UIButton!
-    private var keyboardBtn:UIButton!
-    private var selectedRange:NSRange = NSRange.init(location: 0, length: 0)
+    var faceBtn:UIButton!
+    var moreBtn:UIButton!
+    var keyboardBtn:UIButton!
+
+    fileprivate var textViewFrame = YLTextViewFrame()
     
-    private var textViewFrame = YLTextViewFrame()
+    var selectedRange:NSRange = NSRange.init(location: 0, length: 0)
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        efLayoutUI()
+        layoutUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        fatalError("init(coder:) has not been implemented")
     }
     
     // 初始化UI
-    private func efLayoutUI() {
+    private func layoutUI() {
         
         layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
         layer.borderWidth = 1
@@ -110,7 +114,7 @@ class YLInputView: UIView,UITextViewDelegate {
         // 键盘
         keyboardBtn = createBtn("btn_keyboard")
         keyboardBtn.tag = YLInputViewBtnState.keyboard.rawValue
-        keyboardBtn.isHidden = false
+        keyboardBtn.isHidden = true
         
         // 输入框
         inputTextView.backgroundColor = UIColor.white
@@ -135,6 +139,7 @@ class YLInputView: UIView,UITextViewDelegate {
         recordOperationBtn = UIButton()
         recordOperationBtn.setTitle("按住 说话", for: UIControlState.normal)
         recordOperationBtn.setTitle("松开 结束", for: UIControlState.selected)
+        recordOperationBtn.setTitleColor(UIColor.black, for: UIControlState.normal)
         recordOperationBtn.setBackgroundImage(UIImage.init(named: "bg_talk_presstalk")?.resizableImage(withCapInsets: UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.normal)
         recordOperationBtn.setBackgroundImage(UIImage.init(named: "bg_talk_presstalk_pressed")?.resizableImage(withCapInsets: UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.selected)
         recordOperationBtn.isHidden = true
@@ -178,9 +183,9 @@ class YLInputView: UIView,UITextViewDelegate {
         
         var height = ceilf(Float(inputTextView.sizeThatFits(inputTextView.frame.size).height))
         
-        if(height <= Float(defaultTextViewMinH)){
+        if height <= Float(defaultTextViewMinH) {
             height = Float(defaultTextViewMinH)
-        }else if(height >= Float(defaultTextViewMaxH)){
+        }else if height >= Float(defaultTextViewMaxH) {
             height = Float(defaultTextViewMaxH)
         }
         
@@ -194,9 +199,10 @@ class YLInputView: UIView,UITextViewDelegate {
         
         layoutIfNeeded()
     }
-    
-    // textView Delegate
-    
+}
+
+// textView Delegate
+extension YLInputView{
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         delegate?.epBtnClickHandle(YLInputViewBtnState.keyboard)
         return true
@@ -207,18 +213,14 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
-        if(text == "\n"){
+        if text == "\n" {
             delegate?.epSendMessageText()
             return false
         }
-                
+        
         return true
     }
-    
 }
-
-
-
 
 
 

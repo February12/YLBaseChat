@@ -26,7 +26,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.lightGray
+        view.backgroundColor = UIColor.red
         
         title = "聊天室"
         
@@ -38,25 +38,25 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func layoutUI() {
         
-        let inputView = YLInputView.init(frame: CGRect.zero)
-        view.addSubview(inputView)
+        let chatView = YLBaseReplyView.init(frame: CGRect.zero)
+        view.addSubview(chatView)
         
-        inputView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(0)
-            make.bottom.equalTo(0)
-            make.height.equalTo(defaultInputViewH).priority(750)
+        chatView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
         }
         
         
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.tableFooterView = UIView()
-//        view.addSubview(tableView)
-//        
-//        tableView.snp.makeConstraints { (make) in
-//            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
-//        }
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = UIColor.lightGray
+        tableView.tableFooterView = UIView()
+        chatView.addSubview(tableView)
+        
+        tableView.snp.makeConstraints { (make) in
+            make.top.left.right.equalTo(0)
+            make.bottom.equalTo(chatView.snp.top)
+        }
         
     }
     
