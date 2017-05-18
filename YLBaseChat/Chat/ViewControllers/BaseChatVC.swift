@@ -38,7 +38,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func layoutUI() {
         
-        let chatView = YLReplyView.init(frame: CGRect.zero)
+        let chatView =  ChatView.init(frame: CGRect.zero)
         view.addSubview(chatView)
         
         chatView.snp.makeConstraints { (make) in
@@ -79,9 +79,9 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-
+        
         let message = dataArray[indexPath.row]
-
+        
         let messageBody = message.messageBody
         
         if(message.direction == MessageDirection.send.rawValue){

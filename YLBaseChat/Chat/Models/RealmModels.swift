@@ -11,7 +11,7 @@ import RealmSwift
 
 // 用户model
 class UserInfo: Object {
-
+    
     dynamic var userId = NSUUID().uuidString // 用户id
     
     dynamic var nickname = "" // 昵称
@@ -50,7 +50,7 @@ class Message: Object {
 enum MessageBodyType:Int{
     case text = 1
     case image
-
+    
 }
 
 // 消息体

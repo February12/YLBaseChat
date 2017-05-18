@@ -99,7 +99,8 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     }
 }
 
-// 子类需要重写
+
+// MARK: - 子类需要重写
 extension YLBaseReplyView{
 
     // 添加表情面板
@@ -124,7 +125,8 @@ extension YLBaseReplyView{
     
 }
 
-// 状态切换
+
+// MARK: - 状态切换
 extension YLBaseReplyView{
     
      fileprivate func updateReplyViewState(_ state:YLReplyViewState) {
@@ -250,7 +252,7 @@ extension YLBaseReplyView{
     
 }
 
-// YLInputViewDelegate
+// MARK: - YLInputViewDelegate
 extension YLBaseReplyView{
     
     // 按钮点击
@@ -278,7 +280,8 @@ extension YLBaseReplyView{
     }
 }
 
-// keyboard show hide
+
+// MARK: - keyboard show hide
 extension YLBaseReplyView{
 
     @objc fileprivate func keyboardWillShow(_ not:NSNotification) {

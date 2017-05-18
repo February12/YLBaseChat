@@ -196,7 +196,8 @@ class YLInputView: UIView,UITextViewDelegate {
     }
 }
 
-// 外部可以调用的方法
+
+// MARK: - 外部可以调用的方法
 extension YLInputView {
 
     // textView 文本内容改变
@@ -206,7 +207,8 @@ extension YLInputView {
     
 }
 
-// textView Delegate
+
+// MARK: - textView Delegate
 extension YLInputView {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         delegate?.epBtnClickHandle(YLInputViewBtnState.keyboard)

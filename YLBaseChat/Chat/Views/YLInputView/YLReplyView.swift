@@ -20,9 +20,9 @@ class YLReplyView: YLBaseReplyView {
     }
     
     @objc fileprivate func recoverGesticulation(_ gesticulation:UIGestureRecognizer) {
-    
-        if gesticulation.state == UIGestureRecognizerState.began {
         
+        if gesticulation.state == UIGestureRecognizerState.began {
+            
             print("开始录音")
             evInputView.recordOperationBtn.isSelected = true
             
@@ -36,9 +36,9 @@ class YLReplyView: YLBaseReplyView {
             evInputView.recordOperationBtn.isSelected = false
             
             if point.y > 0 {
-            
-               print("发送录音")
-               efSendRecording()
+                
+                print("发送录音")
+                efSendRecording()
                 
             }else{
                 
@@ -51,7 +51,7 @@ class YLReplyView: YLBaseReplyView {
             let point = gesticulation.location(in: gesticulation.view)
             
             if point.y > 0 {
-            
+                
                 print("向上滑动取消录音")
                 efSlideUpToCancelTheRecording()
                 
@@ -66,9 +66,10 @@ class YLReplyView: YLBaseReplyView {
     
 }
 
-// 子类需要重写
-extension YLReplyView {
 
+// MARK: - 子类需要重写
+extension YLReplyView {
+    
     // 录音处理
     func efStartRecording() {}
     func efCancelRecording() {}
@@ -79,10 +80,13 @@ extension YLReplyView {
     // 发送消息
     func efSendMessageText() {}
     
+
 }
 
-extension YLReplyView {
 
+// MARK: - YLInputViewDelegate
+extension YLReplyView {
+    
     override func epSendMessageText() {
         
         efSendMessageText()
