@@ -100,7 +100,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
 }
 
 
-// MARK: - 子类需要重写
+// MARK: - 子类需要重写/外部调用
 extension YLBaseReplyView{
 
     // 添加表情面板
@@ -123,6 +123,10 @@ extension YLBaseReplyView{
     // 恢复编辑状态
     func efDidRecoverReplyViewStateForEdit() {}
     
+    // 收起输入框
+    func efPackUpInputView() {
+        updateReplyViewState(YLReplyViewState.normal)
+    }
 }
 
 
@@ -276,8 +280,7 @@ extension YLBaseReplyView{
     
     // 发送操作
     func epSendMessageText() {}
-    // 文本框完成高度适配
-    func epTextViewAutoHeightComplated() {}
+   
 }
 
 

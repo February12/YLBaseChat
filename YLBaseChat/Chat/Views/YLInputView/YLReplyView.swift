@@ -67,7 +67,7 @@ class YLReplyView: YLBaseReplyView {
 }
 
 
-// MARK: - 子类需要重写
+// MARK: - 子类需要重写/外部调用
 extension YLReplyView {
     
     // 录音处理
@@ -79,8 +79,7 @@ extension YLReplyView {
     
     // 发送消息
     func efSendMessageText() {}
-    // 文本框完成高度适配
-    func efTextViewAutoHeightComplated() {}
+    
 }
 
 
@@ -89,10 +88,6 @@ extension YLReplyView {
     
     override func epSendMessageText() {
         efSendMessageText()
-    }
-    
-    override func epTextViewAutoHeightComplated() {
-        efTextViewAutoHeightComplated()
     }
     
 }

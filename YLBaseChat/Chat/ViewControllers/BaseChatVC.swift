@@ -19,6 +19,8 @@ class BaseChatVC: UIViewController {
     
     var userInfo:UserInfo!
     
+    var chatView:ChatView = ChatView.init(frame: CGRect.zero)
+    
     deinit {
         print("====\(self)=====>被释放")
     }
@@ -38,7 +40,6 @@ class BaseChatVC: UIViewController {
     
     func layoutUI() {
         
-        let chatView =  ChatView.init(frame: CGRect.zero)
         chatView.delegate = self
         view.addSubview(chatView)
         
@@ -110,6 +111,8 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        chatView.efPackUpInputView()
+        
     }
     
     
@@ -141,7 +144,4 @@ extension BaseChatVC:ChatViewDelegate {
         efScrollToLastCell()
     }
     
-    func epTextViewAutoHeightComplated() {
-        efScrollToLastCell()
-    }
 }

@@ -13,7 +13,6 @@ protocol ChatViewDelegate: NSObjectProtocol {
     
     func epSendMessageText(_ text:String)
     
-    func epTextViewAutoHeightComplated()
 }
 
 class ChatView: YLReplyView {
@@ -36,10 +35,6 @@ extension ChatView {
         evInputView.textViewDidChanged()
         
         delegate?.epSendMessageText(text!)
-    }
-    
-    override func efTextViewAutoHeightComplated() {
-        delegate?.epTextViewAutoHeightComplated()
     }
     
 }
