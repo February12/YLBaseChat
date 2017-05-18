@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class BaseChatVC: UIViewController {
     
     // 表单
     var tableView = UITableView.init(frame: CGRect.zero, style: UITableViewStyle.plain)
@@ -39,6 +39,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func layoutUI() {
         
         let chatView =  ChatView.init(frame: CGRect.zero)
+        chatView.delegate = self
         view.addSubview(chatView)
         
         chatView.snp.makeConstraints { (make) in
@@ -66,7 +67,20 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
         dataArray += userInfo.messages
         
         tableView.reloadData()
+        
+        efScrollToLastCell()
     }
+    
+    // 滚到最后一行
+    fileprivate func efScrollToLastCell() {
+        tableView.scrollToRow(at: IndexPath.init(row: dataArray.count-1, section: 0), at: UITableViewScrollPosition.middle, animated: true)
+    }
+    
+}
+
+
+// MARK: - UITableViewDelegate,UITableViewDataSource
+extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -99,4 +113,35 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     }
     
     
+}
+
+
+// MARK: - ChatViewDelegate
+extension BaseChatVC:ChatViewDelegate {
+    
+    func epSendMessageText(_ text: String) {
+        
+        let message = Message()
+        message.timestamp = String(Int(Date().timeIntervalSince1970))
+        message.direction = MessageDirection.receive.rawValue
+        
+        let messageBody = MessageBody()
+        messageBody.type = MessageBodyType.text.rawValue
+        messageBody.text = text
+        
+        message.messageBody = messageBody
+        
+        RealmManagers.shared.commitWrite {
+            userInfo.messages.append(message)
+        }
+        
+        dataArray.append(userInfo.messages.last!)
+        tableView.reloadData()
+        
+        efScrollToLastCell()
+    }
+    
+    func epTextViewAutoHeightComplated() {
+        efScrollToLastCell()
+    }
 }

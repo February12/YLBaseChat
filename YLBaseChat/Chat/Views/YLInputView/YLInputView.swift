@@ -32,6 +32,9 @@ protocol YLInputViewDelegate:NSObjectProtocol {
     func epBtnClickHandle(_ inputViewBtnState:YLInputViewBtnState)
     // 发送操作
     func epSendMessageText()
+    // 文本框完成高度适配
+    func epTextViewAutoHeightComplated()
+    
 }
 
 struct YLTextViewFrame {
@@ -193,6 +196,8 @@ class YLInputView: UIView,UITextViewDelegate {
         }
         
         layoutIfNeeded()
+        
+        delegate?.epTextViewAutoHeightComplated()
     }
 }
 

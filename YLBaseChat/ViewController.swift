@@ -22,7 +22,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        message.direction = 1
 //        
 //        let messageBody = MessageBody()
-//        messageBody.type = MessageBodyType.MessageBodyTypeText.rawValue
+//        messageBody.type = MessageBodyType.text.rawValue
 //        messageBody.text = "消息"
 //        
 //        message.messageBody = messageBody

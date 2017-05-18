@@ -275,9 +275,9 @@ extension YLBaseReplyView{
     }
     
     // 发送操作
-    func epSendMessageText(){
-        
-    }
+    func epSendMessageText() {}
+    // 文本框完成高度适配
+    func epTextViewAutoHeightComplated() {}
 }
 
 

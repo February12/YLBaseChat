@@ -79,8 +79,8 @@ extension YLReplyView {
     
     // 发送消息
     func efSendMessageText() {}
-    
-
+    // 文本框完成高度适配
+    func efTextViewAutoHeightComplated() {}
 }
 
 
@@ -88,9 +88,11 @@ extension YLReplyView {
 extension YLReplyView {
     
     override func epSendMessageText() {
-        
         efSendMessageText()
-        
+    }
+    
+    override func epTextViewAutoHeightComplated() {
+        efTextViewAutoHeightComplated()
     }
     
 }
