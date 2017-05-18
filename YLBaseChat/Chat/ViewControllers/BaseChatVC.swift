@@ -38,7 +38,7 @@ class BaseChatVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     func layoutUI() {
         
-        let chatView = YLBaseReplyView.init(frame: CGRect.zero)
+        let chatView = YLReplyView.init(frame: CGRect.zero)
         view.addSubview(chatView)
         
         chatView.snp.makeConstraints { (make) in

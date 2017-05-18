@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 // 表情框
-private let defaultPanelViewH:CGFloat = 210.0
+fileprivate let defaultPanelViewH:CGFloat = 210.0
 
 enum YLReplyViewState:Int {
     // 普通状态
@@ -29,10 +29,10 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     
     var evInputView:YLInputView! // 输入框
     
-    fileprivate var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
+    var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
     
-    fileprivate var evFacePanelView:UIView!  // 表情面板
-    fileprivate var evMorePanelView:UIView!  // 更多面板
+    var evFacePanelView:UIView!  // 表情面板
+    var evMorePanelView:UIView!  // 更多面板
   
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -40,14 +40,14 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layoutUI()
+        efLayoutUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    private func layoutUI() {
+    func efLayoutUI() {
     
         // 默认大小
         frame = CGRect.init(x: 0, y: 0, width: YLScreenWith, height: YLScreenHeight)
@@ -85,7 +85,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     }
     
     // 编辑Panel 约束
-    private func editPanelViewConstraintWithPanelView(_ panelView:UIView) {
+    fileprivate func editPanelViewConstraintWithPanelView(_ panelView:UIView) {
     
         panelView.isHidden = true
         addSubview(panelView)
@@ -99,7 +99,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     }
 }
 
-// 子类需要重写的方法
+// 子类需要重写
 extension YLBaseReplyView{
 
     // 添加表情面板
@@ -225,7 +225,7 @@ extension YLBaseReplyView{
     }
     
     // 恢复输入框的初始状态
-    private func resetInputView() {
+    fileprivate func resetInputView() {
         
         evInputView.faceBtn.isHidden = false
         evInputView.moreBtn.isHidden = false
@@ -236,7 +236,7 @@ extension YLBaseReplyView{
     }
     
     // 显示键盘按钮.隐藏点击的按钮
-    private func showKeyboardBtn(_ btn:UIButton) {
+    fileprivate func showKeyboardBtn(_ btn:UIButton) {
         
         btn.isHidden = true
         evInputView.keyboardBtn.isHidden = false
@@ -281,7 +281,7 @@ extension YLBaseReplyView{
 // keyboard show hide
 extension YLBaseReplyView{
 
-    func keyboardWillShow(_ not:NSNotification) {
+    @objc fileprivate func keyboardWillShow(_ not:NSNotification) {
     
         if let info:NSDictionary = not.userInfo as NSDictionary? {
             if let value:NSValue = info.object(forKey: "UIKeyboardFrameEndUserInfoKey") as! NSValue? {
@@ -297,7 +297,7 @@ extension YLBaseReplyView{
         
     }
     
-    func keyboardWillHide(_ not:NSNotification) {
+    @objc fileprivate func keyboardWillHide(_ not:NSNotification) {
     
         if  evReplyViewState != YLReplyViewState.face &&
             evReplyViewState != YLReplyViewState.more &&

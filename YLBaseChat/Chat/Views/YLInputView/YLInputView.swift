@@ -72,7 +72,7 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 初始化UI
-    private func layoutUI() {
+    fileprivate func layoutUI() {
         
         layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
         layer.borderWidth = 1
@@ -157,12 +157,12 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 创建按钮
-    private func createBtn(_ imageName:String)-> UIButton {
+    fileprivate func createBtn(_ imageName:String)-> UIButton {
     
         let btn = UIButton()
         btn.setBackgroundImage(UIImage.init(named: imageName), for: UIControlState.normal)
         
-      btn.addTarget(self, action: #selector(YLInputView.btnClickHandle(_:)), for: UIControlEvents.touchUpInside)
+        btn.addTarget(self, action: #selector(YLInputView.btnClickHandle(_:)), for: UIControlEvents.touchUpInside)
         
         addSubview(btn)
         
@@ -170,16 +170,11 @@ class YLInputView: UIView,UITextViewDelegate {
     }
     
     // 按钮点击处理
-    func btnClickHandle(_ btn:UIButton){
+    @objc fileprivate func btnClickHandle(_ btn:UIButton){
         delegate?.epBtnClickHandle(YLInputViewBtnState.init(rawValue: btn.tag)!)
     }
     
-    // textView 文本内容改变
-    func textViewDidChanged() {
-        perform(#selector(YLInputView.updateDisplayByInputContentTextChange), with: nil, afterDelay: 0.1)
-    }
-    
-    func updateDisplayByInputContentTextChange() {
+    @objc fileprivate func updateDisplayByInputContentTextChange() {
         
         var height = ceilf(Float(inputTextView.sizeThatFits(inputTextView.frame.size).height))
         
@@ -201,8 +196,18 @@ class YLInputView: UIView,UITextViewDelegate {
     }
 }
 
+// 外部可以调用的方法
+extension YLInputView {
+
+    // textView 文本内容改变
+    func textViewDidChanged() {
+        perform(#selector(YLInputView.updateDisplayByInputContentTextChange), with: nil, afterDelay: 0.1)
+    }
+    
+}
+
 // textView Delegate
-extension YLInputView{
+extension YLInputView {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         delegate?.epBtnClickHandle(YLInputViewBtnState.keyboard)
         return true

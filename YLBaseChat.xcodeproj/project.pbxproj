@@ -15,6 +15,8 @@
 		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
 		794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794C30821EC1580100AB4605 /* LaunchScreen.storyboard */; };
 		794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30921EC15F1700AB4605 /* RealmModels.swift */; };
+		79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */; };
+		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB61EC94741005B8D9A /* YLInputView.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */; };
@@ -33,6 +35,8 @@
 		794C30831EC1580100AB4605 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		794C30851EC1580100AB4605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		794C30921EC15F1700AB4605 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
+		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79DA2FB61EC94741005B8D9A /* YLInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLInputView.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPTextView.swift; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 			children = (
 				7903C3A51EC4257F0015D151 /* RealmManagers.swift */,
 				79DA2FB81EC956B9005B8D9A /* Definition.swift */,
+				79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 				79DA2FB61EC94741005B8D9A /* YLInputView.swift */,
 				79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */,
 				79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */,
+				79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */,
 			);
 			path = YLInputView;
 			sourceTree = "<group>";
@@ -279,7 +285,9 @@
 				79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */,
 				79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */,
 				79DA2FBD1EC99F4E005B8D9A /* YLBaseReplyView.swift in Sources */,
+				79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
+				79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
 				79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */,
