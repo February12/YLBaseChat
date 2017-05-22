@@ -50,7 +50,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     func efLayoutUI() {
     
         // 默认大小
-        frame = CGRect.init(x: 0, y: 0, width: YLScreenWith, height: YLScreenHeight)
+        frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
         backgroundColor = UIColor.clear
         
         evInputView = YLInputView.init(frame: CGRect.zero)
@@ -100,13 +100,14 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
 }
 
 
-// MARK: - 子类需要重写/外部调用
+// MARK: - 子类可以重写/外部调用
 extension YLBaseReplyView{
 
     // 添加表情面板
     func efAddFacePanelView() -> UIView {
-        let faceView = UIView()
-        faceView.backgroundColor = UIColor.white
+        
+        let faceView:UIView = Bundle.main.loadNibNamed("YLFaceView", owner: self, options: nil)?.first as! UIView
+
         return faceView
     }
     

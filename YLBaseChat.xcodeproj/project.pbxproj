@@ -15,6 +15,37 @@
 		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
 		794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794C30821EC1580100AB4605 /* LaunchScreen.storyboard */; };
 		794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30921EC15F1700AB4605 /* RealmModels.swift */; };
+		79B2F88E1ED2772F0094404B /* YLFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B2F88D1ED2772F0094404B /* YLFaceView.swift */; };
+		79B2F8921ED2777E0094404B /* YLFaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8911ED2777E0094404B /* YLFaceView.xib */; };
+		79B2F8941ED27D340094404B /* emojiImage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8931ED27D340094404B /* emojiImage.plist */; };
+		79B2F8B21ED28E4F0094404B /* delete_expression@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8961ED28E4F0094404B /* delete_expression@2x.png */; };
+		79B2F8B31ED28E4F0094404B /* emot_delete_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8971ED28E4F0094404B /* emot_delete_down@2x.png */; };
+		79B2F8B41ED28E4F0094404B /* emot_ic_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8981ED28E4F0094404B /* emot_ic_0@2x.png */; };
+		79B2F8B51ED28E4F0094404B /* emot_ic_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8991ED28E4F0094404B /* emot_ic_10@2x.png */; };
+		79B2F8B61ED28E4F0094404B /* emot_ic_11@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89A1ED28E4F0094404B /* emot_ic_11@2x.png */; };
+		79B2F8B71ED28E4F0094404B /* emot_ic_12@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89B1ED28E4F0094404B /* emot_ic_12@2x.png */; };
+		79B2F8B81ED28E4F0094404B /* emot_ic_13@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89C1ED28E4F0094404B /* emot_ic_13@2x.png */; };
+		79B2F8B91ED28E4F0094404B /* emot_ic_14@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89D1ED28E4F0094404B /* emot_ic_14@2x.png */; };
+		79B2F8BA1ED28E4F0094404B /* emot_ic_15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89E1ED28E4F0094404B /* emot_ic_15@2x.png */; };
+		79B2F8BB1ED28E4F0094404B /* emot_ic_16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F89F1ED28E4F0094404B /* emot_ic_16@2x.png */; };
+		79B2F8BC1ED28E4F0094404B /* emot_ic_17@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A01ED28E4F0094404B /* emot_ic_17@2x.png */; };
+		79B2F8BD1ED28E4F0094404B /* emot_ic_18@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A11ED28E4F0094404B /* emot_ic_18@2x.png */; };
+		79B2F8BE1ED28E4F0094404B /* emot_ic_19@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A21ED28E4F0094404B /* emot_ic_19@2x.png */; };
+		79B2F8BF1ED28E4F0094404B /* emot_ic_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A31ED28E4F0094404B /* emot_ic_1@2x.png */; };
+		79B2F8C01ED28E4F0094404B /* emot_ic_20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A41ED28E4F0094404B /* emot_ic_20@2x.png */; };
+		79B2F8C11ED28E4F0094404B /* emot_ic_21@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A51ED28E4F0094404B /* emot_ic_21@2x.png */; };
+		79B2F8C21ED28E4F0094404B /* emot_ic_22@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A61ED28E4F0094404B /* emot_ic_22@2x.png */; };
+		79B2F8C31ED28E4F0094404B /* emot_ic_23@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A71ED28E4F0094404B /* emot_ic_23@2x.png */; };
+		79B2F8C41ED28E4F0094404B /* emot_ic_24@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A81ED28E4F0094404B /* emot_ic_24@2x.png */; };
+		79B2F8C51ED28E4F0094404B /* emot_ic_25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8A91ED28E4F0094404B /* emot_ic_25@2x.png */; };
+		79B2F8C61ED28E4F0094404B /* emot_ic_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AA1ED28E4F0094404B /* emot_ic_2@2x.png */; };
+		79B2F8C71ED28E4F0094404B /* emot_ic_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AB1ED28E4F0094404B /* emot_ic_3@2x.png */; };
+		79B2F8C81ED28E4F0094404B /* emot_ic_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AC1ED28E4F0094404B /* emot_ic_4@2x.png */; };
+		79B2F8C91ED28E4F0094404B /* emot_ic_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AD1ED28E4F0094404B /* emot_ic_5@2x.png */; };
+		79B2F8CA1ED28E4F0094404B /* emot_ic_6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AE1ED28E4F0094404B /* emot_ic_6@2x.png */; };
+		79B2F8CB1ED28E4F0094404B /* emot_ic_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AF1ED28E4F0094404B /* emot_ic_7@2x.png */; };
+		79B2F8CC1ED28E4F0094404B /* emot_ic_8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */; };
+		79B2F8CD1ED28E4F0094404B /* emot_ic_9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */; };
 		79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */; };
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
@@ -36,6 +67,37 @@
 		794C30831EC1580100AB4605 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		794C30851EC1580100AB4605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		794C30921EC15F1700AB4605 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		79B2F88D1ED2772F0094404B /* YLFaceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLFaceView.swift; sourceTree = "<group>"; };
+		79B2F8911ED2777E0094404B /* YLFaceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YLFaceView.xib; sourceTree = "<group>"; };
+		79B2F8931ED27D340094404B /* emojiImage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emojiImage.plist; sourceTree = "<group>"; };
+		79B2F8961ED28E4F0094404B /* delete_expression@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete_expression@2x.png"; sourceTree = "<group>"; };
+		79B2F8971ED28E4F0094404B /* emot_delete_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_delete_down@2x.png"; sourceTree = "<group>"; };
+		79B2F8981ED28E4F0094404B /* emot_ic_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_0@2x.png"; sourceTree = "<group>"; };
+		79B2F8991ED28E4F0094404B /* emot_ic_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_10@2x.png"; sourceTree = "<group>"; };
+		79B2F89A1ED28E4F0094404B /* emot_ic_11@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_11@2x.png"; sourceTree = "<group>"; };
+		79B2F89B1ED28E4F0094404B /* emot_ic_12@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_12@2x.png"; sourceTree = "<group>"; };
+		79B2F89C1ED28E4F0094404B /* emot_ic_13@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_13@2x.png"; sourceTree = "<group>"; };
+		79B2F89D1ED28E4F0094404B /* emot_ic_14@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_14@2x.png"; sourceTree = "<group>"; };
+		79B2F89E1ED28E4F0094404B /* emot_ic_15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_15@2x.png"; sourceTree = "<group>"; };
+		79B2F89F1ED28E4F0094404B /* emot_ic_16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_16@2x.png"; sourceTree = "<group>"; };
+		79B2F8A01ED28E4F0094404B /* emot_ic_17@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_17@2x.png"; sourceTree = "<group>"; };
+		79B2F8A11ED28E4F0094404B /* emot_ic_18@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_18@2x.png"; sourceTree = "<group>"; };
+		79B2F8A21ED28E4F0094404B /* emot_ic_19@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_19@2x.png"; sourceTree = "<group>"; };
+		79B2F8A31ED28E4F0094404B /* emot_ic_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_1@2x.png"; sourceTree = "<group>"; };
+		79B2F8A41ED28E4F0094404B /* emot_ic_20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_20@2x.png"; sourceTree = "<group>"; };
+		79B2F8A51ED28E4F0094404B /* emot_ic_21@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_21@2x.png"; sourceTree = "<group>"; };
+		79B2F8A61ED28E4F0094404B /* emot_ic_22@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_22@2x.png"; sourceTree = "<group>"; };
+		79B2F8A71ED28E4F0094404B /* emot_ic_23@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_23@2x.png"; sourceTree = "<group>"; };
+		79B2F8A81ED28E4F0094404B /* emot_ic_24@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_24@2x.png"; sourceTree = "<group>"; };
+		79B2F8A91ED28E4F0094404B /* emot_ic_25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_25@2x.png"; sourceTree = "<group>"; };
+		79B2F8AA1ED28E4F0094404B /* emot_ic_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_2@2x.png"; sourceTree = "<group>"; };
+		79B2F8AB1ED28E4F0094404B /* emot_ic_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_3@2x.png"; sourceTree = "<group>"; };
+		79B2F8AC1ED28E4F0094404B /* emot_ic_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_4@2x.png"; sourceTree = "<group>"; };
+		79B2F8AD1ED28E4F0094404B /* emot_ic_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_5@2x.png"; sourceTree = "<group>"; };
+		79B2F8AE1ED28E4F0094404B /* emot_ic_6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_6@2x.png"; sourceTree = "<group>"; };
+		79B2F8AF1ED28E4F0094404B /* emot_ic_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_7@2x.png"; sourceTree = "<group>"; };
+		79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_8@2x.png"; sourceTree = "<group>"; };
+		79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_9@2x.png"; sourceTree = "<group>"; };
 		79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -135,9 +197,56 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		79B2F88C1ED277130094404B /* Face */ = {
+			isa = PBXGroup;
+			children = (
+				79B2F8951ED28E4F0094404B /* emojis */,
+				79B2F8931ED27D340094404B /* emojiImage.plist */,
+				79B2F88D1ED2772F0094404B /* YLFaceView.swift */,
+				79B2F8911ED2777E0094404B /* YLFaceView.xib */,
+			);
+			path = Face;
+			sourceTree = "<group>";
+		};
+		79B2F8951ED28E4F0094404B /* emojis */ = {
+			isa = PBXGroup;
+			children = (
+				79B2F8961ED28E4F0094404B /* delete_expression@2x.png */,
+				79B2F8971ED28E4F0094404B /* emot_delete_down@2x.png */,
+				79B2F8981ED28E4F0094404B /* emot_ic_0@2x.png */,
+				79B2F8991ED28E4F0094404B /* emot_ic_10@2x.png */,
+				79B2F89A1ED28E4F0094404B /* emot_ic_11@2x.png */,
+				79B2F89B1ED28E4F0094404B /* emot_ic_12@2x.png */,
+				79B2F89C1ED28E4F0094404B /* emot_ic_13@2x.png */,
+				79B2F89D1ED28E4F0094404B /* emot_ic_14@2x.png */,
+				79B2F89E1ED28E4F0094404B /* emot_ic_15@2x.png */,
+				79B2F89F1ED28E4F0094404B /* emot_ic_16@2x.png */,
+				79B2F8A01ED28E4F0094404B /* emot_ic_17@2x.png */,
+				79B2F8A11ED28E4F0094404B /* emot_ic_18@2x.png */,
+				79B2F8A21ED28E4F0094404B /* emot_ic_19@2x.png */,
+				79B2F8A31ED28E4F0094404B /* emot_ic_1@2x.png */,
+				79B2F8A41ED28E4F0094404B /* emot_ic_20@2x.png */,
+				79B2F8A51ED28E4F0094404B /* emot_ic_21@2x.png */,
+				79B2F8A61ED28E4F0094404B /* emot_ic_22@2x.png */,
+				79B2F8A71ED28E4F0094404B /* emot_ic_23@2x.png */,
+				79B2F8A81ED28E4F0094404B /* emot_ic_24@2x.png */,
+				79B2F8A91ED28E4F0094404B /* emot_ic_25@2x.png */,
+				79B2F8AA1ED28E4F0094404B /* emot_ic_2@2x.png */,
+				79B2F8AB1ED28E4F0094404B /* emot_ic_3@2x.png */,
+				79B2F8AC1ED28E4F0094404B /* emot_ic_4@2x.png */,
+				79B2F8AD1ED28E4F0094404B /* emot_ic_5@2x.png */,
+				79B2F8AE1ED28E4F0094404B /* emot_ic_6@2x.png */,
+				79B2F8AF1ED28E4F0094404B /* emot_ic_7@2x.png */,
+				79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */,
+				79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */,
+			);
+			path = emojis;
+			sourceTree = "<group>";
+		};
 		79DA2FB51EC946C6005B8D9A /* YLInputView */ = {
 			isa = PBXGroup;
 			children = (
+				79B2F88C1ED277130094404B /* Face */,
 				79DA2FB61EC94741005B8D9A /* YLInputView.swift */,
 				79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */,
 				79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */,
@@ -225,8 +334,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79B2F8C01ED28E4F0094404B /* emot_ic_20@2x.png in Resources */,
+				79B2F8BB1ED28E4F0094404B /* emot_ic_16@2x.png in Resources */,
+				79B2F8C81ED28E4F0094404B /* emot_ic_4@2x.png in Resources */,
+				79B2F8C31ED28E4F0094404B /* emot_ic_23@2x.png in Resources */,
 				794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */,
+				79B2F8CD1ED28E4F0094404B /* emot_ic_9@2x.png in Resources */,
+				79B2F8C91ED28E4F0094404B /* emot_ic_5@2x.png in Resources */,
+				79B2F8C51ED28E4F0094404B /* emot_ic_25@2x.png in Resources */,
+				79B2F8941ED27D340094404B /* emojiImage.plist in Resources */,
+				79B2F8C11ED28E4F0094404B /* emot_ic_21@2x.png in Resources */,
+				79B2F8BF1ED28E4F0094404B /* emot_ic_1@2x.png in Resources */,
+				79B2F8B91ED28E4F0094404B /* emot_ic_14@2x.png in Resources */,
+				79B2F8C41ED28E4F0094404B /* emot_ic_24@2x.png in Resources */,
 				794C30811EC1580100AB4605 /* Assets.xcassets in Resources */,
+				79B2F8B81ED28E4F0094404B /* emot_ic_13@2x.png in Resources */,
+				79B2F8BD1ED28E4F0094404B /* emot_ic_18@2x.png in Resources */,
+				79B2F8B41ED28E4F0094404B /* emot_ic_0@2x.png in Resources */,
+				79B2F8BC1ED28E4F0094404B /* emot_ic_17@2x.png in Resources */,
+				79B2F8C71ED28E4F0094404B /* emot_ic_3@2x.png in Resources */,
+				79B2F8CA1ED28E4F0094404B /* emot_ic_6@2x.png in Resources */,
+				79B2F8C61ED28E4F0094404B /* emot_ic_2@2x.png in Resources */,
+				79B2F8BA1ED28E4F0094404B /* emot_ic_15@2x.png in Resources */,
+				79B2F8B21ED28E4F0094404B /* delete_expression@2x.png in Resources */,
+				79B2F8B31ED28E4F0094404B /* emot_delete_down@2x.png in Resources */,
+				79B2F8B51ED28E4F0094404B /* emot_ic_10@2x.png in Resources */,
+				79B2F8CC1ED28E4F0094404B /* emot_ic_8@2x.png in Resources */,
+				79B2F8BE1ED28E4F0094404B /* emot_ic_19@2x.png in Resources */,
+				79B2F8921ED2777E0094404B /* YLFaceView.xib in Resources */,
+				79B2F8B71ED28E4F0094404B /* emot_ic_12@2x.png in Resources */,
+				79B2F8B61ED28E4F0094404B /* emot_ic_11@2x.png in Resources */,
+				79B2F8C21ED28E4F0094404B /* emot_ic_22@2x.png in Resources */,
+				79B2F8CB1ED28E4F0094404B /* emot_ic_7@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +431,7 @@
 				79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */,
+				79B2F88E1ED2772F0094404B /* YLFaceView.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
 				79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */,

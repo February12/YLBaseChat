@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>[呲牙]</key>
+	<string>emot_ic_0</string>
+	<key>[害羞]</key>
+	<string>emot_ic_1</string>
+	<key>[微笑]</key>
+	<string>emot_ic_2</string>
+	<key>[流泪]</key>
+	<string>emot_ic_3</string>
+	<key>[惊讶]</key>
+	<string>emot_ic_4</string>
+	<key>[调皮]</key>
+	<string>emot_ic_5</string>
+	<key>[亲亲]</key>
+	<string>emot_ic_6</string>
+	<key>[酷]</key>
+	<string>emot_ic_7</string>
+	<key>[伤心]</key>
+	<string>emot_ic_8</string>
+	<key>[发怒]</key>
+	<string>emot_ic_9</string>
+	<key>[鲜花]</key>
+	<string>emot_ic_10</string>
+	<key>[干杯]</key>
+	<string>emot_ic_11</string>
+	<key>[啤酒]</key>
+	<string>emot_ic_12</string>
+	<key>[饭]</key>
+	<string>emot_ic_13</string>
+	<key>[蛋糕]</key>
+	<string>emot_ic_14</string>
+	<key>[玫瑰]</key>
+	<string>emot_ic_15</string>
+	<key>[爱心]</key>
+	<string>emot_ic_16</string>
+	<key>[祝福]</key>
+	<string>emot_ic_17</string>
+	<key>[元宝]</key>
+	<string>emot_ic_18</string>
+	<key>[广播]</key>
+	<string>emot_ic_19</string>
+	<key>[沙漏]</key>
+	<string>emot_ic_20</string>
+	<key>[太阳]</key>
+	<string>emot_ic_21</string>
+	<key>[月亮]</key>
+	<string>emot_ic_22</string>
+	<key>[强]</key>
+	<string>emot_ic_23</string>
+	<key>[抱拳]</key>
+	<string>emot_ic_24</string>
+	<key>[OK]</key>
+	<string>emot_ic_25</string>
+</dict>
+</plist>

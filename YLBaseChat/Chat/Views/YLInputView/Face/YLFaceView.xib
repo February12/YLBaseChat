@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="crh-Pe-L1V" customClass="YLFaceView" customModule="YLBaseChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vpN-dd-oM5">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="170" id="VdH-bU-786"/>
+                    </constraints>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kdt-Xo-cVK">
+                    <rect key="frame" x="0.0" y="170" width="320" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edo-sC-wet">
+                            <rect key="frame" x="240" y="0.0" width="80" height="40"/>
+                            <color key="backgroundColor" red="0.96078431372549022" green="0.47058823529411764" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="ec0-uR-ORm"/>
+                            </constraints>
+                            <state key="normal" title="发送">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="sendBtn:" destination="crh-Pe-L1V" eventType="touchUpInside" id="hab-ez-SdF"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="edo-sC-wet" secondAttribute="trailing" id="VnK-4A-yrU"/>
+                        <constraint firstAttribute="bottom" secondItem="edo-sC-wet" secondAttribute="bottom" id="exI-c8-x9G"/>
+                        <constraint firstItem="edo-sC-wet" firstAttribute="top" secondItem="Kdt-Xo-cVK" secondAttribute="top" id="nsR-6u-iCb"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="vpN-dd-oM5" secondAttribute="trailing" id="9UX-99-jzC"/>
+                <constraint firstAttribute="trailing" secondItem="Kdt-Xo-cVK" secondAttribute="trailing" id="B2Z-mI-ezR"/>
+                <constraint firstItem="Kdt-Xo-cVK" firstAttribute="top" secondItem="vpN-dd-oM5" secondAttribute="bottom" id="Ej6-rs-tQf"/>
+                <constraint firstItem="vpN-dd-oM5" firstAttribute="leading" secondItem="crh-Pe-L1V" secondAttribute="leading" id="Xlw-Qa-axe"/>
+                <constraint firstAttribute="bottom" secondItem="Kdt-Xo-cVK" secondAttribute="bottom" id="d1j-7u-ker"/>
+                <constraint firstItem="vpN-dd-oM5" firstAttribute="top" secondItem="crh-Pe-L1V" secondAttribute="top" id="e9E-Kf-uup"/>
+                <constraint firstItem="Kdt-Xo-cVK" firstAttribute="leading" secondItem="crh-Pe-L1V" secondAttribute="leading" id="nhe-HA-jRv"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="scrollView" destination="vpN-dd-oM5" id="gji-7r-cP0"/>
+            </connections>
+            <point key="canvasLocation" x="-672" y="-4"/>
+        </view>
+    </objects>
+</document>

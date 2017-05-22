@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /// 获取Screen的Size
-let YLScreenWith   = UIScreen.main.bounds.width
+let YLScreenWidth   = UIScreen.main.bounds.width
 let YLScreenHeight = UIScreen.main.bounds.height
 
 public class Definition{

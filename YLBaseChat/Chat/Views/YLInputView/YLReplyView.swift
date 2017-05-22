@@ -67,7 +67,7 @@ class YLReplyView: YLBaseReplyView {
 }
 
 
-// MARK: - 子类需要重写/外部调用
+// MARK: - 子类可以重写/外部调用
 extension YLReplyView {
     
     // 录音处理
