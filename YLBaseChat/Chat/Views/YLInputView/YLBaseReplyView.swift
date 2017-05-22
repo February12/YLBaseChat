@@ -33,7 +33,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     
     var evFacePanelView:UIView!  // 表情面板
     var evMorePanelView:UIView!  // 更多面板
-  
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -48,7 +48,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     }
     
     func efLayoutUI() {
-    
+        
         // 默认大小
         frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
         backgroundColor = UIColor.clear
@@ -59,7 +59,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
         addSubview(evInputView)
         
         editInputViewConstraintWithBottom(0)
-     
+        
         evFacePanelView = efAddFacePanelView()
         editPanelViewConstraintWithPanelView(evFacePanelView)
         
@@ -86,7 +86,7 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
     
     // 编辑Panel 约束
     fileprivate func editPanelViewConstraintWithPanelView(_ panelView:UIView) {
-    
+        
         panelView.isHidden = true
         addSubview(panelView)
         
@@ -102,12 +102,14 @@ class YLBaseReplyView: UIView,YLInputViewDelegate {
 
 // MARK: - 子类可以重写/外部调用
 extension YLBaseReplyView{
-
+    
     // 添加表情面板
     func efAddFacePanelView() -> UIView {
         
-        let faceView:UIView = Bundle.main.loadNibNamed("YLFaceView", owner: self, options: nil)?.first as! UIView
-
+        let faceView:YLFaceView = Bundle.main.loadNibNamed("YLFaceView", owner: self, options: nil)?.first as! YLFaceView
+        
+        faceView.delegate = self
+        
         return faceView
     }
     
@@ -134,7 +136,7 @@ extension YLBaseReplyView{
 // MARK: - 状态切换
 extension YLBaseReplyView{
     
-     fileprivate func updateReplyViewState(_ state:YLReplyViewState) {
+    fileprivate func updateReplyViewState(_ state:YLReplyViewState) {
         
         if(evReplyViewState == state) {return}
         
@@ -150,15 +152,15 @@ extension YLBaseReplyView{
             
             UIView.animate(withDuration: 0.3, animations: { [weak self] in
                 self?.editInputViewConstraintWithBottom(0)
-            }, completion: { [weak self] (_) in
-                self?.evFacePanelView.isHidden = true
-                self?.evMorePanelView.isHidden = true
+                }, completion: { [weak self] (_) in
+                    self?.evFacePanelView.isHidden = true
+                    self?.evMorePanelView.isHidden = true
             })
             
             perform(#selector(YLBaseReplyView.efDidRecoverReplyViewStateForNormal), with: nil, afterDelay: 0.0)
             
             break
-        
+            
         case .record:
             
             evInputView.inputTextView.resignFirstResponder()
@@ -257,6 +259,49 @@ extension YLBaseReplyView{
     
 }
 
+
+// MARK: - YLFaceViewDelegate
+extension YLBaseReplyView:YLFaceViewDelegate {
+    
+    func epSendMessage() {
+        
+    }
+    
+    func epInsertFace(_ image: UIImage) {
+        
+        autoreleasepool {
+            
+            let attachment = NSTextAttachment()
+            
+            attachment.image = image
+            
+            attachment.bounds = CGRect.init(x: 0, y: 0, width: 15 , height: 15)
+            
+            let textAttachmentString = NSAttributedString.init(attachment: attachment)
+            
+            let mutableStr = NSMutableAttributedString.init(attributedString: evInputView.inputTextView.attributedText)
+            
+            mutableStr.addAttributes([NSFontAttributeName:UIFont.systemFont(ofSize: 18)], range: NSRange.init(location: 0, length: mutableStr.length))
+            
+            let selectedRange:NSRange = evInputView.inputTextView.selectedRange
+            
+            let newSelectedRange:NSRange
+            
+            mutableStr.insert(textAttachmentString, at: selectedRange.location)
+            newSelectedRange = NSRange.init(location: selectedRange.location + 1, length: 0)
+            
+            evInputView.inputTextView.attributedText = mutableStr;
+            
+            evInputView.inputTextView.selectedRange = newSelectedRange;
+            
+        }
+        
+        evInputView.textViewDidChanged()
+        
+    }
+    
+}
+
 // MARK: - YLInputViewDelegate
 extension YLBaseReplyView{
     
@@ -281,15 +326,15 @@ extension YLBaseReplyView{
     
     // 发送操作
     func epSendMessageText() {}
-   
+    
 }
 
 
 // MARK: - keyboard show hide
 extension YLBaseReplyView{
-
-    @objc fileprivate func keyboardWillShow(_ not:NSNotification) {
     
+    @objc fileprivate func keyboardWillShow(_ not:NSNotification) {
+        
         if let info:NSDictionary = not.userInfo as NSDictionary? {
             if let value:NSValue = info.object(forKey: "UIKeyboardFrameEndUserInfoKey") as! NSValue? {
                 
@@ -305,12 +350,12 @@ extension YLBaseReplyView{
     }
     
     @objc fileprivate func keyboardWillHide(_ not:NSNotification) {
-    
+        
         if  evReplyViewState != YLReplyViewState.face &&
             evReplyViewState != YLReplyViewState.more &&
             evReplyViewState != YLReplyViewState.record &&
             evReplyViewState != YLReplyViewState.normal {
-        
+            
             if evInputView.inputTextView.isFirstResponder {
                 editInputViewConstraintWithBottom(0)
             }

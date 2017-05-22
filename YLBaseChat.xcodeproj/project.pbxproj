@@ -46,6 +46,7 @@
 		79B2F8CB1ED28E4F0094404B /* emot_ic_7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8AF1ED28E4F0094404B /* emot_ic_7@2x.png */; };
 		79B2F8CC1ED28E4F0094404B /* emot_ic_8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */; };
 		79B2F8CD1ED28E4F0094404B /* emot_ic_9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */; };
+		79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */; };
 		79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */; };
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
@@ -98,6 +99,7 @@
 		79B2F8AF1ED28E4F0094404B /* emot_ic_7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_7@2x.png"; sourceTree = "<group>"; };
 		79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_8@2x.png"; sourceTree = "<group>"; };
 		79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_9@2x.png"; sourceTree = "<group>"; };
+		79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				7903C3A51EC4257F0015D151 /* RealmManagers.swift */,
 				79DA2FB81EC956B9005B8D9A /* Definition.swift */,
 				79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */,
+				79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */,
 				79B2F88E1ED2772F0094404B /* YLFaceView.swift in Sources */,
+				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
 				79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */,

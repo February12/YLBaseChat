@@ -125,7 +125,7 @@ class YLInputView: UIView,UITextViewDelegate {
         inputTextView.layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
         inputTextView.layer.borderWidth = 1
         inputTextView.delegate = self
-        inputTextView.font = UIFont.systemFont(ofSize: 16)
+        inputTextView.font = UIFont.systemFont(ofSize: 18)
         inputTextView.returnKeyType = UIReturnKeyType.send
         
         addSubview(inputTextView)

@@ -38,7 +38,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="edo-sC-wet" secondAttribute="trailing" id="VnK-4A-yrU"/>
                         <constraint firstAttribute="bottom" secondItem="edo-sC-wet" secondAttribute="bottom" id="exI-c8-x9G"/>
