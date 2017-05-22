@@ -264,7 +264,7 @@ extension YLBaseReplyView{
 extension YLBaseReplyView:YLFaceViewDelegate {
     
     func epSendMessage() {
-        
+        epSendMessageText()
     }
     
     func epInsertFace(_ image: UIImage) {
@@ -275,13 +275,12 @@ extension YLBaseReplyView:YLFaceViewDelegate {
             
             attachment.image = image
             
-            attachment.bounds = CGRect.init(x: 0, y: 0, width: 15 , height: 15)
+            attachment.bounds = CGRect.init(x: 0, y: -2, width: 16 , height: 16)
             
             let textAttachmentString = NSAttributedString.init(attachment: attachment)
             
             let mutableStr = NSMutableAttributedString.init(attributedString: evInputView.inputTextView.attributedText)
             
-            mutableStr.addAttributes([NSFontAttributeName:UIFont.systemFont(ofSize: 18)], range: NSRange.init(location: 0, length: mutableStr.length))
             
             let selectedRange:NSRange = evInputView.inputTextView.selectedRange
             
@@ -293,6 +292,8 @@ extension YLBaseReplyView:YLFaceViewDelegate {
             evInputView.inputTextView.attributedText = mutableStr;
             
             evInputView.inputTextView.selectedRange = newSelectedRange;
+            
+            evInputView.inputTextView.font = UIFont.systemFont(ofSize: 16)
             
         }
         
