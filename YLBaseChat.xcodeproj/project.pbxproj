@@ -47,13 +47,12 @@
 		79B2F8CC1ED28E4F0094404B /* emot_ic_8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */; };
 		79B2F8CD1ED28E4F0094404B /* emot_ic_9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */; };
 		79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */; };
-		79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */; };
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
 		79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB61EC94741005B8D9A /* YLInputView.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */; };
-		79DA2FBD1EC99F4E005B8D9A /* YLBaseReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */; };
+		79DA2FBD1EC99F4E005B8D9A /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FBC1EC99F4E005B8D9A /* YLReplyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,13 +99,12 @@
 		79B2F8B01ED28E4F0094404B /* emot_ic_8@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_8@2x.png"; sourceTree = "<group>"; };
 		79B2F8B11ED28E4F0094404B /* emot_ic_9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emot_ic_9@2x.png"; sourceTree = "<group>"; };
 		79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		79DA2FB61EC94741005B8D9A /* YLInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLInputView.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPTextView.swift; sourceTree = "<group>"; };
-		79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLBaseReplyView.swift; sourceTree = "<group>"; };
+		79DA2FBC1EC99F4E005B8D9A /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
 		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,8 +250,7 @@
 				79B2F88C1ED277130094404B /* Face */,
 				79DA2FB61EC94741005B8D9A /* YLInputView.swift */,
 				79DA2FBA1EC977BA005B8D9A /* YLPTextView.swift */,
-				79DA2FBC1EC99F4E005B8D9A /* YLBaseReplyView.swift */,
-				79BE0B3F1ECD2B2800EDA46D /* YLReplyView.swift */,
+				79DA2FBC1EC99F4E005B8D9A /* YLReplyView.swift */,
 			);
 			path = YLInputView;
 			sourceTree = "<group>";
@@ -429,11 +426,10 @@
 			files = (
 				79DA2FB71EC94741005B8D9A /* YLInputView.swift in Sources */,
 				79DA2FBB1EC977BA005B8D9A /* YLPTextView.swift in Sources */,
-				79DA2FBD1EC99F4E005B8D9A /* YLBaseReplyView.swift in Sources */,
+				79DA2FBD1EC99F4E005B8D9A /* YLReplyView.swift in Sources */,
 				79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */,
 				79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
-				79BE0B401ECD2B2800EDA46D /* YLReplyView.swift in Sources */,
 				79B2F88E1ED2772F0094404B /* YLFaceView.swift in Sources */,
 				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
