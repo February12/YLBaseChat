@@ -4,8 +4,8 @@
 YLReplyView 文件夹 输入框的封装
 ![image](https://github.com/zhuyunlongYL/YLBaseChat/blob/master/RImage/1.png)
 
-// MARK: - 子类可以重写/外部调用
-extension YLReplyView{
+
+    //------子类可以重写/外部调用------
     
     // 添加表情面板
     func efAddFacePanelView() -> UIView {
@@ -44,5 +44,3 @@ extension YLReplyView{
     
     // 发送消息
     func efSendMessageText() {}
-
-}
