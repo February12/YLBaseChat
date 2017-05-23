@@ -275,7 +275,7 @@ extension YLBaseReplyView:YLFaceViewDelegate {
             
             attachment.image = image
             
-            attachment.bounds = CGRect.init(x: 0, y: -2, width: 16 , height: 16)
+            attachment.bounds = CGRect.init(x: 0, y: -4, width: 18 , height: 18)
             
             let textAttachmentString = NSAttributedString.init(attachment: attachment)
             
@@ -298,6 +298,25 @@ extension YLBaseReplyView:YLFaceViewDelegate {
         }
         
         evInputView.textViewDidChanged()
+        
+    }
+    
+    func epDeleteTextFromTheBack() {
+        
+        autoreleasepool {
+            
+            let mutableStr = NSMutableAttributedString.init(attributedString: evInputView.inputTextView.attributedText)
+            
+            if mutableStr.length > 0 {
+                
+                mutableStr.deleteCharacters(in: NSRange.init(location: mutableStr.length-1, length: 1))
+                
+                evInputView.inputTextView.attributedText = mutableStr
+                evInputView.selectedRange = NSRange.init(location: mutableStr.length, length: 0)
+                
+            }
+            
+        }
         
     }
     

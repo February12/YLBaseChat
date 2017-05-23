@@ -10,9 +10,9 @@ import UIKit
 
 protocol YLFaceViewDelegate:NSObjectProtocol {
     
-    func epInsertFace(_ image:UIImage)
-    
-    func epSendMessage()
+    func epInsertFace(_ image:UIImage) // 插入表情
+    func epDeleteTextFromTheBack()     // 从最后面开始删除
+    func epSendMessage()               // 发送消息
 }
 
 class YLFaceView: UIView {
@@ -111,7 +111,7 @@ class YLFaceView: UIView {
     @objc fileprivate func emojiSelected(_ btn:UIButton){
         
         if btn.tag == 10000 {
-            
+            delegate?.epDeleteTextFromTheBack()
         }else{
             
             delegate?.epInsertFace(UIImage.init(named: emojiImages[btn.tag])!)
@@ -129,7 +129,7 @@ extension YLFaceView:UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let page = scrollView.contentOffset.x / YLScreenWidth;
+        let page = scrollView.contentOffset.x / YLScreenWidth
         pageControl.currentPage = Int(page)
         
     }
