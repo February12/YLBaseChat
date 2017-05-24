@@ -96,8 +96,6 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        
         let message = dataArray[indexPath.row]
         
         let messageBody = message.messageBody
@@ -112,8 +110,13 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         
         let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
         
-        return (layout?.textBoundingSize.height)!
         
+        return (layout?.textBoundingSize.height)! + 20
+        
+    }
+    
+    fileprivate func tapHighlightAction(_ containerView:UIView, text:NSAttributedString, range:NSRange, rect:CGRect) {
+        print("回调")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,8 +134,9 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         let label = YYLabel()
         label.numberOfLines = 0
         
+        label.highlightTapAction = tapHighlightAction
         var text:NSAttributedString!
-        
+
         if(message.direction == MessageDirection.send.rawValue){
             text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
         }else{

@@ -25,18 +25,37 @@ extension String {
         let path = Bundle.main.path(forResource: "emojiImage.plist", ofType: nil)
         let emojiDic = NSDictionary(contentsOfFile: path!)
         
+        let mutableText = NSMutableAttributedString(string: content)
+        
+        // 识别网址
+        let regexURL = try! NSRegularExpression(pattern: "[a-zA-z]+://[^\\s]*", options: NSRegularExpression.Options(rawValue: 0))
+        
+        let regexArrayURL = regexURL.matches(in: content, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSRange(location: 0,length: content.characters.count))
+        
+        for result:NSTextCheckingResult in regexArrayURL {
+            
+            let range = result.range
+            
+            let border = YYTextBorder(fill: UIColor.blue, cornerRadius: 0)
+            let highlight = YYTextHighlight()
+            highlight.setColor(UIColor.red)
+            highlight.setBackgroundBorder(border)
+            
+            mutableText.yy_setTextHighlight(highlight, range: range)
+            
+        }
+        
+        // 识别表情
         let regex = try! NSRegularExpression(pattern: "\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]", options: NSRegularExpression.Options(rawValue: 0))
         
         var regexArray:Array = regex.matches(in: content, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSRange(location: 0,length: content.characters.count))
-        
-        let mutableText = NSMutableAttributedString(string: content)
-        
+
         let size = CGSize(width: 18, height: 18)
         let font = UIFont.systemFont(ofSize: 16)
         
         regexArray = regexArray.reversed()
         for result:NSTextCheckingResult in regexArray {
-        
+            
             let range = result.range
             let name = emojiDic?[content.substring(with: yl_range(range)!)]
             
@@ -46,7 +65,7 @@ extension String {
             mutableText.replaceCharacters(in: range, with: attachment)
             
         }
-            
+        
         return mutableText
     }
     
