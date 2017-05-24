@@ -47,7 +47,7 @@ class YLInputView: UIView,UITextViewDelegate {
    
     weak var delegate:YLInputViewDelegate?
     
-    var inputTextView = YLPTextView.init(frame: CGRect.zero)
+    var inputTextView = YLPTextView(frame: CGRect.zero)
     
     var recordBtn:UIButton!
     var recordOperationBtn:UIButton!
@@ -58,7 +58,7 @@ class YLInputView: UIView,UITextViewDelegate {
 
     fileprivate var textViewFrame = YLTextViewFrame()
     
-    var selectedRange:NSRange = NSRange.init(location: 0, length: 0)
+    var selectedRange:NSRange = NSRange(location: 0, length: 0)
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -142,8 +142,8 @@ class YLInputView: UIView,UITextViewDelegate {
         recordOperationBtn.setTitle("按住 说话", for: UIControlState.normal)
         recordOperationBtn.setTitle("松开 结束", for: UIControlState.selected)
         recordOperationBtn.setTitleColor(UIColor.black, for: UIControlState.normal)
-        recordOperationBtn.setBackgroundImage(UIImage.init(named: "bg_talk_presstalk")?.resizableImage(withCapInsets: UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.normal)
-        recordOperationBtn.setBackgroundImage(UIImage.init(named: "bg_talk_presstalk_pressed")?.resizableImage(withCapInsets: UIEdgeInsets.init(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.selected)
+        recordOperationBtn.setBackgroundImage(UIImage(named: "bg_talk_presstalk")?.resizableImage(withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.normal)
+        recordOperationBtn.setBackgroundImage(UIImage(named: "bg_talk_presstalk_pressed")?.resizableImage(withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), resizingMode: UIImageResizingMode.stretch), for: UIControlState.selected)
         recordOperationBtn.isHidden = true
         
         addSubview(recordOperationBtn)
@@ -162,7 +162,7 @@ class YLInputView: UIView,UITextViewDelegate {
     fileprivate func createBtn(_ imageName:String)-> UIButton {
     
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage.init(named: imageName), for: UIControlState.normal)
+        btn.setBackgroundImage(UIImage(named: imageName), for: UIControlState.normal)
         
         btn.addTarget(self, action: #selector(YLInputView.btnClickHandle(_:)), for: UIControlEvents.touchUpInside)
         
@@ -173,7 +173,7 @@ class YLInputView: UIView,UITextViewDelegate {
     
     // 按钮点击处理
     @objc fileprivate func btnClickHandle(_ btn:UIButton){
-        delegate?.epBtnClickHandle(YLInputViewBtnState.init(rawValue: btn.tag)!)
+        delegate?.epBtnClickHandle(YLInputViewBtnState(rawValue: btn.tag)!)
     }
     
     @objc fileprivate func updateDisplayByInputContentTextChange() {

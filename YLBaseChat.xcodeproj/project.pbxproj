@@ -45,6 +45,7 @@
 		7924404B1ED4384A00D3E2DF /* YLPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792440291ED4384A00D3E2DF /* YLPTextView.swift */; };
 		7924404C1ED4384A00D3E2DF /* YLReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924402A1ED4384A00D3E2DF /* YLReplyView.swift */; };
 		7924D2B41ED51CB000D7765C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B31ED51CB000D7765C /* UIImage+Extension.swift */; };
+		7924D2B61ED5553E00D7765C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B51ED5553E00D7765C /* String+Extension.swift */; };
 		794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30791EC1580100AB4605 /* AppDelegate.swift */; };
 		794C307C1EC1580100AB4605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C307B1EC1580100AB4605 /* ViewController.swift */; };
 		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
@@ -96,6 +97,7 @@
 		792440291ED4384A00D3E2DF /* YLPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLPTextView.swift; sourceTree = "<group>"; };
 		7924402A1ED4384A00D3E2DF /* YLReplyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLReplyView.swift; sourceTree = "<group>"; };
 		7924D2B31ED51CB000D7765C /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		7924D2B51ED5553E00D7765C /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		794C30761EC1580100AB4605 /* YLBaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLBaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		794C30791EC1580100AB4605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		794C307B1EC1580100AB4605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */,
 				79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */,
 				7924D2B31ED51CB000D7765C /* UIImage+Extension.swift */,
+				7924D2B51ED5553E00D7765C /* String+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				792440481ED4384A00D3E2DF /* YLFaceView.swift in Sources */,
 				7924404B1ED4384A00D3E2DF /* YLPTextView.swift in Sources */,
 				7924404A1ED4384A00D3E2DF /* YLInputView.swift in Sources */,
+				7924D2B61ED5553E00D7765C /* String+Extension.swift in Sources */,
 				7923C7EB1EC58CBC00B922E9 /* BaseChatVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

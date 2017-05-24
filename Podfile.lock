@@ -5,16 +5,19 @@ PODS:
   - RealmSwift (2.6.2):
     - Realm (= 2.6.2)
   - SnapKit (3.2.0)
+  - YYText (1.0.7)
 
 DEPENDENCIES:
   - RealmSwift (~> 2.6.2)
   - SnapKit (~> 3.2.0)
+  - YYText (~> 1.0.7)
 
 SPEC CHECKSUMS:
   Realm: 29222766425b9f831228f81b63f0e38a97a4d700
   RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
+  YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: fa609e0e8c1930e29a360a49c62be384fb758af0
+PODFILE CHECKSUM: 6bb3176534ae52b2f0afa4e507502d9151be5696
 
 COCOAPODS: 1.2.0

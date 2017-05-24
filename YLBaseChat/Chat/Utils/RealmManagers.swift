@@ -12,7 +12,7 @@ import RealmSwift
 class RealmManagers{
 
     // 单例
-    static let shared = RealmManagers.init()
+    static let shared = RealmManagers()
     private init(){}
     
     // 提交事务

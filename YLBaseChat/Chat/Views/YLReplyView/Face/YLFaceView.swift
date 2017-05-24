@@ -33,7 +33,7 @@ class YLFaceView: UIView {
         backgroundColor = UIColor.white
         
         let path = Bundle.main.path(forResource: "emojiImage.plist", ofType: nil)
-        emojiDic = NSDictionary.init(contentsOfFile: path!)
+        emojiDic = NSDictionary(contentsOfFile: path!)
         
         for i in 0...25 {
             emojiImages.append("emot_ic_\(i)")
@@ -45,13 +45,13 @@ class YLFaceView: UIView {
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.contentSize = CGSize.init(width: YLScreenWidth*2, height: 0)
+        scrollView.contentSize = CGSize(width: YLScreenWidth*2, height: 0)
         
         pageControl = UIPageControl()
-        pageControl.center = CGPoint.init(x: yl_width / 2 , y: 170 - 15)
+        pageControl.center = CGPoint(x: yl_width / 2 , y: 170 - 15)
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = Definition.colorFromRGB(0xdfdfdf)
-        pageControl.currentPageIndicatorTintColor = UIColor.init(red: 245/255.0, green: 62/255.0, blue: 102/255.0, alpha: 1.0)
+        pageControl.currentPageIndicatorTintColor = UIColor(red: 245/255.0, green: 62/255.0, blue: 102/255.0, alpha: 1.0)
         pageControl.numberOfPages = 2
         pageControl.backgroundColor = UIColor.clear
         
@@ -59,7 +59,7 @@ class YLFaceView: UIView {
         
         for index in 0...1 {
             
-            let view:UIView = UIView.init(frame: CGRect.init(x: 10 + YLScreenWidth * CGFloat(index), y: 5, width: YLScreenWidth - 20, height: 170))
+            let view:UIView = UIView(frame: CGRect(x: 10 + YLScreenWidth * CGFloat(index), y: 5, width: YLScreenWidth - 20, height: 170))
             view.backgroundColor = UIColor.clear
             scrollView.addSubview(view)
             
@@ -75,7 +75,7 @@ class YLFaceView: UIView {
                 
                 for j in 0...(everyrows - 1) {
                     
-                    let btn:UIButton = UIButton.init(frame: CGRect.init(x:space + (space + w) * CGFloat(j), y: CGFloat(i) * (w + y) + y, width: ceil(w), height: ceil(w)))
+                    let btn:UIButton = UIButton(frame: CGRect(x:space + (space + w) * CGFloat(j), y: CGFloat(i) * (w + y) + y, width: ceil(w), height: ceil(w)))
                     btn.backgroundColor = UIColor.clear
                     
                     if i * everyrows + j + index * everypages > emojiImages.count {
@@ -85,11 +85,11 @@ class YLFaceView: UIView {
                         if (i * everyrows + j == everypages) ||
                             (i * everyrows + j + index * everypages == emojiImages.count) {
                             
-                            btn.setImage(UIImage.init(named: "delete_expression"), for: UIControlState.normal)
+                            btn.setImage(UIImage(named: "delete_expression"), for: UIControlState.normal)
                             btn.tag = 10000
                         }else{
                             
-                            btn.setImage(UIImage.init(named: emojiImages[i * everyrows + j + index * everypages]), for: UIControlState.normal)
+                            btn.setImage(UIImage(named: emojiImages[i * everyrows + j + index * everypages]), for: UIControlState.normal)
                             btn.tag = i * everyrows + j + index * everypages
                         }
                         
@@ -114,7 +114,7 @@ class YLFaceView: UIView {
             delegate?.epDeleteTextFromTheBack()
         }else{
             
-            let image = UIImage.init(named: emojiImages[btn.tag])
+            let image = UIImage(named: emojiImages[btn.tag])
             
             for (key,value) in emojiDic {
                 if String(describing: value) == emojiImages[btn.tag] {

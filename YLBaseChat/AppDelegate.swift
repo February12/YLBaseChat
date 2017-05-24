@@ -36,11 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 现在我们已经告诉了 Realm 如何处理架构的变化，打开文件之后将会自动执行迁移
         _ = try! Realm()
     
-        window = UIWindow.init(frame: UIScreen.main.bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         window?.backgroundColor = UIColor.white
         
-        window?.rootViewController = UINavigationController.init(rootViewController: ViewController())
+        window?.rootViewController = UINavigationController(rootViewController: ViewController())
         
         window?.makeKeyAndVisible()
         

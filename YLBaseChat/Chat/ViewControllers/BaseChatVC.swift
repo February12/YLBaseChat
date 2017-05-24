@@ -13,13 +13,13 @@ import SnapKit
 class BaseChatVC: UIViewController {
     
     // 表单
-    var tableView = UITableView.init(frame: CGRect.zero, style: UITableViewStyle.plain)
+    var tableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.plain)
     
     var dataArray = Array<Message>()
     
     var userInfo:UserInfo!
     
-    var chatView:ChatView = ChatView.init(frame: CGRect.zero)
+    var chatView:ChatView = ChatView(frame: CGRect.zero)
     
     deinit {
         print("====\(self)=====>被释放")
@@ -75,7 +75,7 @@ class BaseChatVC: UIViewController {
     // 滚到最后一行
     fileprivate func efScrollToLastCell() {
         if dataArray.count > 1 {
-            tableView.scrollToRow(at: IndexPath.init(row: dataArray.count-1, section: 0), at: UITableViewScrollPosition.middle, animated: true)
+            tableView.scrollToRow(at: IndexPath(row: dataArray.count-1, section: 0), at: UITableViewScrollPosition.middle, animated: true)
         }
     }
     

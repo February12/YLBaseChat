@@ -50,10 +50,10 @@ class YLReplyView: UIView,YLInputViewDelegate {
     func efLayoutUI() {
         
         // 默认大小
-        frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
+        frame = CGRect(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
         backgroundColor = UIColor.clear
         
-        evInputView = YLInputView.init(frame: CGRect.zero)
+        evInputView = YLInputView(frame: CGRect.zero)
         evInputView.delegate = self
         
         addSubview(evInputView)
@@ -71,7 +71,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(YLReplyView.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         // recordOperationBtn 添加手势
-        let touchGestureRecognizer = YLTouchesGestureRecognizer.init(target: self, action: #selector(YLReplyView.recoverGesticulation(_:)))
+        let touchGestureRecognizer = YLTouchesGestureRecognizer(target: self, action: #selector(YLReplyView.recoverGesticulation(_:)))
         
         evInputView.recordOperationBtn.addGestureRecognizer(touchGestureRecognizer)
     }
@@ -108,7 +108,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         
         let attributedText = evInputView.inputTextView.attributedText!
         
-        attributedText.enumerateAttributes(in: NSRange.init(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired) {(attrs, range, _) in
+        attributedText.enumerateAttributes(in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired) {(attrs:[String:Any], range:NSRange, _) in
             
             if let attachment = attrs["NSAttachment"] as? NSTextAttachment  {
                 
@@ -369,11 +369,11 @@ extension YLReplyView:YLFaceViewDelegate {
             
             attachment.image = image
             
-            attachment.bounds = CGRect.init(x: 0, y: -4, width: 18 , height: 18)
+            attachment.bounds = CGRect(x: 0, y: -4, width: 18 , height: 18)
             
-            let textAttachmentString = NSAttributedString.init(attachment: attachment)
+            let textAttachmentString = NSAttributedString(attachment: attachment)
             
-            let mutableStr = NSMutableAttributedString.init(attributedString: evInputView.inputTextView.attributedText)
+            let mutableStr = NSMutableAttributedString(attributedString: evInputView.inputTextView.attributedText)
             
             
             let selectedRange:NSRange = evInputView.inputTextView.selectedRange
@@ -381,7 +381,7 @@ extension YLReplyView:YLFaceViewDelegate {
             let newSelectedRange:NSRange
             
             mutableStr.insert(textAttachmentString, at: selectedRange.location)
-            newSelectedRange = NSRange.init(location: selectedRange.location + 1, length: 0)
+            newSelectedRange = NSRange(location: selectedRange.location + 1, length: 0)
             
             evInputView.inputTextView.attributedText = mutableStr;
             
@@ -399,14 +399,14 @@ extension YLReplyView:YLFaceViewDelegate {
         
         autoreleasepool {
             
-            let mutableStr = NSMutableAttributedString.init(attributedString: evInputView.inputTextView.attributedText)
+            let mutableStr = NSMutableAttributedString(attributedString: evInputView.inputTextView.attributedText)
             
             if mutableStr.length > 0 {
                 
-                mutableStr.deleteCharacters(in: NSRange.init(location: mutableStr.length-1, length: 1))
+                mutableStr.deleteCharacters(in: NSRange(location: mutableStr.length-1, length: 1))
                 
                 evInputView.inputTextView.attributedText = mutableStr
-                evInputView.selectedRange = NSRange.init(location: mutableStr.length, length: 0)
+                evInputView.selectedRange = NSRange(location: mutableStr.length, length: 0)
                 
             }
             

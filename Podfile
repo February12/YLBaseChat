@@ -11,6 +11,8 @@ pod 'RealmSwift', '~> 2.6.2'
 
 pod 'SnapKit', '~> 3.2.0'
 
+pod 'YYText', '~> 1.0.7'
+
 end
 
 # 使用的是 Xcode 8，那么将下面代码复制到您的 Podfile 底部，以便在必要的时候更新 Swift 的版本：

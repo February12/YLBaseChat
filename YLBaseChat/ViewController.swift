@@ -10,13 +10,13 @@ import UIKit
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
     
-    var tableView = UITableView.init(frame: UIScreen.main.bounds, style: UITableViewStyle.plain)
+    var tableView = UITableView(frame: UIScreen.main.bounds, style: UITableViewStyle.plain)
     
     var dataArray = Array<UserInfo>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        _ = "阿拉斯加对方[鲜花]辣椒粉[鲜花][鲜花]阿斯顿发".conversionAttributedString()
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
         
         if dataArray.count == 0 {
