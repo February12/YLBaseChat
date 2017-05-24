@@ -48,7 +48,7 @@ class YLFaceView: UIView {
         scrollView.contentSize = CGSize.init(width: YLScreenWidth*2, height: 0)
         
         pageControl = UIPageControl()
-        pageControl.center = CGPoint.init(x: width / 2 , y: 170 - 15)
+        pageControl.center = CGPoint.init(x: yl_width / 2 , y: 170 - 15)
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = Definition.colorFromRGB(0xdfdfdf)
         pageControl.currentPageIndicatorTintColor = UIColor.init(red: 245/255.0, green: 62/255.0, blue: 102/255.0, alpha: 1.0)
@@ -68,7 +68,7 @@ class YLFaceView: UIView {
             let row:Int = 3
             
             let w:CGFloat = 38.0
-            let space = (view.width - CGFloat(everyrows) * w)/CGFloat(everyrows + 1)
+            let space = (view.yl_width - CGFloat(everyrows) * w)/CGFloat(everyrows + 1)
             let y:CGFloat = 10.0
             
             for i in 0...(row - 1) {
@@ -114,7 +114,15 @@ class YLFaceView: UIView {
             delegate?.epDeleteTextFromTheBack()
         }else{
             
-            delegate?.epInsertFace(UIImage.init(named: emojiImages[btn.tag])!)
+            let image = UIImage.init(named: emojiImages[btn.tag])
+            
+            for (key,value) in emojiDic {
+                if String(describing: value) == emojiImages[btn.tag] {
+                    image?.yl_tag = String(describing: key)
+                }
+            }
+            
+            delegate?.epInsertFace(image!)
         }
     }
     

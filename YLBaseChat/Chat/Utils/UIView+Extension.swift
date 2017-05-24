@@ -12,8 +12,8 @@ import UIKit
 // MARK: - UIView 拓展
 extension UIView {
     
-    // x
-    var x : CGFloat {
+    // yl_x
+    var yl_x : CGFloat {
         
         get {
             
@@ -28,8 +28,8 @@ extension UIView {
         }
     }
     
-    // y
-    var y : CGFloat {
+    // yl_y
+    var yl_y : CGFloat {
         
         get {
             
@@ -44,8 +44,8 @@ extension UIView {
         }
     }
     
-    // height
-    var height : CGFloat {
+    // yl_height
+    var yl_height : CGFloat {
         
         get {
             
@@ -60,8 +60,8 @@ extension UIView {
         }
     }
     
-    // width
-    var width : CGFloat {
+    // yl_width
+    var yl_width : CGFloat {
         
         get {
             
@@ -76,63 +76,63 @@ extension UIView {
         }
     }
     
-    // left
-    var left : CGFloat {
+    // yl_left
+    var yl_left : CGFloat {
         
         get {
             
-            return x
+            return yl_x
         }
         
         set(newVal) {
             
-            x = newVal
+            yl_x = newVal
         }
     }
     
-    // right
-    var right : CGFloat {
+    // yl_right
+    var yl_right : CGFloat {
         
         get {
             
-            return x + width
+            return yl_x + yl_width
         }
         
         set(newVal) {
             
-            x = newVal - width
+            yl_x = newVal - yl_width
         }
     }
     
-    // top
-    var top : CGFloat {
+    // yl_top
+    var yl_top : CGFloat {
         
         get {
             
-            return y
+            return yl_y
         }
         
         set(newVal) {
             
-            y = newVal
+            yl_y = newVal
         }
     }
     
-    // bottom
-    var bottom : CGFloat {
+    // yl_bottom
+    var yl_bottom : CGFloat {
         
         get {
             
-            return y + height
+            return yl_y + yl_height
         }
         
         set(newVal) {
             
-            y = newVal - height
+            yl_y = newVal - yl_height
         }
     }
     
-    var centerX : CGFloat {
+    var yl_centerX : CGFloat {
         
         get {
             
@@ -145,7 +145,7 @@ extension UIView {
         }
     }
     
-    var centerY : CGFloat {
+    var yl_centerY : CGFloat {
         
         get {
             
@@ -158,27 +158,27 @@ extension UIView {
         }
     }
     
-    var middleX : CGFloat {
+    var yl_middleX : CGFloat {
         
         get {
             
-            return width / 2
+            return yl_width / 2
         }
     }
     
-    var middleY : CGFloat {
+    var yl_middleY : CGFloat {
         
         get {
             
-            return height / 2
+            return yl_height / 2
         }
     }
     
-    var middlePoint : CGPoint {
+    var yl_middlePoint : CGPoint {
         
         get {
             
-            return CGPoint(x: middleX, y: middleY)
+            return CGPoint(x: yl_middleX, y: yl_middleY)
         }
     }
     
