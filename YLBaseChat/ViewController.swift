@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
-
+    
     var tableView = UITableView.init(frame: UIScreen.main.bounds, style: UITableViewStyle.plain)
     
     var dataArray = Array<UserInfo>()
@@ -17,34 +17,31 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let message = Message()
-//        message.timestamp = String(Int(Date().timeIntervalSince1970))
-//        message.direction = 1
-//        
-//        let messageBody = MessageBody()
-//        messageBody.type = MessageBodyType.text.rawValue
-//        messageBody.text = "消息"
-//        
-//        message.messageBody = messageBody
-//        
-//        let userInfo = RealmManagers.shared.selectModel(UserInfo.self, predicate: NSPredicate.init(format: "nickname = %@", "龙五")).first!
-//        
-//    
-//        RealmManagers.shared.commitWrite {
-//            userInfo.messages.append(message)
-//        }
-        
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
-
+        
+        if dataArray.count == 0 {
+            addData()
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         view.addSubview(tableView)
-       
+        
     }
-
+    
+    func addData() {
+        
+        let userInfo = UserInfo()
+        userInfo.nickname = "龙五"
+        
+        RealmManagers.shared.addSynModel(userInfo)
+        
+        dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

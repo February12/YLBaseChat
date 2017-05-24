@@ -74,7 +74,9 @@ class BaseChatVC: UIViewController {
     
     // 滚到最后一行
     fileprivate func efScrollToLastCell() {
-        tableView.scrollToRow(at: IndexPath.init(row: dataArray.count-1, section: 0), at: UITableViewScrollPosition.middle, animated: true)
+        if dataArray.count > 1 {
+            tableView.scrollToRow(at: IndexPath.init(row: dataArray.count-1, section: 0), at: UITableViewScrollPosition.middle, animated: true)
+        }
     }
     
 }
@@ -126,7 +128,7 @@ extension BaseChatVC:ChatViewDelegate {
         
         let message = Message()
         message.timestamp = String(Int(Date().timeIntervalSince1970))
-        message.direction = MessageDirection.receive.rawValue
+        message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
         
         let messageBody = MessageBody()
         messageBody.type = MessageBodyType.text.rawValue
