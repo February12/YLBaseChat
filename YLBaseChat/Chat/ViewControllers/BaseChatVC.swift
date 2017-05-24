@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import YYText
 
 class BaseChatVC: UIViewController {
     
@@ -93,6 +94,28 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         return dataArray.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        
+        let message = dataArray[indexPath.row]
+        
+        let messageBody = message.messageBody
+        
+        var text:NSAttributedString!
+        
+        if(message.direction == MessageDirection.send.rawValue){
+            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
+        }else{
+            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
+        }
+        
+        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
+        
+        return (layout?.textBoundingSize.height)!
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
@@ -101,11 +124,28 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         
         let messageBody = message.messageBody
         
-        if(message.direction == MessageDirection.send.rawValue){
-            cell.textLabel?.text = "我:  " + (messageBody?.text)!
-        }else{
-            cell.textLabel?.text = "对方: " + (messageBody?.text)!
+        for view in cell.contentView.subviews {
+            view.removeFromSuperview()
         }
+        
+        let label = YYLabel()
+        label.numberOfLines = 0
+        
+        var text:NSAttributedString!
+        
+        if(message.direction == MessageDirection.send.rawValue){
+            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
+        }else{
+            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
+        }
+        
+        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
+        
+        label.textLayout = layout
+        
+        label.frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: (layout?.textBoundingSize.height)!)
+        
+        cell.contentView.addSubview(label)
         
         return cell
     }

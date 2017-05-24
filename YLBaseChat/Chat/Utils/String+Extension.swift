@@ -10,16 +10,11 @@ import Foundation
 import UIKit
 import YYText
 
-struct YLTextRange {
-    var text:String?
-    var range:NSRange?
-}
-
 // MARK: - String 拓展
 extension String {
     
-    // text 转 NSAttributedString (只需识别表情)
-    func conversionAttributedString() -> NSMutableAttributedString? {
+    // text 转 NSAttributedString
+    func yl_conversionAttributedString() -> NSMutableAttributedString? {
         
         let content = self;
         
@@ -27,22 +22,32 @@ extension String {
             return nil;
         }
         
-        var tmpImageArray = Array<YLTextRange>()
+        let path = Bundle.main.path(forResource: "emojiImage.plist", ofType: nil)
+        let emojiDic = NSDictionary(contentsOfFile: path!)
         
         let regex = try! NSRegularExpression(pattern: "\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]", options: NSRegularExpression.Options(rawValue: 0))
         
-        let regexArray = regex.matches(in: content, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSRange(location: 0,length: content.characters.count))
+        var regexArray:Array = regex.matches(in: content, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSRange(location: 0,length: content.characters.count))
         
+        let mutableText = NSMutableAttributedString(string: content)
+        
+        let size = CGSize(width: 18, height: 18)
+        let font = UIFont.systemFont(ofSize: 16)
+        
+        regexArray = regexArray.reversed()
         for result:NSTextCheckingResult in regexArray {
         
             let range = result.range
+            let name = emojiDic?[content.substring(with: yl_range(range)!)]
             
-            tmpImageArray.append(YLTextRange(text: content.substring(with: yl_range(range)!),range: range))
+            let img = UIImage(named: name as! String)?.yl_scaleToSize(size)
+            let attachment = NSMutableAttributedString.yy_attachmentString(withContent: img, contentMode: .center, attachmentSize: size, alignTo: font, alignment: YYTextVerticalAlignment.center)
+            
+            mutableText.replaceCharacters(in: range, with: attachment)
             
         }
             
-    
-        return nil
+        return mutableText
     }
     
     // NSRange -> Range<String.Index>

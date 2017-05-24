@@ -16,7 +16,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = "阿拉斯加对方[鲜花]辣椒粉[鲜花][鲜花]阿斯顿发".conversionAttributedString()
+        
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
         
         if dataArray.count == 0 {
