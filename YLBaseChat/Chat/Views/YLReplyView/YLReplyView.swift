@@ -101,6 +101,40 @@ class YLReplyView: UIView,YLInputViewDelegate {
         
     }
     
+    // 发送消息
+    fileprivate func sendMessageText() {
+    
+        var text = ""
+        
+        let attributedText = evInputView.inputTextView.attributedText!
+        
+        attributedText.enumerateAttributes(in: NSRange.init(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired) {(attrs, range, _) in
+            
+            if let attachment = attrs["NSAttachment"] as? NSTextAttachment  {
+                
+                let img = attachment.image!
+                
+                if (img.yl_tag?.hasPrefix("["))! && (img.yl_tag?.hasSuffix("]"))! {
+                    text = text + img.yl_tag!
+                }
+                
+            }else{
+                
+                let tmptext:String = attributedText.attributedSubstring(from: range).string
+                text = text + tmptext
+                
+            }
+            
+        }
+        
+        evInputView.selectedRange = NSMakeRange(0, 0);
+        evInputView.inputTextView.text = ""
+        
+        evInputView.textViewDidChanged()
+        
+        efSendMessageText(text)
+    }
+    
     // recordOperationBtn 手势处理
     @objc fileprivate func recoverGesticulation(_ gesticulation:UIGestureRecognizer) {
         
@@ -188,7 +222,7 @@ extension YLReplyView{
     func efLoosenCancelRecording() {}
     
     // 发送消息
-    func efSendMessageText() {}
+    func efSendMessageText(_ text:String) {}
 
 }
 
@@ -324,7 +358,7 @@ extension YLReplyView{
 extension YLReplyView:YLFaceViewDelegate {
     
     func epSendMessage() {
-        efSendMessageText()
+        sendMessageText()
     }
     
     func epInsertFace(_ image: UIImage) {
@@ -406,7 +440,7 @@ extension YLReplyView{
     
     // 发送操作
     func epSendMessageText() {
-        efSendMessageText()
+        sendMessageText()
     }
     
 }
