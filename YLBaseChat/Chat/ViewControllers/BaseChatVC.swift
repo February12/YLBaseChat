@@ -49,11 +49,12 @@ class BaseChatVC: UIViewController {
         }
         
         
-        tableView.register(BaseChatCell.self, forCellReuseIdentifier: "BaseChatCell")
+        tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor.lightGray
         tableView.tableFooterView = UIView()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         chatView.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
@@ -96,43 +97,26 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 120
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
         
+        let message = dataArray[indexPath.row]
+        
+        cell.updateMessage(message, idx: indexPath)
+
+        return cell.messageHeight!
+  
     }
-    
-    fileprivate func tapHighlightAction(_ containerView:UIView, text:NSAttributedString, range:NSRange, rect:CGRect) {
-        print("回调")
-    }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BaseChatCell") as! BaseChatCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
         
         let message = dataArray[indexPath.row]
         
         cell.updateMessage(message, idx: indexPath)
         
-        
-//        let label = YYLabel()
-//        label.numberOfLines = 0
-//        
-//        label.highlightTapAction = tapHighlightAction
-//        var text:NSAttributedString!
-//
-//        if(message.direction == MessageDirection.send.rawValue){
-//            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
-//        }else{
-//            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
-//        }
-//        
-//        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
-//        
-//        label.textLayout = layout
-//        
-//        label.frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: (layout?.textBoundingSize.height)!)
-//        
-//        cell.contentView.addSubview(label)
-        
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+    
         return cell
     }
     

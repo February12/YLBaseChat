@@ -9,7 +9,27 @@
 import Foundation
 import UIKit
 
-// MARK: - UIView 拓展
+
+// MARK: - 自适应Autolayou
+extension UIView {
+    
+    func yl_refreshFrame() {
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+    
+    func yl_autoH() {
+        setContentHuggingPriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.vertical)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.vertical)
+    }
+    
+    func yl_autoW() {
+        setContentHuggingPriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.horizontal)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.horizontal)
+    }
+}
+
+// MARK: - UIView frame
 extension UIView {
     
     // yl_x
