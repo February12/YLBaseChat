@@ -56,6 +56,7 @@
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
+		79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
+		79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatCell.swift; sourceTree = "<group>"; };
 		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,10 +260,19 @@
 		794C30911EC15EDF00AB4605 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				79E47CDC1ED668F300D129C1 /* CellViews */,
 				792440061ED4384A00D3E2DF /* YLReplyView */,
 				79BE0B431ECD669000EDA46D /* ChatView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		79E47CDC1ED668F300D129C1 /* CellViews */ = {
+			isa = PBXGroup;
+			children = (
+				79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */,
+			);
+			path = CellViews;
 			sourceTree = "<group>";
 		};
 		EF76B2E0E1C8B0EA4D1191BD /* Frameworks */ = {
@@ -440,6 +451,7 @@
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
+				79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */,
 				7924D2B81ED5693100D7765C /* Extension.swift in Sources */,
 				794C307C1EC1580100AB4605 /* ViewController.swift in Sources */,
 				79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */,

@@ -40,14 +40,14 @@ class YLReplyView: UIView,YLInputViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        efLayoutUI()
+        layoutUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func efLayoutUI() {
+    fileprivate func layoutUI() {
         
         // 默认大小
         frame = CGRect(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)

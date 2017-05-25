@@ -49,7 +49,7 @@ class BaseChatVC: UIViewController {
         }
         
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(BaseChatCell.self, forCellReuseIdentifier: "BaseChatCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor.lightGray
@@ -96,22 +96,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let message = dataArray[indexPath.row]
-        
-        let messageBody = message.messageBody
-        
-        var text:NSAttributedString!
-        
-        if(message.direction == MessageDirection.send.rawValue){
-            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
-        }else{
-            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
-        }
-        
-        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
-        
-        
-        return (layout?.textBoundingSize.height)! + 20
+        return 120
         
     }
     
@@ -121,35 +106,32 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BaseChatCell") as! BaseChatCell
         
         let message = dataArray[indexPath.row]
         
-        let messageBody = message.messageBody
+        cell.updateMessage(message, idx: indexPath)
         
-        for view in cell.contentView.subviews {
-            view.removeFromSuperview()
-        }
         
-        let label = YYLabel()
-        label.numberOfLines = 0
-        
-        label.highlightTapAction = tapHighlightAction
-        var text:NSAttributedString!
-
-        if(message.direction == MessageDirection.send.rawValue){
-            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
-        }else{
-            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
-        }
-        
-        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
-        
-        label.textLayout = layout
-        
-        label.frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: (layout?.textBoundingSize.height)!)
-        
-        cell.contentView.addSubview(label)
+//        let label = YYLabel()
+//        label.numberOfLines = 0
+//        
+//        label.highlightTapAction = tapHighlightAction
+//        var text:NSAttributedString!
+//
+//        if(message.direction == MessageDirection.send.rawValue){
+//            text = ("我:  " + (messageBody?.text)!).yl_conversionAttributedString()
+//        }else{
+//            text = ("对方:  " + (messageBody?.text)!).yl_conversionAttributedString()
+//        }
+//        
+//        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text)
+//        
+//        label.textLayout = layout
+//        
+//        label.frame = CGRect.init(x: 0, y: 0, width: YLScreenWidth, height: (layout?.textBoundingSize.height)!)
+//        
+//        cell.contentView.addSubview(label)
         
         return cell
     }
