@@ -22,6 +22,7 @@ class ChatTextCell: BaseChatCell {
         messageTextLabel.numberOfLines = 0
         messagebubbleBackImageView?.addSubview(messageTextLabel)
         
+        messageTextLabel.yl_autoW()
     }
     
     override func updateMessage(_ m: Message, idx: IndexPath) {
@@ -31,21 +32,18 @@ class ChatTextCell: BaseChatCell {
         
         let text = messageBody?.text.yl_conversionAttributedString()
         
-        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text!)
+        let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth*0.648, height: CGFloat.greatestFiniteMagnitude), text: text!)
         
         messageTextLabel.textLayout = layout
         
         messageTextLabel.highlightTapAction = tapHighlightAction
-        
-        messageTextLabel.yl_autoH()
-        messageTextLabel.yl_autoW()
-        
+
         if message?.direction == MessageDirection.send.rawValue {
             
             messageTextLabel.snp.remakeConstraints({ (make) in
                 make.edges.equalTo(UIEdgeInsets(top: 11, left: 10, bottom: 11, right: 15))
                 make.width.lessThanOrEqualTo(YLScreenWidth*0.648)
-
+                make.height.equalTo((layout?.textBoundingSize.height)!)
             })
             
         }else {
@@ -53,7 +51,7 @@ class ChatTextCell: BaseChatCell {
             messageTextLabel.snp.remakeConstraints({ (make) in
                 make.edges.equalTo(UIEdgeInsets(top: 11, left: 15, bottom: 11, right: 10))
                 make.width.lessThanOrEqualTo(YLScreenWidth*0.648)
-
+                make.height.equalTo((layout?.textBoundingSize.height)!)
             })
             
         }
@@ -64,7 +62,7 @@ class ChatTextCell: BaseChatCell {
     }
     
     fileprivate func tapHighlightAction(_ containerView:UIView, text:NSAttributedString, range:NSRange, rect:CGRect) {
-        print("回调")
+        UIApplication.shared.openURL(URL(string: text.attributedSubstring(from: range).string)!)
     }
     
 }

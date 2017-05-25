@@ -36,11 +36,12 @@ extension String {
             
             let range = result.range
             
-            let border = YYTextBorder(fill: UIColor.blue, cornerRadius: 0)
+            let border = YYTextBorder(fill: UIColor.lightGray, cornerRadius: 0)
             let highlight = YYTextHighlight()
-            highlight.setColor(UIColor.red)
+            highlight.setColor(UIColor.blue)
             highlight.setBackgroundBorder(border)
             
+            mutableText.yy_setColor(UIColor.blue, range: range)
             mutableText.yy_setTextHighlight(highlight, range: range)
             
         }

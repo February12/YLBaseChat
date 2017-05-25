@@ -39,6 +39,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         RealmManagers.shared.addSynModel(userInfo)
         
+        let message = Message()
+        message.timestamp = String(Int(Date().timeIntervalSince1970))
+        message.direction = MessageDirection.receive.rawValue
+        
+        let messageBody = MessageBody()
+        messageBody.type = MessageBodyType.text.rawValue
+        messageBody.text = "第一条消息[鲜花]庆祝一下https://github.com/zhuyunlongYL/YLBaseChat 点击一下吧"
+        
+        message.messageBody = messageBody
+        
+        RealmManagers.shared.commitWrite {
+            userInfo.messages.append(message)
+        }
+        
         dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
     }
     

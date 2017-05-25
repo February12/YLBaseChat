@@ -62,6 +62,7 @@ class BaseChatCell: UITableViewCell {
         if isNeedBubbleBackground {
             // 气泡
             messagebubbleBackImageView = UIImageView()
+            messagebubbleBackImageView?.isUserInteractionEnabled = true
             contentView.addSubview(messagebubbleBackImageView!)
         }
         
