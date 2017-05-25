@@ -52,7 +52,7 @@ class BaseChatVC: UIViewController {
         tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = UIColor.lightGray
+        tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         chatView.addSubview(tableView)

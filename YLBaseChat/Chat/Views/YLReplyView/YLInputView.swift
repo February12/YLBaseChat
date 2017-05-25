@@ -15,7 +15,7 @@ let defaultInputViewBtnWH = 30.0
 fileprivate let defaultInputViewBtnBottom = 7.5
 
 fileprivate let defaultTextViewMaxH = 100.0
-fileprivate let defaultTextViewMinH = 35.0
+fileprivate let defaultTextViewMinH = 36.0
 
 enum YLInputViewBtnState:Int{
     
