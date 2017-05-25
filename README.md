@@ -1,10 +1,10 @@
 # YLBaseChat
 聊天界面封装，快速开发。
 
-// 下载后需要 pod install 一下
-RealmSwift   数据库      
-SnapKit      约束  
-YYText       图文   
+// 下载后需要 pod install 一下                         
+RealmSwift   数据库                    
+SnapKit      约束                 
+YYText       图文                 
 
 
 YLReplyView 输入框的封装
