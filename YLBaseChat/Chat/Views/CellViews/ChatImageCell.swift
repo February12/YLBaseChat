@@ -32,9 +32,9 @@ class ChatImageCell: BaseChatCell {
         var w = image.size.width
         var h = image.size.height
         
-        if w > YLScreenWidth*0.5 {
-            h = h / w * YLScreenWidth * 0.5
-            w = YLScreenWidth * 0.5
+        if w > YLScreenWidth*0.3 {
+            h = h / w * YLScreenWidth * 0.3
+            w = YLScreenWidth * 0.3
         }else if w < YLScreenWidth * 0.2 {
             h = h * ((YLScreenWidth * 0.2) / w)
             w = YLScreenWidth * 0.2
