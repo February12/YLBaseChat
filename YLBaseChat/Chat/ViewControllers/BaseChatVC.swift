@@ -177,7 +177,7 @@ extension BaseChatVC:ChatViewDelegate {
         
         let messageBody = MessageBody()
         messageBody.type = MessageBodyType.image.rawValue
-        messageBody.image = UIImagePNGRepresentation(image) as NSData?
+        messageBody.image = UIImageJPEGRepresentation(image, 0.001) as NSData?
         
         message.messageBody = messageBody
         
