@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-// MARK: - 自适应Autolayou
+// MARK: - 自适应AutoLayout
 extension UIView {
     
     func yl_refreshFrame() {

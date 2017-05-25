@@ -29,13 +29,13 @@ class ChatTextCell: BaseChatCell {
         
         let messageBody = message?.messageBody
         
-        messageTextLabel.highlightTapAction = tapHighlightAction
-        
         let text = messageBody?.text.yl_conversionAttributedString()
-    
+        
         let layout = YYTextLayout(containerSize: CGSize.init(width: YLScreenWidth, height: CGFloat.greatestFiniteMagnitude), text: text!)
         
         messageTextLabel.textLayout = layout
+        
+        messageTextLabel.highlightTapAction = tapHighlightAction
         
         messageTextLabel.yl_autoH()
         messageTextLabel.yl_autoW()
