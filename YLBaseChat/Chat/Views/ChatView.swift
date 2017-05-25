@@ -12,7 +12,7 @@ import UIKit
 protocol ChatViewDelegate: NSObjectProtocol {
     
     func epSendMessageText(_ text:String)
-    
+    func epSendMessageImage(_ image: UIImage)
 }
 
 class ChatView: YLReplyView {
@@ -26,9 +26,11 @@ class ChatView: YLReplyView {
 extension ChatView {
     
     override func efSendMessageText(_ text: String) {
-        
         delegate?.epSendMessageText(text)
-        
+    }
+    
+    override func efSendMessageImage(_ image: UIImage) {
+        delegate?.epSendMessageImage(image)
     }
     
 }

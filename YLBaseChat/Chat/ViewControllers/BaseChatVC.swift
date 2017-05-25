@@ -50,6 +50,7 @@ class BaseChatVC: UIViewController {
         
         
         tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
+        tableView.register(ChatImageCell.self, forCellReuseIdentifier: "ChatImageCell")
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
@@ -97,9 +98,15 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
+        var cell:BaseChatCell!
         
         let message = dataArray[indexPath.row]
+        
+        if message.messageBody.type == MessageBodyType.text.rawValue {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
+        }else if message.messageBody.type == MessageBodyType.image.rawValue {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
+        }
         
         cell.updateMessage(message, idx: indexPath)
 
@@ -109,9 +116,15 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
+        var cell:BaseChatCell!
         
         let message = dataArray[indexPath.row]
+        
+        if message.messageBody.type == MessageBodyType.text.rawValue {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
+        }else if message.messageBody.type == MessageBodyType.image.rawValue {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
+        }
         
         cell.updateMessage(message, idx: indexPath)
         
@@ -154,6 +167,29 @@ extension BaseChatVC:ChatViewDelegate {
         tableView.reloadData()
         
         efScrollToLastCell()
+    }
+    
+    func epSendMessageImage(_ image: UIImage) {
+        
+        let message = Message()
+        message.timestamp = String(Int(Date().timeIntervalSince1970))
+        message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
+        
+        let messageBody = MessageBody()
+        messageBody.type = MessageBodyType.image.rawValue
+        messageBody.image = UIImagePNGRepresentation(image) as NSData?
+        
+        message.messageBody = messageBody
+        
+        RealmManagers.shared.commitWrite {
+            userInfo.messages.append(message)
+        }
+        
+        dataArray.append(userInfo.messages.last!)
+        tableView.reloadData()
+        
+        efScrollToLastCell()
+        
     }
     
 }

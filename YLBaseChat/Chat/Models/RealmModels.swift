@@ -58,6 +58,7 @@ class MessageBody: Object {
     
     dynamic var type = 0
     dynamic var text = ""
+    dynamic var image:NSData? = nil
 }
 
 

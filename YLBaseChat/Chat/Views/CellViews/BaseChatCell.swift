@@ -13,6 +13,7 @@ import SnapKit
 
 class BaseChatCell: UITableViewCell {
     
+    var messageHeight:CGFloat?
     var isNeedBubbleBackground = true
     var messageTimeLabel:UILabel!
     var messageAvatarsImageView:UIImageView!

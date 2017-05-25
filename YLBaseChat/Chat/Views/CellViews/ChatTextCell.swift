@@ -12,7 +12,6 @@ import YYText
 
 class ChatTextCell: BaseChatCell {
     
-    var messageHeight:CGFloat?
     var messageTextLabel:YYLabel!
     
     override func layoutUI() {

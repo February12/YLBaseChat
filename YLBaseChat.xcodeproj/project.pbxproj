@@ -49,10 +49,11 @@
 		7924D2B81ED5693100D7765C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B71ED5693100D7765C /* Extension.swift */; };
 		794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30791EC1580100AB4605 /* AppDelegate.swift */; };
 		794C307C1EC1580100AB4605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C307B1EC1580100AB4605 /* ViewController.swift */; };
-		794C30811EC1580100AB4605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 794C30801EC1580100AB4605 /* Assets.xcassets */; };
 		794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794C30821EC1580100AB4605 /* LaunchScreen.storyboard */; };
 		794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30921EC15F1700AB4605 /* RealmModels.swift */; };
 		7999B4501ED67AF0000F7227 /* ChatTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999B44F1ED67AF0000F7227 /* ChatTextCell.swift */; };
+		7999B4521ED6B321000F7227 /* ChatImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7999B4511ED6B321000F7227 /* ChatImageCell.swift */; };
+		7999B4541ED6BBA6000F7227 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7999B4531ED6BBA6000F7227 /* Assets.xcassets */; };
 		79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */; };
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
@@ -105,11 +106,12 @@
 		794C30761EC1580100AB4605 /* YLBaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLBaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		794C30791EC1580100AB4605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		794C307B1EC1580100AB4605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		794C30801EC1580100AB4605 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		794C30831EC1580100AB4605 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		794C30851EC1580100AB4605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		794C30921EC15F1700AB4605 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
 		7999B44F1ED67AF0000F7227 /* ChatTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextCell.swift; sourceTree = "<group>"; };
+		7999B4511ED6B321000F7227 /* ChatImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatImageCell.swift; sourceTree = "<group>"; };
+		7999B4531ED6BBA6000F7227 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -211,7 +213,7 @@
 				794C308D1EC15E7700AB4605 /* Chat */,
 				794C30791EC1580100AB4605 /* AppDelegate.swift */,
 				794C307B1EC1580100AB4605 /* ViewController.swift */,
-				794C30801EC1580100AB4605 /* Assets.xcassets */,
+				7999B4531ED6BBA6000F7227 /* Assets.xcassets */,
 				794C30821EC1580100AB4605 /* LaunchScreen.storyboard */,
 				794C30851EC1580100AB4605 /* Info.plist */,
 			);
@@ -274,6 +276,7 @@
 			children = (
 				79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */,
 				7999B44F1ED67AF0000F7227 /* ChatTextCell.swift */,
+				7999B4511ED6B321000F7227 /* ChatImageCell.swift */,
 			);
 			path = CellViews;
 			sourceTree = "<group>";
@@ -366,7 +369,6 @@
 				792440341ED4384A00D3E2DF /* emot_ic_15@2x.png in Resources */,
 				794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */,
 				792440451ED4384A00D3E2DF /* emot_ic_7@2x.png in Resources */,
-				794C30811EC1580100AB4605 /* Assets.xcassets in Resources */,
 				792440461ED4384A00D3E2DF /* emot_ic_8@2x.png in Resources */,
 				7924402D1ED4384A00D3E2DF /* emot_delete_down@2x.png in Resources */,
 				792440441ED4384A00D3E2DF /* emot_ic_6@2x.png in Resources */,
@@ -388,6 +390,7 @@
 				792440301ED4384A00D3E2DF /* emot_ic_11@2x.png in Resources */,
 				7924403B1ED4384A00D3E2DF /* emot_ic_21@2x.png in Resources */,
 				792440361ED4384A00D3E2DF /* emot_ic_17@2x.png in Resources */,
+				7999B4541ED6BBA6000F7227 /* Assets.xcassets in Resources */,
 				792440371ED4384A00D3E2DF /* emot_ic_18@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,6 +468,7 @@
 				7924404A1ED4384A00D3E2DF /* YLInputView.swift in Sources */,
 				7924D2B61ED5553E00D7765C /* String+Extension.swift in Sources */,
 				7923C7EB1EC58CBC00B922E9 /* BaseChatVC.swift in Sources */,
+				7999B4521ED6B321000F7227 /* ChatImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

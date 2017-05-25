@@ -200,7 +200,26 @@ extension YLReplyView{
     func efAddMorePanelView() -> UIView {
         let panelView = UIView()
         panelView.backgroundColor = UIColor.white
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "btn_import_photo")
+        panelView.addSubview(imageView)
+        
+        imageView.snp.makeConstraints { (make) in
+            make.top.equalTo(20)
+            make.left.equalTo(40)
+            make.width.height.equalTo(75)
+        }
+        
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(YLReplyView.efHandlePhotos)))
+        
         return panelView
+    }
+    
+    // 选择相片
+    func efHandlePhotos() {
+        efSendMessageImage(UIImage(named: "sendPhotos")!)
     }
     
     // 恢复普通状态
@@ -223,7 +242,7 @@ extension YLReplyView{
     
     // 发送消息
     func efSendMessageText(_ text:String) {}
-
+    func efSendMessageImage(_ image:UIImage) {}
 }
 
 
