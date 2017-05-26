@@ -98,20 +98,21 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        var cell:BaseChatCell!
-        
-        let message = dataArray[indexPath.row]
-        
-        if message.messageBody.type == MessageBodyType.text.rawValue {
-            cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
-        }else if message.messageBody.type == MessageBodyType.image.rawValue {
-            cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
-        }
-        
-        cell.updateMessage(message, idx: indexPath)
-
-        return cell.messageHeight!
+//        var cell:BaseChatCell!
+//        
+//        let message = dataArray[indexPath.row]
+//        
+//        if message.messageBody.type == MessageBodyType.text.rawValue {
+//            cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
+//        }else if message.messageBody.type == MessageBodyType.image.rawValue {
+//            cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
+//        }
+//        
+//        cell.updateMessage(message, idx: indexPath)
+//
+//        return cell.messageHeight!
   
+        return 200
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

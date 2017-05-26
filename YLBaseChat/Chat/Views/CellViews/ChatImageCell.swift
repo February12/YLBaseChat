@@ -32,12 +32,12 @@ class ChatImageCell: BaseChatCell {
         var w = image.size.width
         var h = image.size.height
         
-        if w > YLScreenWidth*0.3 {
-            h = h / w * YLScreenWidth * 0.3
-            w = YLScreenWidth * 0.3
-        }else if w < YLScreenWidth * 0.2 {
-            h = h * ((YLScreenWidth * 0.2) / w)
+        if w > YLScreenWidth*0.2 {
+            h = h / w * YLScreenWidth * 0.2
             w = YLScreenWidth * 0.2
+        }else if w < YLScreenWidth * 0.1 {
+            h = h * ((YLScreenWidth * 0.1) / w)
+            w = YLScreenWidth * 0.1
         }
         
         if message?.direction == MessageDirection.send.rawValue {
