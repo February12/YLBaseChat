@@ -13,7 +13,6 @@ import SnapKit
 
 class BaseChatCell: UITableViewCell {
     
-    var messageHeight:CGFloat?
     var isNeedBubbleBackground = true
     var messageTimeLabel:UILabel!
     var messageAvatarsImageView:UIImageView!
@@ -78,15 +77,14 @@ class BaseChatCell: UITableViewCell {
             
             messageAvatarsImageView.snp.remakeConstraints({ (make) in
                 
+                make.top.equalTo(48)
                 make.width.height.equalTo(36)
-                make.top.equalTo(48).priority(750)
                 make.right.equalTo(-8)
             })
             
             messageAvatarsImageView.image = UIImage(named: "ico_my_h")
             
             messageUserNameLabel.snp.remakeConstraints({ (make) in
-                
                 make.top.equalTo(messageAvatarsImageView)
                 make.right.equalTo(messageAvatarsImageView.snp.left).offset(-8)
             })
@@ -98,9 +96,6 @@ class BaseChatCell: UITableViewCell {
                 messagebubbleBackImageView?.image = UIImage(named: "bg_bubble_blue")?.resizableImage(withCapInsets: UIEdgeInsets(top: 30, left: 28, bottom: 85, right: 28), resizingMode: UIImageResizingMode.stretch)
                 
                 messagebubbleBackImageView?.snp.remakeConstraints({ (make) in
-                    
-                    make.width.equalTo(50).priority(750)
-                    make.height.equalTo(35).priority(750)
                     make.right.equalTo(messageAvatarsImageView.snp.left).offset(-8)
                     make.top.equalTo(messageAvatarsImageView)
                 })
@@ -111,8 +106,8 @@ class BaseChatCell: UITableViewCell {
             
             messageAvatarsImageView.snp.remakeConstraints({ (make) in
                 
+                make.top.equalTo(48)
                 make.width.height.equalTo(36)
-                make.top.equalTo(48).priority(750)
                 make.left.equalTo(8)
             })
             
@@ -132,9 +127,6 @@ class BaseChatCell: UITableViewCell {
                 messagebubbleBackImageView?.image = UIImage(named: "bg_bubble_white")?.resizableImage(withCapInsets: UIEdgeInsets(top: 30, left: 28, bottom: 85, right: 28), resizingMode: UIImageResizingMode.stretch)
                 
                 messagebubbleBackImageView?.snp.remakeConstraints({ (make) in
-                    
-                    make.width.equalTo(50).priority(750)
-                    make.height.equalTo(40).priority(750)
                     make.left.equalTo(messageAvatarsImageView.snp.right).offset(8)
                     make.top.equalTo(messageUserNameLabel.snp.bottom).offset(4)
                 })

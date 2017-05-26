@@ -14,6 +14,10 @@ class ChatTextCell: BaseChatCell {
     
     var messageTextLabel:YYLabel!
     
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: size.width, height: (messagebubbleBackImageView?.yl_bottom)! + 10)
+    }
+    
     override func layoutUI() {
         super.layoutUI()
         
@@ -36,7 +40,7 @@ class ChatTextCell: BaseChatCell {
         messageTextLabel.textLayout = layout
         
         messageTextLabel.highlightTapAction = tapHighlightAction
-
+        
         if message?.direction == MessageDirection.send.rawValue {
             
             messageTextLabel.snp.remakeConstraints({ (make) in
@@ -54,10 +58,8 @@ class ChatTextCell: BaseChatCell {
             })
             
         }
-
-//        layoutIfNeeded()
-        yl_refreshFrame()
-        messageHeight = (messagebubbleBackImageView?.yl_bottom)! + 20
+        
+        layoutIfNeeded()
     }
     
     fileprivate func tapHighlightAction(_ containerView:UIView, text:NSAttributedString, range:NSRange, rect:CGRect) {

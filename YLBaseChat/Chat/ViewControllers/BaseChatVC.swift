@@ -6,6 +6,7 @@
 //  Copyright © 2017年 yl. All rights reserved.
 //
 
+import UITableView_FDTemplateLayoutCell
 import Foundation
 import UIKit
 import SnapKit
@@ -56,6 +57,7 @@ class BaseChatVC: UIViewController {
         tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.fd_debugLogEnabled = true
         chatView.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
@@ -98,21 +100,20 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-//        var cell:BaseChatCell!
-//        
-//        let message = dataArray[indexPath.row]
-//        
-//        if message.messageBody.type == MessageBodyType.text.rawValue {
-//            cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
-//        }else if message.messageBody.type == MessageBodyType.image.rawValue {
-//            cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
-//        }
-//        
-//        cell.updateMessage(message, idx: indexPath)
-//
-//        return cell.messageHeight!
-  
-        return 200
+        let message = dataArray[indexPath.row]
+        
+        if message.messageBody.type == MessageBodyType.text.rawValue {
+            return tableView.fd_heightForCell(withIdentifier: "ChatTextCell", cacheBy: indexPath, configuration: { (cell) in
+                (cell as? ChatTextCell)?.fd_enforceFrameLayout = true
+                (cell as? ChatTextCell)?.updateMessage(message, idx: indexPath)
+            })
+        }else if message.messageBody.type == MessageBodyType.image.rawValue {
+            return tableView.fd_heightForCell(withIdentifier: "ChatImageCell", cacheBy: indexPath, configuration: { (cell) in
+                (cell as? ChatImageCell)?.fd_enforceFrameLayout = true
+                (cell as? ChatImageCell)?.updateMessage(message, idx: indexPath)
+            })
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -165,7 +166,7 @@ extension BaseChatVC:ChatViewDelegate {
         }
         
         dataArray.append(userInfo.messages.last!)
-        tableView.reloadData()
+        tableView.insertRows(at: [IndexPath.init(row: dataArray.count, section: 0)], with: UITableViewRowAnimation.bottom)
         
         efScrollToLastCell()
     }
@@ -187,7 +188,7 @@ extension BaseChatVC:ChatViewDelegate {
         }
         
         dataArray.append(userInfo.messages.last!)
-        tableView.reloadData()
+        tableView.insertRows(at: [IndexPath.init(row: dataArray.count, section: 0)], with: UITableViewRowAnimation.bottom)
         
         efScrollToLastCell()
         
