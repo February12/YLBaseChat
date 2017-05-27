@@ -166,7 +166,7 @@ extension BaseChatVC:ChatViewDelegate {
         }
         
         dataArray.append(userInfo.messages.last!)
-        tableView.insertRows(at: [IndexPath.init(row: dataArray.count, section: 0)], with: UITableViewRowAnimation.bottom)
+        tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
         
         efScrollToLastCell()
     }
@@ -188,7 +188,7 @@ extension BaseChatVC:ChatViewDelegate {
         }
         
         dataArray.append(userInfo.messages.last!)
-        tableView.insertRows(at: [IndexPath.init(row: dataArray.count, section: 0)], with: UITableViewRowAnimation.bottom)
+        tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
         
         efScrollToLastCell()
         
