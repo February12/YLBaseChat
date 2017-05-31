@@ -388,7 +388,7 @@ extension YLReplyView:YLFaceViewDelegate {
             
             attachment.image = image
             
-            attachment.bounds = CGRect(x: 0, y: -4, width: 18 , height: 18)
+            attachment.bounds = CGRect(x: 0, y: 0, width: 16 , height: 16)
             
             let textAttachmentString = NSAttributedString(attachment: attachment)
             
