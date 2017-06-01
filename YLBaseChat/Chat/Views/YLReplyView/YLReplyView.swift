@@ -136,6 +136,16 @@ class YLReplyView: UIView,YLInputViewDelegate {
         efSendMessageText(text)
     }
     
+    // 选择相片
+    @objc fileprivate func efHandlePhotos() {
+        if let vc = self.getVC() {
+            let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
+            imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
+            vc.present(imagePicker!, animated: true, completion: nil )
+            
+        }
+        
+    }
     fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, _: [Any]?,_: Bool) -> Void {
         efSendMessageImage(photos)
     }
@@ -220,17 +230,6 @@ extension YLReplyView{
         imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(YLReplyView.efHandlePhotos)))
         
         return panelView
-    }
-    
-    // 选择相片
-    func efHandlePhotos() {
-        if let vc = self.getVC() {
-            let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
-            imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
-            vc.present(imagePicker!, animated: true, completion: nil )
-            
-        }
-        
     }
     
     // 恢复普通状态
