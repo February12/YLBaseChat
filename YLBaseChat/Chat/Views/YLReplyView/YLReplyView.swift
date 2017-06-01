@@ -136,7 +136,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         efSendMessageText(text)
     }
     
-    fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, ass: [Any]?,bool: Bool) -> Void {
+    fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, assets: [Any]?,bool: Bool) -> Void {
         efSendMessageImage(photos)
     }
     
@@ -213,7 +213,7 @@ extension YLReplyView{
         imageView.snp.makeConstraints { (make) in
             make.top.equalTo(20)
             make.left.equalTo(40)
-            make.width.height.equalTo(75)
+            make.width.height.equalTo(55)
         }
         
         imageView.isUserInteractionEnabled = true
