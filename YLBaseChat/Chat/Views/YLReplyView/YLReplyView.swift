@@ -136,7 +136,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         efSendMessageText(text)
     }
     
-    fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, assets: [Any]?,bool: Bool) -> Void {
+    fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, _: [Any]?,_: Bool) -> Void {
         efSendMessageImage(photos)
     }
     
