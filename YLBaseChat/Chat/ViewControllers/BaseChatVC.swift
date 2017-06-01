@@ -171,27 +171,39 @@ extension BaseChatVC:ChatViewDelegate {
         efScrollToLastCell()
     }
     
-    func epSendMessageImage(_ image: UIImage) {
+    func epSendMessageImage(_ images:[UIImage]?) {
         
-        let message = Message()
-        message.timestamp = String(Int(Date().timeIntervalSince1970))
-        message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
-        
-        let messageBody = MessageBody()
-        messageBody.type = MessageBodyType.image.rawValue
-        messageBody.image = UIImageJPEGRepresentation(image, 0.001) as NSData?
-        
-        message.messageBody = messageBody
-        
-        RealmManagers.shared.commitWrite {
-            userInfo.messages.append(message)
+        if let imgs = images {
+            
+            var indexPaths = Array<IndexPath>()
+            
+            for img in imgs {
+                
+                let message = Message()
+                message.timestamp = String(Int(Date().timeIntervalSince1970))
+                message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
+                
+                let messageBody = MessageBody()
+                messageBody.type = MessageBodyType.image.rawValue
+                messageBody.image = UIImageJPEGRepresentation(img, 0.001) as NSData?
+                
+                message.messageBody = messageBody
+                
+                RealmManagers.shared.commitWrite {
+                    userInfo.messages.append(message)
+                }
+                
+                dataArray.append(userInfo.messages.last!)
+                
+                indexPaths.append(IndexPath.init(row: dataArray.count-1, section: 0))
+                
+            }
+            
+            tableView.insertRows(at: indexPaths, with: UITableViewRowAnimation.bottom)
+            
+            efScrollToLastCell()
+            
         }
-        
-        dataArray.append(userInfo.messages.last!)
-        tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
-        
-        efScrollToLastCell()
-        
     }
     
 }

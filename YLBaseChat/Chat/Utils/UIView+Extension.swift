@@ -10,6 +10,28 @@ import Foundation
 import UIKit
 
 
+// MARK: - 获取view所在的控制器
+extension UIView {
+    
+    func getVC() -> UIViewController? {
+        
+        let n = next
+        
+        while n != nil {
+            
+            let controller = next?.next
+            
+            if (controller is UIViewController) {
+                
+                return controller as? UIViewController
+            }
+        }
+        
+        return nil
+    }
+    
+}
+
 // MARK: - 自适应AutoLayout
 extension UIView {
     

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import TZImagePickerController
 
 // 表情框
 fileprivate let defaultPanelViewH:CGFloat = 210.0
@@ -103,7 +104,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     
     // 发送消息
     fileprivate func sendMessageText() {
-    
+        
         var text = ""
         
         let attributedText = evInputView.inputTextView.attributedText!
@@ -133,6 +134,10 @@ class YLReplyView: UIView,YLInputViewDelegate {
         evInputView.textViewDidChanged()
         
         efSendMessageText(text)
+    }
+    
+    fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, ass: [Any]?,bool: Bool) -> Void {
+        efSendMessageImage(photos)
     }
     
     // recordOperationBtn 手势处理
@@ -219,7 +224,13 @@ extension YLReplyView{
     
     // 选择相片
     func efHandlePhotos() {
-        efSendMessageImage(UIImage(named: "sendPhotos")!)
+        if let vc = self.getVC() {
+            let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
+            imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
+            vc.present(imagePicker!, animated: true, completion: nil )
+            
+        }
+        
     }
     
     // 恢复普通状态
@@ -242,7 +253,7 @@ extension YLReplyView{
     
     // 发送消息
     func efSendMessageText(_ text:String) {}
-    func efSendMessageImage(_ image:UIImage) {}
+    func efSendMessageImage(_ images:[UIImage]?) {}
 }
 
 
@@ -499,7 +510,10 @@ extension YLReplyView{
     }
 }
 
-
+extension YLReplyView:UIImagePickerControllerDelegate,UINavigationBarDelegate {
+    
+    
+}
 
 
 
