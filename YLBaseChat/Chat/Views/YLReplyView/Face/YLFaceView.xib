@@ -46,7 +46,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vpN-dd-oM5" secondAttribute="trailing" id="9UX-99-jzC"/>
                 <constraint firstAttribute="trailing" secondItem="Kdt-Xo-cVK" secondAttribute="trailing" id="B2Z-mI-ezR"/>

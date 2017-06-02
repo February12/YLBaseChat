@@ -28,12 +28,16 @@ enum YLReplyViewState:Int {
 
 class YLReplyView: UIView,YLInputViewDelegate {
     
+    var currentVC:UIViewController?
+    
     var evInputView:YLInputView! // 输入框
     
     var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
     
     var evFacePanelView:UIView!  // 表情面板
     var evMorePanelView:UIView!  // 更多面板
+    
+    var recordingView:RecordingView!
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -49,6 +53,8 @@ class YLReplyView: UIView,YLInputViewDelegate {
     }
     
     fileprivate func layoutUI() {
+        
+        currentVC = self.getVC()
         
         // 默认大小
         frame = CGRect(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
@@ -67,7 +73,14 @@ class YLReplyView: UIView,YLInputViewDelegate {
         evMorePanelView = efAddMorePanelView()
         editPanelViewConstraintWithPanelView(evMorePanelView)
         
+        // 录音样式
+        recordingView = RecordingView(frame: CGRect.zero)
+        recordingView.center = center
+        recordingView.isHidden = true
         
+        recordingView.addSubview(recordingView)
+        
+        // 键盘
         NotificationCenter.default.addObserver(self, selector: #selector(YLReplyView.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(YLReplyView.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
@@ -138,7 +151,8 @@ class YLReplyView: UIView,YLInputViewDelegate {
     
     // 选择相片
     @objc fileprivate func efHandlePhotos() {
-        if let vc = self.getVC() {
+        if let vc =
+            currentVC{
             let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
             imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
             vc.present(imagePicker!, animated: true, completion: nil )
@@ -154,8 +168,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     @objc fileprivate func recoverGesticulation(_ gesticulation:UIGestureRecognizer) {
         
         if gesticulation.state == UIGestureRecognizerState.began {
-            
-            print("开始录音")
+        
             evInputView.recordOperationBtn.isSelected = true
             
             efStartRecording()
@@ -169,12 +182,10 @@ class YLReplyView: UIView,YLInputViewDelegate {
             
             if point.y > 0 {
                 
-                print("发送录音")
                 efSendRecording()
                 
             }else{
                 
-                print("取消录音")
                 efCancelRecording()
             }
             
@@ -184,12 +195,10 @@ class YLReplyView: UIView,YLInputViewDelegate {
             
             if point.y > 0 {
                 
-                print("向上滑动取消录音")
                 efSlideUpToCancelTheRecording()
                 
             }else{
                 
-                print("松开取消录音")
                 efLoosenCancelRecording()
                 
             }
@@ -232,10 +241,10 @@ extension YLReplyView{
         return panelView
     }
     
-    // 恢复普通状态
+    // 已经恢复普通状态
     func efDidRecoverReplyViewStateForNormal() {}
     
-    // 恢复编辑状态
+    // 已经恢复编辑状态
     func efDidRecoverReplyViewStateForEdit() {}
     
     // 收起输入框
@@ -244,11 +253,22 @@ extension YLReplyView{
     }
     
     // 录音处理
-    func efStartRecording() {}
-    func efCancelRecording() {}
-    func efSendRecording() {}
-    func efSlideUpToCancelTheRecording() {}
-    func efLoosenCancelRecording() {}
+    func efStartRecording() {
+        recordingView.recordingState = RecordingState.volumn
+        recordingView.volume = 0.0
+    }
+    func efCancelRecording() {
+        recordingView.isHidden = true
+    }
+    func efSendRecording() {
+        recordingView.recordingState = RecordingState.timeTooShort
+    }
+    func efSlideUpToCancelTheRecording() {
+        recordingView.recordingState = RecordingState.volumn
+    }
+    func efLoosenCancelRecording() {
+        recordingView.recordingState = RecordingState.cancel
+    }
     
     // 发送消息
     func efSendMessageText(_ text:String) {}
@@ -508,16 +528,5 @@ extension YLReplyView{
         }
     }
 }
-
-extension YLReplyView:UIImagePickerControllerDelegate,UINavigationBarDelegate {
-    
-    
-}
-
-
-
-
-
-
 
 

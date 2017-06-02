@@ -59,6 +59,7 @@
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */; };
+		79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +118,7 @@
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatCell.swift; sourceTree = "<group>"; };
+		79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,6 +139,7 @@
 			children = (
 				792440071ED4384A00D3E2DF /* Face */,
 				792440281ED4384A00D3E2DF /* YLInputView.swift */,
+				79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */,
 				792440291ED4384A00D3E2DF /* YLPTextView.swift */,
 				7924402A1ED4384A00D3E2DF /* YLReplyView.swift */,
 			);
@@ -456,6 +459,7 @@
 				79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
+				79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */,
 				7999B4501ED67AF0000F7227 /* ChatTextCell.swift in Sources */,
