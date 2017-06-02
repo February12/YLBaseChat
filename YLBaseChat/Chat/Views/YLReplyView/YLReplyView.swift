@@ -78,7 +78,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         recordingView.center = center
         recordingView.isHidden = true
         
-        recordingView.addSubview(recordingView)
+        addSubview(recordingView)
         
         // 键盘
         NotificationCenter.default.addObserver(self, selector: #selector(YLReplyView.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
