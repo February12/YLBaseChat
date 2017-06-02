@@ -28,8 +28,6 @@ enum YLReplyViewState:Int {
 
 class YLReplyView: UIView,YLInputViewDelegate {
     
-    var currentVC:UIViewController?
-    
     var evInputView:YLInputView! // 输入框
     
     var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
@@ -53,8 +51,6 @@ class YLReplyView: UIView,YLInputViewDelegate {
     }
     
     fileprivate func layoutUI() {
-        
-        currentVC = self.getVC()
         
         // 默认大小
         frame = CGRect(x: 0, y: 0, width: YLScreenWidth, height: YLScreenHeight)
@@ -151,8 +147,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     
     // 选择相片
     @objc fileprivate func efHandlePhotos() {
-        if let vc =
-            currentVC{
+        if let vc = self.getVC(){
             let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
             imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
             vc.present(imagePicker!, animated: true, completion: nil )
@@ -168,7 +163,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     @objc fileprivate func recoverGesticulation(_ gesticulation:UIGestureRecognizer) {
         
         if gesticulation.state == UIGestureRecognizerState.began {
-        
+            
             evInputView.recordOperationBtn.isSelected = true
             
             efStartRecording()

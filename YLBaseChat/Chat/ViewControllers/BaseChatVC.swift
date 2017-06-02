@@ -57,7 +57,6 @@ class BaseChatVC: UIViewController {
         tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.fd_debugLogEnabled = true
         chatView.insertSubview(tableView, at: 0)
         
         tableView.snp.makeConstraints { (make) in
