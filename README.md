@@ -57,24 +57,7 @@ YLReplyView 输入框的封装
         updateReplyViewState(YLReplyViewState.normal)
     }
     
-    // 录音处理
-    func efStartRecording() {
-        recordingView.recordingState = RecordingState.volumn
-        recordingView.volume = 0.0
-    }
-    func efCancelRecording() {
-        recordingView.isHidden = true
-    }
-    func efSendRecording() {
-        recordingView.recordingState = RecordingState.timeTooShort
-    }
-    func efSlideUpToCancelTheRecording() {
-        recordingView.recordingState = RecordingState.volumn
-    }
-    func efLoosenCancelRecording() {
-        recordingView.recordingState = RecordingState.cancel
-    }
-    
     // 发送消息
-    func efSendMessageText(_ text:String) {}
-    func efSendMessageImage(_ images:[UIImage]?) {}
+    func efSendMessageText(_ text: String) {}
+    func efSendMessageImage(_ images: [UIImage]?) {}
+    func efSendMessageVoice(_ path: String?,duration: Int){}
