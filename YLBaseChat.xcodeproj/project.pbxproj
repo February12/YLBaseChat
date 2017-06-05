@@ -57,6 +57,7 @@
 		79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */; };
 		79BE0B421ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */; };
 		79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE0B431ECD669000EDA46D /* ChatView.swift */; };
+		79D69C6A1EE4E82C00FB5315 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D69C691EE4E82C00FB5315 /* VoiceManager.swift */; };
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */; };
 		79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */; };
@@ -116,6 +117,7 @@
 		79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLTouchesGestureRecognizer.swift; sourceTree = "<group>"; };
 		79BE0B431ECD669000EDA46D /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		79D69C691EE4E82C00FB5315 /* VoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceManager.swift; sourceTree = "<group>"; };
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatCell.swift; sourceTree = "<group>"; };
 		79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				7903C3A51EC4257F0015D151 /* RealmManagers.swift */,
+				79D69C691EE4E82C00FB5315 /* VoiceManager.swift */,
 				79DA2FB81EC956B9005B8D9A /* Definition.swift */,
 				79BE0B411ECD33E700EDA46D /* YLTouchesGestureRecognizer.swift */,
 				79B2F8CE1ED2A4830094404B /* UIView+Extension.swift */,
@@ -459,6 +462,7 @@
 				79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
+				79D69C6A1EE4E82C00FB5315 /* VoiceManager.swift in Sources */,
 				79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
 				79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */,

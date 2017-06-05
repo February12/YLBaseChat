@@ -251,12 +251,20 @@ extension YLReplyView{
     func efStartRecording() {
         recordingView.recordingState = RecordingState.volumn
         recordingView.volume = 0.0
+        VoiceManager.shared.beginRecord()
     }
     func efCancelRecording() {
         recordingView.isHidden = true
+        VoiceManager.shared.cancelRecord()
     }
     func efSendRecording() {
-        recordingView.recordingState = RecordingState.timeTooShort
+        if VoiceManager.shared.duration <= 1 {
+            recordingView.recordingState = RecordingState.timeTooShort
+            VoiceManager.shared.cancelRecord()
+        }else {
+            recordingView.isHidden = true
+            VoiceManager.shared.stopRecord()
+        }
     }
     func efSlideUpToCancelTheRecording() {
         recordingView.recordingState = RecordingState.volumn
