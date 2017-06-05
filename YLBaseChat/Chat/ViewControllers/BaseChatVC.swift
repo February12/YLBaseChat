@@ -15,16 +15,16 @@ import YYText
 class BaseChatVC: UIViewController {
     
     // 上一次播放的语音
-    var oldChatVoiceMessage:Message? = nil
+    fileprivate var oldChatVoiceMessage:Message? = nil
     
     // 表单
     var tableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.plain)
     
-    var dataArray = Array<Message>()
+    fileprivate var dataArray = Array<Message>()
     
     var userInfo:UserInfo!
     
-    var chatView:ChatView = ChatView(frame: CGRect.zero)
+    fileprivate var chatView:ChatView = ChatView(frame: CGRect.zero)
     
     deinit {
         print("====\(self)=====>被释放")

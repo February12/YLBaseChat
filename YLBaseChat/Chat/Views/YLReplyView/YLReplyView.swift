@@ -28,6 +28,8 @@ enum YLReplyViewState:Int {
 
 class YLReplyView: UIView,YLInputViewDelegate {
     
+    fileprivate var timer:Timer? = nil
+    
     var evInputView:YLInputView! // 输入框
     
     var evReplyViewState:YLReplyViewState = YLReplyViewState.normal
@@ -39,6 +41,8 @@ class YLReplyView: UIView,YLInputViewDelegate {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        timer = nil
     }
     
     override init(frame: CGRect) {
@@ -161,17 +165,27 @@ class YLReplyView: UIView,YLInputViewDelegate {
         efSendMessageImage(photos)
     }
     
+    // 设置显示用户讲话音量
+    @objc fileprivate func setVoiceSoundSize() {
+        recordingView.volume = VoiceManager.shared.getRecordVolume()
+    }
+    
     // 录音处理
     fileprivate func startRecording() {
         recordingView.recordingState = RecordingState.volumn
         recordingView.volume = 0.0
         VoiceManager.shared.beginRecord()
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: (#selector(YLReplyView.setVoiceSoundSize)), userInfo: nil, repeats: true)
     }
     fileprivate func cancelRecording() {
+        timer?.invalidate()
+        timer = nil
         recordingView.isHidden = true
         VoiceManager.shared.cancelRecord()
     }
     fileprivate func sendRecording() {
+        timer?.invalidate()
+        timer = nil
         if VoiceManager.shared.duration <= 1 {
             recordingView.recordingState = RecordingState.timeTooShort
             VoiceManager.shared.cancelRecord()

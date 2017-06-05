@@ -28,6 +28,11 @@ class VoiceManager:NSObject{
     
     fileprivate var completeBlock:PlayerDidFinishPlayingBlock?
     
+    deinit {
+        timer?.invalidate()
+        timer = nil
+    }
+    
     //开始录音
     func beginRecord() {
         duration = 0
