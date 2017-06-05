@@ -52,6 +52,8 @@ class BaseChatVC: UIViewController {
         
         tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
         tableView.register(ChatImageCell.self, forCellReuseIdentifier: "ChatImageCell")
+        tableView.register(ChatVoiceCell.self, forCellReuseIdentifier: "ChatVoiceCell")
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
@@ -111,6 +113,11 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
                 (cell as? ChatImageCell)?.fd_enforceFrameLayout = true
                 (cell as? ChatImageCell)?.updateMessage(message, idx: indexPath)
             })
+        }else if message.messageBody.type == MessageBodyType.voice.rawValue {
+            return tableView.fd_heightForCell(withIdentifier: "ChatVoiceCell", cacheBy: indexPath, configuration: { (cell) in
+                (cell as? ChatVoiceCell)?.fd_enforceFrameLayout = true
+                (cell as? ChatVoiceCell)?.updateMessage(message, idx: indexPath)
+            })
         }
         return 0
     }
@@ -125,6 +132,8 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
         }else if message.messageBody.type == MessageBodyType.image.rawValue {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
+        }else if message.messageBody.type == MessageBodyType.voice.rawValue {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ChatVoiceCell") as! ChatVoiceCell
         }
         
         cell.updateMessage(message, idx: indexPath)

@@ -47,6 +47,7 @@
 		7924D2B41ED51CB000D7765C /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B31ED51CB000D7765C /* UIImage+Extension.swift */; };
 		7924D2B61ED5553E00D7765C /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B51ED5553E00D7765C /* String+Extension.swift */; };
 		7924D2B81ED5693100D7765C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924D2B71ED5693100D7765C /* Extension.swift */; };
+		793722511EE50558004A6898 /* ChatVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793722501EE50558004A6898 /* ChatVoiceCell.swift */; };
 		794C307A1EC1580100AB4605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C30791EC1580100AB4605 /* AppDelegate.swift */; };
 		794C307C1EC1580100AB4605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794C307B1EC1580100AB4605 /* ViewController.swift */; };
 		794C30841EC1580100AB4605 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 794C30821EC1580100AB4605 /* LaunchScreen.storyboard */; };
@@ -105,6 +106,7 @@
 		7924D2B31ED51CB000D7765C /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		7924D2B51ED5553E00D7765C /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		7924D2B71ED5693100D7765C /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		793722501EE50558004A6898 /* ChatVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVoiceCell.swift; sourceTree = "<group>"; };
 		794C30761EC1580100AB4605 /* YLBaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YLBaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		794C30791EC1580100AB4605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		794C307B1EC1580100AB4605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */,
 				7999B44F1ED67AF0000F7227 /* ChatTextCell.swift */,
 				7999B4511ED6B321000F7227 /* ChatImageCell.swift */,
+				793722501EE50558004A6898 /* ChatVoiceCell.swift */,
 			);
 			path = CellViews;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				79BE0B441ECD669000EDA46D /* ChatView.swift in Sources */,
 				794C30931EC15F1700AB4605 /* RealmModels.swift in Sources */,
 				79B2F8CF1ED2A4830094404B /* UIView+Extension.swift in Sources */,
+				793722511EE50558004A6898 /* ChatVoiceCell.swift in Sources */,
 				79D69C6A1EE4E82C00FB5315 /* VoiceManager.swift in Sources */,
 				79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */,
 				7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */,
