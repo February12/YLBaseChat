@@ -152,7 +152,7 @@ extension BaseChatVC:ChatViewDelegate {
         
         let message = Message()
         message.timestamp = String(Int(Date().timeIntervalSince1970))
-        message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
+        message.direction = MessageDirection.send.rawValue
         
         let messageBody = MessageBody()
         messageBody.type = MessageBodyType.text.rawValue
@@ -180,7 +180,7 @@ extension BaseChatVC:ChatViewDelegate {
                 
                 let message = Message()
                 message.timestamp = String(Int(Date().timeIntervalSince1970))
-                message.direction = Int(arc4random() % 2) + 1 //MessageDirection.receive.rawValue
+                message.direction = MessageDirection.send.rawValue
                 
                 let messageBody = MessageBody()
                 messageBody.type = MessageBodyType.image.rawValue
@@ -199,6 +199,33 @@ extension BaseChatVC:ChatViewDelegate {
             }
             
             tableView.insertRows(at: indexPaths, with: UITableViewRowAnimation.bottom)
+            
+            efScrollToLastCell()
+            
+        }
+    }
+    
+    func ePSendMessageVoice(_ path: String? ,duration: Int) {
+        
+        if let path = path {
+        
+            let message = Message()
+            message.timestamp = String(Int(Date().timeIntervalSince1970))
+            message.direction = MessageDirection.send.rawValue
+            
+            let messageBody = MessageBody()
+            messageBody.type = MessageBodyType.voice.rawValue
+            messageBody.voicePath = path
+            messageBody.voiceDuration = duration
+            
+            message.messageBody = messageBody
+            
+            RealmManagers.shared.commitWrite {
+                userInfo.messages.append(message)
+            }
+            
+            dataArray.append(userInfo.messages.last!)
+            tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
             
             efScrollToLastCell()
             

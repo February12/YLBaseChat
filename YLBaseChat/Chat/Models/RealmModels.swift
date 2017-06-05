@@ -50,6 +50,7 @@ class Message: Object {
 enum MessageBodyType:Int{
     case text = 1
     case image
+    case voice
     
 }
 
@@ -57,8 +58,13 @@ enum MessageBodyType:Int{
 class MessageBody: Object {
     
     dynamic var type = 0
+    // 文字
     dynamic var text = ""
+    // 图片
     dynamic var image:NSData? = nil
+    // 语音
+    dynamic var voicePath = ""
+    dynamic var voiceDuration = 0
 }
 
 

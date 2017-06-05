@@ -11,8 +11,9 @@ import UIKit
 
 protocol ChatViewDelegate: NSObjectProtocol {
     
-    func epSendMessageText(_ text:String)
-    func epSendMessageImage(_ images:[UIImage]?)
+    func epSendMessageText(_ text: String)
+    func epSendMessageImage(_ images: [UIImage]?)
+    func ePSendMessageVoice(_ path: String?,duration: Int)
 }
 
 class ChatView: YLReplyView {
@@ -33,8 +34,8 @@ extension ChatView {
         delegate?.epSendMessageImage(images)
     }
     
-    override func efSendMessageVideo(_ path: String?) {
-        
+    override func efSendMessageVoice(_ path: String?,duration: Int) {
+        delegate?.ePSendMessageVoice(path,duration: duration)
     }
     
 }

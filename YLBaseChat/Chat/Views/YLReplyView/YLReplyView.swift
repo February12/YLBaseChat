@@ -178,7 +178,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         }else {
             recordingView.isHidden = true
             VoiceManager.shared.stopRecord()
-            efSendMessageVideo(VoiceManager.shared.file_path)
+            efSendMessageVoice(VoiceManager.shared.file_path,duration: VoiceManager.shared.duration)
         }
     }
     fileprivate func slideUpToCancelTheRecording() {
@@ -262,9 +262,9 @@ extension YLReplyView{
     }
     
     // 发送消息
-    func efSendMessageText(_ text:String) {}
-    func efSendMessageImage(_ images:[UIImage]?) {}
-    func efSendMessageVideo(_ path:String?){}
+    func efSendMessageText(_ text: String) {}
+    func efSendMessageImage(_ images: [UIImage]?) {}
+    func efSendMessageVoice(_ path: String?,duration: Int){}
 }
 
 
