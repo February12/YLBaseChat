@@ -33,4 +33,8 @@ extension ChatView {
         delegate?.epSendMessageImage(images)
     }
     
+    override func efSendMessageVideo(_ path: String?) {
+        
+    }
+    
 }

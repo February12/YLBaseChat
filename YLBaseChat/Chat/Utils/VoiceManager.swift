@@ -52,8 +52,8 @@ class VoiceManager{
         //开始录音
         do {
             file_path = getFilePath()
-            if let path = file_path {
-                let url = URL(fileURLWithPath: path)
+            if let file_path = file_path {
+                let url = URL(fileURLWithPath: file_path)
                 recorder = try AVAudioRecorder(url: url, settings: recordSetting)
                 recorder!.prepareToRecord()
                 recorder!.record()
@@ -70,10 +70,10 @@ class VoiceManager{
     func stopRecord() {
         timer?.invalidate()
         timer = nil
-        if let recorder = self.recorder {
+        if let recorder = recorder {
             if recorder.isRecording {
-                if let path = file_path {
-                    print("正在录音，马上结束它，文件保存到了：\(path)")
+                if let file_path = file_path {
+                    print("正在录音，马上结束它，文件保存到了：\(file_path)")
                 }
             }else {
                 print("没有录音，但是依然结束它")
@@ -88,9 +88,9 @@ class VoiceManager{
     // 取消录音
     func cancelRecord() {
         stopRecord()
-        if let path = file_path {
-            try? FileManager.default.removeItem(at: URL(fileURLWithPath: path))
-            print("删除录音:\(path)")
+        if let file_path = file_path {
+            try? FileManager.default.removeItem(at: URL(fileURLWithPath: file_path))
+            print("删除录音:\(file_path)")
         }
         
     }
@@ -98,8 +98,8 @@ class VoiceManager{
     //播放
     func play() {
         do {
-            if let path = file_path {
-                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+            if let file_path = file_path {
+                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: file_path))
                 print("录音长度：\(player!.duration)")
                 player!.play()
             }
@@ -107,6 +107,23 @@ class VoiceManager{
             print("播放失败:\(err.localizedDescription)")
         }
     }
+    
+    //结束播放
+    func stopPlay() {
+    
+        if let player = player {
+            if player.isPlaying {
+                print("停止播放")
+            }else {
+                print("没有播放")
+            }
+            player.stop()
+            self.player = nil
+        }else {
+            print("没有初始化")
+        }
+    }
+
     
     // 录音记时
     @objc fileprivate func recordingTime() {

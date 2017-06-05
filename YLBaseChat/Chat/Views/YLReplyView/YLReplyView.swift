@@ -118,6 +118,8 @@ class YLReplyView: UIView,YLInputViewDelegate {
         
         let attributedText = evInputView.inputTextView.attributedText!
         
+        if attributedText.length == 0 {return}
+        
         attributedText.enumerateAttributes(in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired) {(attrs:[String:Any], range:NSRange, _) in
             
             if let attachment = attrs["NSAttachment"] as? NSTextAttachment  {
@@ -159,43 +161,55 @@ class YLReplyView: UIView,YLInputViewDelegate {
         efSendMessageImage(photos)
     }
     
+    // 录音处理
+    fileprivate func startRecording() {
+        recordingView.recordingState = RecordingState.volumn
+        recordingView.volume = 0.0
+        VoiceManager.shared.beginRecord()
+    }
+    fileprivate func cancelRecording() {
+        recordingView.isHidden = true
+        VoiceManager.shared.cancelRecord()
+    }
+    fileprivate func sendRecording() {
+        if VoiceManager.shared.duration <= 1 {
+            recordingView.recordingState = RecordingState.timeTooShort
+            VoiceManager.shared.cancelRecord()
+        }else {
+            recordingView.isHidden = true
+            VoiceManager.shared.stopRecord()
+            efSendMessageVideo(VoiceManager.shared.file_path)
+        }
+    }
+    fileprivate func slideUpToCancelTheRecording() {
+        recordingView.recordingState = RecordingState.volumn
+    }
+    fileprivate func loosenCancelRecording() {
+        recordingView.recordingState = RecordingState.cancel
+    }
+    
     // recordOperationBtn 手势处理
     @objc fileprivate func recoverGesticulation(_ gesticulation:UIGestureRecognizer) {
         
         if gesticulation.state == UIGestureRecognizerState.began {
-            
             evInputView.recordOperationBtn.isSelected = true
-            
-            efStartRecording()
-            
+            startRecording()
         }else if gesticulation.state == UIGestureRecognizerState.ended {
             
-            
             let point = gesticulation.location(in: gesticulation.view)
-            
             evInputView.recordOperationBtn.isSelected = false
-            
             if point.y > 0 {
-                
-                efSendRecording()
-                
+                sendRecording()
             }else{
-                
-                efCancelRecording()
+                cancelRecording()
             }
-            
         }else if gesticulation.state == UIGestureRecognizerState.changed {
             
             let point = gesticulation.location(in: gesticulation.view)
-            
             if point.y > 0 {
-                
-                efSlideUpToCancelTheRecording()
-                
+                slideUpToCancelTheRecording()
             }else{
-                
-                efLoosenCancelRecording()
-                
+                loosenCancelRecording()
             }
         }
     }
@@ -247,35 +261,10 @@ extension YLReplyView{
         updateReplyViewState(YLReplyViewState.normal)
     }
     
-    // 录音处理
-    func efStartRecording() {
-        recordingView.recordingState = RecordingState.volumn
-        recordingView.volume = 0.0
-        VoiceManager.shared.beginRecord()
-    }
-    func efCancelRecording() {
-        recordingView.isHidden = true
-        VoiceManager.shared.cancelRecord()
-    }
-    func efSendRecording() {
-        if VoiceManager.shared.duration <= 1 {
-            recordingView.recordingState = RecordingState.timeTooShort
-            VoiceManager.shared.cancelRecord()
-        }else {
-            recordingView.isHidden = true
-            VoiceManager.shared.stopRecord()
-        }
-    }
-    func efSlideUpToCancelTheRecording() {
-        recordingView.recordingState = RecordingState.volumn
-    }
-    func efLoosenCancelRecording() {
-        recordingView.recordingState = RecordingState.cancel
-    }
-    
     // 发送消息
     func efSendMessageText(_ text:String) {}
     func efSendMessageImage(_ images:[UIImage]?) {}
+    func efSendMessageVideo(_ path:String?){}
 }
 
 
