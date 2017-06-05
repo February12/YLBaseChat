@@ -192,6 +192,13 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
     
+        // 检测语音是否结束
+        if let oldMessage = oldChatVoiceMessage {
+            if oldMessage.messageId == message.messageId {
+                (cell as! ChatVoiceCell).messageAnimationVoiceImageView.startAnimating()
+            }
+        }
+        
         return cell
     }
     
