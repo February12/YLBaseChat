@@ -109,10 +109,12 @@ class VoiceManager:NSObject{
         if let recorder = recorder {
             if recorder.isRecording {
                 recorder.updateMeters()
-                ret = pow(10, 0.05 * recorder.peakPower(forChannel: 0))
+                //获取音量的平均值  [recorder averagePowerForChannel:0];
+                //音量的最大值  [recorder peakPowerForChannel:0];
+                ret = pow(10, (0.05 *  recorder.peakPower(forChannel: 0)))
             }
         }
-        return Float(ret)
+        return ret
     }
     
     //播放
@@ -134,7 +136,7 @@ class VoiceManager:NSObject{
     
     //结束播放
     func stopPlay() {
-    
+        
         if let player = player {
             if player.isPlaying {
                 print("停止播放")
@@ -149,7 +151,7 @@ class VoiceManager:NSObject{
             print("没有初始化")
         }
     }
-
+    
     
     // 录音记时
     @objc fileprivate func recordingTime() {
@@ -175,7 +177,7 @@ class VoiceManager:NSObject{
 
 //// MARK: - AVAudioPlayerDelegate
 extension VoiceManager:AVAudioPlayerDelegate {
-
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
         if let completeBlock = completeBlock {
