@@ -14,6 +14,9 @@ import YYText
 
 class BaseChatVC: UIViewController {
     
+    // 上一次播放的语音
+    var oldChatVoiceMessage:Message? = nil
+    
     // 表单
     var tableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.plain)
     
@@ -40,7 +43,7 @@ class BaseChatVC: UIViewController {
     }
     
     
-    func layoutUI() {
+    fileprivate func layoutUI() {
         
         chatView.delegate = self
         view.addSubview(chatView)
@@ -69,7 +72,8 @@ class BaseChatVC: UIViewController {
         
     }
     
-    func loadData() {
+    // 加载数据
+    fileprivate func loadData() {
         
         dataArray += userInfo.messages
         
@@ -85,6 +89,53 @@ class BaseChatVC: UIViewController {
         }
     }
     
+    // 开始播放录音
+    fileprivate func startPlaying(_ message:Message) {
+    
+        if message.messageBody.type == MessageBodyType.voice.rawValue {
+            
+            stopPlaying()
+            oldChatVoiceMessage = message
+            
+            if let cell = getCellByMessage(message) as? ChatVoiceCell {
+                
+                cell.messageAnimationVoiceImageView.startAnimating()
+                
+                if let range = message.messageBody.voicePath.range(of: "Caches") {
+                    let path = NSHomeDirectory() + "/Library/" + message.messageBody.voicePath.substring(from: range.lowerBound)
+                    VoiceManager.shared.play(path, {[weak self] in
+                        self?.stopPlaying()
+                    })
+                }
+                
+            }
+        }
+    
+    }
+    
+    // 停止播放录音
+    fileprivate func stopPlaying() {
+    
+        if let oldMessage = oldChatVoiceMessage {
+            if let oldChatVoiceCell = getCellByMessage(oldMessage) as? ChatVoiceCell {
+                oldChatVoiceCell.messageAnimationVoiceImageView.stopAnimating()
+                oldChatVoiceMessage = nil
+                VoiceManager.shared.stopPlay()
+            }
+        }
+        
+    }
+    
+    // 根据message 获取 cell
+    fileprivate func getCellByMessage(_ message:Message) -> BaseChatCell? {
+        
+        if let index = dataArray.index(of: message) {
+            if index >= 0 && index < dataArray.count {
+                return tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! BaseChatCell?
+            }
+        }
+        return nil
+    }
 }
 
 
@@ -134,6 +185,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
         }else if message.messageBody.type == MessageBodyType.voice.rawValue {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatVoiceCell") as! ChatVoiceCell
+            cell.delegate = self
         }
         
         cell.updateMessage(message, idx: indexPath)
@@ -153,6 +205,23 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
 }
 
+
+// MARK: - BaseChatCellDelegate
+extension BaseChatVC:BaseChatCellDelegate {
+
+    func epDidVoiceClick(_ message: Message) {
+        
+        if let oldMessage = oldChatVoiceMessage {
+            
+            if message.messageId == oldMessage.messageId {
+                stopPlaying()
+                return
+            }
+        }
+        
+        startPlaying(message)
+    }
+}
 
 // MARK: - ChatViewDelegate
 extension BaseChatVC:ChatViewDelegate {

@@ -9,14 +9,16 @@
 import Foundation
 import AVFoundation
 
-class VoiceManager{
+typealias PlayerDidFinishPlayingBlock = () -> Void
+
+class VoiceManager:NSObject{
     
     // 单例
     static let shared = VoiceManager()
-    private init(){}
+    private override init(){}
     
     var duration:Int = 0 // 录音时间
-    var file_path:String? = nil // 录音路径
+    var recorder_file_path:String? = nil // 录音路径
     
     fileprivate var recorder: AVAudioRecorder? = nil
     fileprivate var player: AVAudioPlayer? = nil
@@ -24,6 +26,7 @@ class VoiceManager{
     fileprivate var timer:Timer? = nil
     fileprivate var pathTag:Int = 0
     
+    fileprivate var completeBlock:PlayerDidFinishPlayingBlock?
     
     //开始录音
     func beginRecord() {
@@ -51,8 +54,8 @@ class VoiceManager{
         ];
         //开始录音
         do {
-            file_path = getFilePath()
-            if let file_path = file_path {
+            recorder_file_path = getFilePath()
+            if let file_path = recorder_file_path {
                 let url = URL(fileURLWithPath: file_path)
                 recorder = try AVAudioRecorder(url: url, settings: recordSetting)
                 recorder!.prepareToRecord()
@@ -72,7 +75,7 @@ class VoiceManager{
         timer = nil
         if let recorder = recorder {
             if recorder.isRecording {
-                if let file_path = file_path {
+                if let file_path = recorder_file_path {
                     print("正在录音，马上结束它，文件保存到了：\(file_path)")
                 }
             }else {
@@ -88,19 +91,35 @@ class VoiceManager{
     // 取消录音
     func cancelRecord() {
         stopRecord()
-        if let file_path = file_path {
+        if let file_path = recorder_file_path {
             try? FileManager.default.removeItem(at: URL(fileURLWithPath: file_path))
             print("删除录音:\(file_path)")
         }
         
     }
     
+    // 录音获取音量
+    func getRecordVolume() -> Float {
+        var ret:Float = 0.0
+        if let recorder = recorder {
+            if recorder.isRecording {
+                recorder.updateMeters()
+                ret = pow(10, 0.05 * recorder.peakPower(forChannel: 0))
+            }
+        }
+        return Float(ret)
+    }
+    
     //播放
-    func play() {
+    func play(_ path: String?,_ block: PlayerDidFinishPlayingBlock?) {
+        
         do {
-            if let file_path = file_path {
-                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: file_path))
-                print("录音长度：\(player!.duration)")
+            completeBlock = block
+            
+            if let path = path {
+                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+                player?.delegate = self
+                player?.prepareToPlay()
                 player!.play()
             }
         } catch let err {
@@ -118,6 +137,8 @@ class VoiceManager{
                 print("没有播放")
             }
             player.stop()
+            completeBlock = nil
+            self.player?.delegate = nil
             self.player = nil
         }else {
             print("没有初始化")
@@ -127,6 +148,7 @@ class VoiceManager{
     
     // 录音记时
     @objc fileprivate func recordingTime() {
+        
         duration += 1
         print("录音时间:\(duration)")
     }
@@ -140,7 +162,21 @@ class VoiceManager{
             pathTag = 0
         }
         
-        return NSHomeDirectory() + "/Library/Caches/\(pathTag)-\(Date.timeIntervalBetween1970AndReferenceDate).wav"
+        return NSHomeDirectory() + "/Library/Caches/\(pathTag)-\(Date().timeIntervalSince1970).wav"
+    }
+    
+}
+
+
+//// MARK: - AVAudioPlayerDelegate
+extension VoiceManager:AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        
+        if let completeBlock = completeBlock {
+            completeBlock()
+        }
+        
     }
     
 }

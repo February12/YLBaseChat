@@ -11,6 +11,10 @@ import UIKit
 import YYText
 import SnapKit
 
+protocol BaseChatCellDelegate: NSObjectProtocol {
+    func epDidVoiceClick(_ message: Message)
+}
+
 class BaseChatCell: UITableViewCell {
     
     var isNeedBubbleBackground = true
@@ -21,7 +25,7 @@ class BaseChatCell: UITableViewCell {
     
     var message:Message?
     var indexPath:IndexPath?
-    
+    weak var delegate:BaseChatCellDelegate?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

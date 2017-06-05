@@ -22,6 +22,8 @@ class ChatVoiceCell: BaseChatCell {
         super.layoutUI()
         
         messageAnimationVoiceImageView = UIImageView()
+        messageAnimationVoiceImageView.isUserInteractionEnabled = true
+        messageAnimationVoiceImageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(ChatVoiceCell.tapHandle)))
         messagebubbleBackImageView?.addSubview(messageAnimationVoiceImageView)
         
         messageVoiceDurationLabel = UILabel()
@@ -92,7 +94,7 @@ class ChatVoiceCell: BaseChatCell {
         layoutIfNeeded()
     }
     
-    func messageVoiceAnimationImageViewWithIsSendMessage(_ isSendMessage:Bool) {
+    fileprivate func messageVoiceAnimationImageViewWithIsSendMessage(_ isSendMessage:Bool) {
         
         var imageSepatorName = ""
         if isSendMessage {
@@ -114,5 +116,11 @@ class ChatVoiceCell: BaseChatCell {
         messageAnimationVoiceImageView.animationDuration = 1.0
         messageAnimationVoiceImageView.stopAnimating()
         
+    }
+    
+    @objc fileprivate func tapHandle() {
+        if let message = message {
+            delegate?.epDidVoiceClick(message)
+        }
     }
 }

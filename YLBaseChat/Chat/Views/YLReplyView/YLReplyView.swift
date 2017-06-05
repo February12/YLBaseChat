@@ -178,7 +178,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         }else {
             recordingView.isHidden = true
             VoiceManager.shared.stopRecord()
-            efSendMessageVoice(VoiceManager.shared.file_path,duration: VoiceManager.shared.duration)
+            efSendMessageVoice(VoiceManager.shared.recorder_file_path,duration: VoiceManager.shared.duration)
         }
     }
     fileprivate func slideUpToCancelTheRecording() {
