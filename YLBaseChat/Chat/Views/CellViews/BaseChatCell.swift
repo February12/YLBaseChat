@@ -72,6 +72,7 @@ class BaseChatCell: UITableViewCell {
         
     }
     
+    // 加载cell内容
     public func updateMessage(_ m: Message,idx: IndexPath) {
         
         message = m
@@ -142,4 +143,52 @@ class BaseChatCell: UITableViewCell {
         layoutIfNeeded()
     }
     
+    // 检测是否显示时间
+    public func updateTime(_ upTime: String?) {
+        
+        messageTimeLabel.isHidden = false
+        
+        if let upTime = upTime {
+            if var upTime = TimeInterval(upTime) {
+                if let time = message?.timestamp {
+                    if var time = TimeInterval(time) {
+                        
+                        if upTime > 140000000000 {
+                            upTime = upTime / 1000
+                        }
+                        
+                        if time > 140000000000 {
+                            time = time / 1000
+                        }
+                        
+                        if time - upTime < 2 * 60 {
+                            messageTimeLabel.isHidden = true
+                        }else {
+                            messageTimeLabel.isHidden = false
+                        }
+                    }
+                }
+            }
+        }
+        
+        if let time = message?.timestamp {
+            if let time = TimeInterval(time) {
+                let date = Date(timeIntervalSince1970: time)
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-hh"
+                let timeStr = formatter.string(from: date)
+                messageTimeLabel.text =  timeStr
+                
+                // 计算宽度
+                let width = NSString(string: timeStr).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:messageTimeLabel.font], context: nil).size.width + 10
+                
+                messageTimeLabel.snp.remakeConstraints({ (make) in
+                    make.top.equalTo(20);
+                    make.height.equalTo(20);
+                    make.width.equalTo(width)
+                    make.centerX.equalTo(contentView);
+                })
+            }
+        }
+    }
 }

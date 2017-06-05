@@ -192,6 +192,14 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
     
+        // 检测是否显示时间
+        if indexPath.row > 0 {
+            let upMessage = dataArray[indexPath.row - 1]
+            cell.updateTime(upMessage.timestamp)
+        }else {
+            cell.updateTime(nil)
+        }
+        
         // 检测语音是否结束
         if let oldMessage = oldChatVoiceMessage {
             if oldMessage.messageId == message.messageId {
