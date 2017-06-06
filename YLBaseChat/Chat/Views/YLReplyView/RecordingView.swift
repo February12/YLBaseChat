@@ -62,8 +62,9 @@ class RecordingView: UIView {
             
             if let volumnImage = viewWithTag(volumn_tag) {
                 if let num = value {
+                    let bottom = volumnImage.yl_bottom
                     volumnImage.yl_height = CGFloat(33.0 / 1.0 * num)
-                    volumnImage.yl_y = volumnImage.yl_bottom - volumnImage.yl_height
+                    volumnImage.yl_bottom = bottom
                 }
             }
         }
