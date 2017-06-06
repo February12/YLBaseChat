@@ -152,7 +152,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     }
     
     // 选择相片
-    @objc fileprivate func efHandlePhotos() {
+    @objc fileprivate func handlePhotos() {
         if let vc = self.getVC(){
             let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
             imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
@@ -259,7 +259,7 @@ extension YLReplyView{
         }
         
         imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(YLReplyView.efHandlePhotos)))
+        imageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(YLReplyView.handlePhotos)))
         
         return panelView
     }
