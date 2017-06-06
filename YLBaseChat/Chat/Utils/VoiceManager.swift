@@ -105,16 +105,32 @@ class VoiceManager:NSObject{
     
     // 录音获取音量
     func getRecordVolume() -> Float {
-        var ret:Float = 0.0
+        var level:Float = 0.0
         if let recorder = recorder {
             if recorder.isRecording {
                 recorder.updateMeters()
                 //获取音量的平均值  [recorder averagePowerForChannel:0];
                 //音量的最大值  [recorder peakPowerForChannel:0];
-                ret = pow(10, (0.05 *  recorder.peakPower(forChannel: 0)))
+                let minDecibels:Float = -80.0
+                let decibels:Float = recorder.peakPower(forChannel: 0)
+                if decibels < minDecibels {
+                    level = 0.0
+                }
+                else if decibels >= 0.0 {
+                    level = 1.0
+                }else {
+                    let root:Float = 2.0
+                    let minAmp:Float = powf(10.0, 0.05 * minDecibels)
+                    let inverseAmpRange:Float = 1.0 / (1.0 - minAmp)
+                    let amp = powf(10.0, 0.05 * decibels)
+                    let adjAmp = (amp - minAmp) * inverseAmpRange
+                    
+                    level = powf(adjAmp, 1.0 / root)
+                }
+                
             }
         }
-        return ret
+        return level
     }
     
     //播放
