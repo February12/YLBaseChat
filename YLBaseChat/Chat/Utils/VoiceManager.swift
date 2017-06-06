@@ -63,6 +63,7 @@ class VoiceManager:NSObject{
             if let file_path = recorder_file_path {
                 let url = URL(fileURLWithPath: file_path)
                 recorder = try AVAudioRecorder(url: url, settings: recordSetting)
+                recorder?.isMeteringEnabled = true
                 recorder!.prepareToRecord()
                 recorder!.record()
                 
@@ -130,6 +131,7 @@ class VoiceManager:NSObject{
                 
             }
         }
+        print("录音音量大小0~1--\(level)")
         return level
     }
     
