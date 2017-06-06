@@ -65,8 +65,7 @@ class BaseChatVC: UIViewController {
         chatView.insertSubview(tableView, at: 0)
         
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(64)
-            make.left.right.equalTo(0)
+            make.top.left.right.equalTo(0)
             make.bottom.equalTo(chatView.evInputView.snp.top)
         }
         
@@ -75,11 +74,60 @@ class BaseChatVC: UIViewController {
     // 加载数据
     fileprivate func loadData() {
         
-        dataArray += userInfo.messages
+        tableView.isScrollEnabled = false
         
-        tableView.reloadData()
+        if dataArray.count == 0 {
+            
+            if let oldMessages = getDataArray(0, limit: 10) {
+                
+                dataArray += oldMessages
+                
+                tableView.reloadData()
+                efScrollToLastCell()
+            }
+        }else {
+            if let oldMessages = getDataArray(dataArray.count, limit: 10) {
+                
+                var messages = Array<Message>()
+                
+                messages += oldMessages
+                messages += dataArray
+                dataArray.removeAll()
+                dataArray += messages
+                
+                tableView.reloadData()
+                
+                let rect = tableView.rectForRow(at: IndexPath(row: oldMessages.count - 1, section: 0))
+                tableView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: false)
+            }
+            
+        }
         
-        efScrollToLastCell()
+        tableView.isScrollEnabled = true
+        
+    }
+    
+    // 获取数组中的指定区域
+    fileprivate func getDataArray(_ from:Int ,limit: Int) -> Array<Message>?{
+        
+        let array = userInfo.messages
+        
+        if from > array.count - 1 {
+            return nil
+        }else {
+            var resultArray = Array<Message>()
+            
+            let to = array.count - 1 - from
+            
+            if to - limit + 1 > 0 {
+                resultArray += array[(to - limit + 1)...to]
+            }else {
+                resultArray += array[0...to]
+            }
+            return resultArray
+        }
+        
+        
     }
     
     // 滚到最后一行
@@ -91,7 +139,7 @@ class BaseChatVC: UIViewController {
     
     // 开始播放录音
     fileprivate func startPlaying(_ message:Message) {
-    
+        
         if message.messageBody.type == MessageBodyType.voice.rawValue {
             
             stopPlaying()
@@ -110,12 +158,12 @@ class BaseChatVC: UIViewController {
                 
             }
         }
-    
+        
     }
     
     // 停止播放录音
     fileprivate func stopPlaying() {
-    
+        
         if let oldMessage = oldChatVoiceMessage {
             if let oldChatVoiceCell = getCellByMessage(oldMessage) as? ChatVoiceCell {
                 oldChatVoiceCell.messageAnimationVoiceImageView.stopAnimating()
@@ -172,7 +220,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         }
         return 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell:BaseChatCell!
@@ -191,7 +239,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
         cell.updateMessage(message, idx: indexPath)
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
-    
+        
         // 检测是否显示时间
         if indexPath.row > 0 {
             let upMessage = dataArray[indexPath.row - 1]
@@ -213,7 +261,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        chatView.efPackUpInputView()
+        
         
     }
     
@@ -223,7 +271,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
 
 // MARK: - BaseChatCellDelegate
 extension BaseChatVC:BaseChatCellDelegate {
-
+    
     func epDidVoiceClick(_ message: Message) {
         
         if let oldMessage = oldChatVoiceMessage {
@@ -301,7 +349,7 @@ extension BaseChatVC:ChatViewDelegate {
     func ePSendMessageVoice(_ path: String? ,duration: Int) {
         
         if let path = path {
-        
+            
             let message = Message()
             message.timestamp = String(Int(Date().timeIntervalSince1970))
             message.direction = MessageDirection.send.rawValue
@@ -323,6 +371,23 @@ extension BaseChatVC:ChatViewDelegate {
             efScrollToLastCell()
             
         }
+    }
+}
+
+
+// MARK: - UIScrollViewDelegate
+extension BaseChatVC:UIScrollViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        chatView.efPackUpInputView()
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        if (scrollView.contentOffset.y == -64){
+            loadData()
+        }
+        
     }
     
 }

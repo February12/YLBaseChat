@@ -272,7 +272,11 @@ extension YLReplyView{
     
     // 收起输入框
     func efPackUpInputView() {
-        updateReplyViewState(YLReplyViewState.normal)
+        if  evReplyViewState == .input ||
+            evReplyViewState == .face ||
+            evReplyViewState == .more {
+            updateReplyViewState(YLReplyViewState.normal)
+        }
     }
     
     // 发送消息
