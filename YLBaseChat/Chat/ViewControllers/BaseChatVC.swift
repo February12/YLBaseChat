@@ -26,6 +26,8 @@ class BaseChatVC: UIViewController {
     
     fileprivate var chatView:ChatView = ChatView(frame: CGRect.zero)
     
+    fileprivate var activityIndicatorView = UIActivityIndicatorView(frame: CGRect.zero)
+    
     deinit {
         print("====\(self)=====>被释放")
     }
@@ -69,6 +71,14 @@ class BaseChatVC: UIViewController {
             make.bottom.equalTo(chatView.evInputView.snp.top)
         }
         
+        activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        chatView.addSubview(activityIndicatorView)
+        
+        activityIndicatorView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(chatView)
+            make.top.equalTo(74)
+        }
+        
     }
     
     // 加载数据
@@ -88,6 +98,8 @@ class BaseChatVC: UIViewController {
         }else {
             if let oldMessages = getDataArray(dataArray.count, limit: 10) {
                 
+                activityIndicatorView.startAnimating()
+                
                 var messages = Array<Message>()
                 
                 messages += oldMessages
@@ -99,6 +111,12 @@ class BaseChatVC: UIViewController {
                 
                 let rect = tableView.rectForRow(at: IndexPath(row: oldMessages.count - 1, section: 0))
                 tableView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: false)
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {[weak self] in
+                    self?.activityIndicatorView.stopAnimating()
+                }
+                
+                
             }
             
         }
