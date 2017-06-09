@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 typealias PlayerDidFinishPlayingBlock = () -> Void
 
@@ -33,6 +34,19 @@ class VoiceManager:NSObject{
         timer = nil
     }
     
+    // 是否使用扬声器
+    func isProximity(_ isProximity:Bool) {
+        do {
+            if isProximity {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
+            }else {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.none)
+            }
+        } catch let err {
+            print("设置扬声器失败:\(err.localizedDescription)")
+        }
+    }
+    
     //开始录音
     func beginRecord() {
         duration = 0
@@ -50,6 +64,10 @@ class VoiceManager:NSObject{
         } catch let err {
             print("初始化动作失败:\(err.localizedDescription)")
         }
+        
+        // 默认扬声器播放
+        isProximity(true)
+        
         //录音设置，注意，后面需要转换成NSNumber，如果不转换，你会发现，无法录制音频文件，我猜测是因为底层还是用OC写的原因
         let recordSetting: [String: Any] = [AVSampleRateKey: NSNumber(value: 16000),//采样率
             AVFormatIDKey: NSNumber(value: kAudioFormatLinearPCM),//音频格式
@@ -137,7 +155,7 @@ class VoiceManager:NSObject{
     
     //播放
     func play(_ path: String?,_ block: PlayerDidFinishPlayingBlock?) {
-        
+        UIDevice.current.isProximityMonitoringEnabled = true
         do {
             completeBlock = block
             
@@ -148,13 +166,14 @@ class VoiceManager:NSObject{
                 player!.play()
             }
         } catch let err {
+            UIDevice.current.isProximityMonitoringEnabled = false
             print("播放失败:\(err.localizedDescription)")
         }
     }
     
     //结束播放
     func stopPlay() {
-        
+        UIDevice.current.isProximityMonitoringEnabled = false
         if let player = player {
             if player.isPlaying {
                 print("停止播放")
@@ -197,7 +216,7 @@ class VoiceManager:NSObject{
 extension VoiceManager:AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        
+        UIDevice.current.isProximityMonitoringEnabled = false
         if let completeBlock = completeBlock {
             completeBlock()
         }

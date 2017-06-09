@@ -29,6 +29,8 @@ class BaseChatVC: UIViewController {
     fileprivate var activityIndicatorView = UIActivityIndicatorView(frame: CGRect.zero)
     
     deinit {
+        UIDevice.current.isProximityMonitoringEnabled = false
+        NotificationCenter.default.removeObserver(self)
         print("====\(self)=====>被释放")
     }
     
@@ -78,6 +80,9 @@ class BaseChatVC: UIViewController {
             make.centerX.equalTo(chatView)
             make.top.equalTo(74)
         }
+        
+        // 监听用户耳朵靠近手机或者远离手机
+        NotificationCenter.default.addObserver(self, selector: #selector(BaseChatVC.proximitySensorChanged), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: nil)
         
     }
     
@@ -144,7 +149,16 @@ class BaseChatVC: UIViewController {
             }
             return resultArray
         }
-        
+    }
+    
+    // 监听用户耳朵靠近手机或者远离手机
+    @objc fileprivate func proximitySensorChanged() {
+    
+        if UIDevice.current.proximityState == true {
+            VoiceManager.shared.isProximity(true)
+        }else {
+            VoiceManager.shared.isProximity(false)
+        }
         
     }
     
