@@ -40,7 +40,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         RealmManagers.shared.addSynModel(userInfo)
         
         let message = Message()
-        message.timestamp = String(Int(Date().timeIntervalSince1970))
+        message.timestamp = "1494573288"
         message.direction = MessageDirection.receive.rawValue
         
         let messageBody = MessageBody()

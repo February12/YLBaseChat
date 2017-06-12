@@ -208,7 +208,7 @@ class VoiceManager:NSObject{
             pathTag = 0
         }
         
-        return NSHomeDirectory() + "/Library/Caches/\(pathTag)-\(Date().timeIntervalSince1970).wav"
+        return NSHomeDirectory() + "/Library/Caches/voice/\(pathTag)-\(Date().timeIntervalSince1970).wav"
     }
     
 }

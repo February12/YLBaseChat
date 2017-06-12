@@ -174,9 +174,7 @@ class BaseChatCell: UITableViewCell {
         if let time = message?.timestamp {
             if let time = TimeInterval(time) {
                 let date = Date(timeIntervalSince1970: time)
-                let formatter = DateFormatter()
-                formatter.dateFormat = "yyyy-MM-hh"
-                let timeStr = formatter.string(from: date)
+                let timeStr = date.getShowFormat()
                 messageTimeLabel.text =  timeStr
                 
                 // 计算宽度
