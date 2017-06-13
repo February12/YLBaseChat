@@ -155,9 +155,9 @@ class BaseChatVC: UIViewController {
     @objc fileprivate func proximitySensorChanged() {
     
         if UIDevice.current.proximityState == true {
-            VoiceManager.shared.isProximity(true)
-        }else {
             VoiceManager.shared.isProximity(false)
+        }else {
+            VoiceManager.shared.isProximity(true)
         }
         
     }
