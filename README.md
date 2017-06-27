@@ -2,6 +2,9 @@
 聊天界面封装，快速开发。                                
 目前支持文字、图片、语音     (遇到疑问可联系QQ:845369698)(后期准备用swift写一个对应的后台)
 
+为了能让用户高度自定义，我没有加入cocopods,项目结构也很简单。BaseChatVC 聊天界面控制器。YLReplyView 输入框的封装。             
+你只要写一个类似于ChatView的UIView 继承YLReplyView。然后添加到BaseChatVC 上就行。
+
 // 下载后需要 pod install 一下                                  
 RealmSwift   数据库                            
 SnapKit      约束                                  
