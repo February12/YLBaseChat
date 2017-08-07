@@ -1,0 +1,6 @@
+framework module YLPhotoBrowser_Swift {
+  umbrella header "YLPhotoBrowser-Swift-umbrella.h"
+
+  export *
+  module * { export * }
+}

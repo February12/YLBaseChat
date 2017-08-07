@@ -1,4 +1,5 @@
 PODS:
+  - Kingfisher (3.10.4)
   - Realm (2.6.2):
     - Realm/Headers (= 2.6.2)
   - Realm/Headers (2.6.2)
@@ -7,6 +8,8 @@ PODS:
   - SnapKit (3.2.0)
   - TZImagePickerController (1.7.9)
   - UITableView+FDTemplateLayoutCell (1.6.beta)
+  - YLPhotoBrowser-Swift (0.1.4):
+    - Kingfisher
   - YYText (1.0.7)
 
 DEPENDENCIES:
@@ -14,16 +17,19 @@ DEPENDENCIES:
   - SnapKit (~> 3.2.0)
   - TZImagePickerController (~> 1.7.9)
   - UITableView+FDTemplateLayoutCell (~> 1.6.beta)
+  - YLPhotoBrowser-Swift
   - YYText (~> 1.0.7)
 
 SPEC CHECKSUMS:
+  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
   Realm: 29222766425b9f831228f81b63f0e38a97a4d700
   RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   TZImagePickerController: 0a8ff228d287ebdd7d485e8c42a2a932894f1fba
   UITableView+FDTemplateLayoutCell: 3c326d8535802396c443e2972d990719a211bbed
+  YLPhotoBrowser-Swift: da2d3dcbef4829a3d062a092ef23ca9e3982badb
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: c0040960639afa96933d98689c0257a8e4c3ae79
+PODFILE CHECKSUM: 7e6d8e26884e6c388b6d82890e814cc7d49a670e
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

@@ -23,6 +23,15 @@ class ChatImageCell: BaseChatCell {
         
         messagePhotoImageView = ChatPhotoImageView(frame: CGRect.zero)
         contentView.addSubview(messagePhotoImageView)
+        
+        messagePhotoImageView.isUserInteractionEnabled = true
+        messagePhotoImageView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(ChatImageCell.tapHandle)))
+    }
+    
+    @objc private func tapHandle() {
+        if let message = message {
+            delegate?.epDidImageClick(message)
+        }
     }
     
     override func updateMessage(_ m: Message, idx: IndexPath) {

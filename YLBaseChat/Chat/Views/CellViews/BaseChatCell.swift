@@ -13,6 +13,7 @@ import SnapKit
 
 protocol BaseChatCellDelegate: NSObjectProtocol {
     func epDidVoiceClick(_ message: Message)
+    func epDidImageClick(_ message: Message)
 }
 
 class BaseChatCell: UITableViewCell {

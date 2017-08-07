@@ -6,11 +6,12 @@
 //  Copyright © 2017年 yl. All rights reserved.
 //
 
-import UITableView_FDTemplateLayoutCell
 import Foundation
 import UIKit
 import SnapKit
 import YYText
+import UITableView_FDTemplateLayoutCell
+import YLPhotoBrowser_Swift
 
 class BaseChatVC: UIViewController {
     
@@ -153,7 +154,7 @@ class BaseChatVC: UIViewController {
     
     // 监听用户耳朵靠近手机或者远离手机
     @objc fileprivate func proximitySensorChanged() {
-    
+        
         if UIDevice.current.proximityState == true {
             VoiceManager.shared.isProximity(false)
         }else {
@@ -263,6 +264,7 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatTextCell") as! ChatTextCell
         }else if message.messageBody.type == MessageBodyType.image.rawValue {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatImageCell") as! ChatImageCell
+            cell.delegate = self
         }else if message.messageBody.type == MessageBodyType.voice.rawValue {
             cell = tableView.dequeueReusableCell(withIdentifier: "ChatVoiceCell") as! ChatVoiceCell
             cell.delegate = self
@@ -315,6 +317,51 @@ extension BaseChatVC:BaseChatCellDelegate {
         }
         
         startPlaying(message)
+    }
+    
+    func epDidImageClick(_ message: Message) {
+        
+        var imageDataArray = [Message]()
+        for m in dataArray {
+            if m.messageBody.type == MessageBodyType.image.rawValue {
+                imageDataArray.append(m)
+            }
+        }
+        
+        let window = UIApplication.shared.keyWindow
+        var photos = [YLPhoto]()
+        var index = 0
+        for m in imageDataArray {
+            
+            if let data = m.messageBody.image,
+                let row = dataArray.index(of: m) {
+                
+                let image = UIImage(data: data as Data)
+                
+                if let cell = tableView.cellForRow(at: IndexPath.init(row: row, section: 0)) {
+                
+                    if let imageView = (cell as! ChatImageCell).messagePhotoImageView {
+                        
+                        let rectFromCell = imageView.convert(CGRect.init(origin: CGPoint.init(x: imageView.yl_x, y: imageView.yl_y), size: CGSize.init(width: imageView.yl_width-10, height: imageView.yl_height)), from: cell.contentView)
+                        let rectToW = imageView.convert(rectFromCell, to: window)
+                        
+                        photos.append(YLPhoto.addImage(image, imageUrl: nil, frame: rectToW))
+                        if (m.messageId == message.messageId) {
+                            index = photos.count - 1
+                        }
+                        
+                    }
+                }else {
+                    photos.append(YLPhoto.addImage(image, imageUrl: nil, frame: nil))
+                }
+            }
+        }
+        
+        if photos.count == 0 {return}
+        
+        let photoBrowser = YLPhotoBrowser.init(photos, index: imageDataArray.index(of: message) ?? 0)
+        present(photoBrowser, animated: true, completion: nil)
+        
     }
 }
 
