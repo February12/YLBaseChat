@@ -104,8 +104,8 @@ class ChatPhotoImageView: UIView {
         messagePhotoImageView.clipsToBounds = true
         addSubview(messagePhotoImageView)
         
-        messagePhotoImageView.snp.makeConstraints {[weak self] (make) in
-            make.edges.equalTo(self!)
+        messagePhotoImageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
         }
         
         // 图片层
