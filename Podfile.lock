@@ -7,8 +7,8 @@ PODS:
     - Realm (= 2.6.2)
   - SnapKit (3.2.0)
   - TZImagePickerController (1.7.9)
-  - UITableView+FDTemplateLayoutCell (1.6.beta)
-  - YLPhotoBrowser-Swift (0.1.4):
+  - UITableView+FDTemplateLayoutCell (1.6)
+  - YLPhotoBrowser-Swift (0.1.5):
     - Kingfisher
   - YYText (1.0.7)
 
@@ -26,8 +26,8 @@ SPEC CHECKSUMS:
   RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   TZImagePickerController: 0a8ff228d287ebdd7d485e8c42a2a932894f1fba
-  UITableView+FDTemplateLayoutCell: 3c326d8535802396c443e2972d990719a211bbed
-  YLPhotoBrowser-Swift: da2d3dcbef4829a3d062a092ef23ca9e3982badb
+  UITableView+FDTemplateLayoutCell: 5c949b4a5059c404b442926c0e80f81d10a2d66f
+  YLPhotoBrowser-Swift: c0d7f1c77f2422b62fc16f9abbbba6bc5b8ae3b5
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
 PODFILE CHECKSUM: 7e6d8e26884e6c388b6d82890e814cc7d49a670e

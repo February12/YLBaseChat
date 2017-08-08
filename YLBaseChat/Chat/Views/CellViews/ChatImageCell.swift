@@ -118,7 +118,7 @@ class ChatPhotoImageView: UIView {
         
     }
     
-    func updateMessagePhoto(_ image: UIImage,isSendMessage: Bool) {
+    func updateMessagePhoto(_ image: UIImage?,isSendMessage: Bool) {
         
         if isSendMessage {
             layerImageView.image = UIImage(named: "bg_talk_bubble_photo")?.resizableImage(withCapInsets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 20), resizingMode: UIImageResizingMode.stretch)

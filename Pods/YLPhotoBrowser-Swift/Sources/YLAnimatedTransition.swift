@@ -10,19 +10,24 @@ import UIKit
 
 class YLAnimatedTransition: NSObject,UIViewControllerTransitioningDelegate {
     
-    var beforeImageViewFrame: CGRect! {
+    var transitionOriginalImgFrame: CGRect? {
         didSet {
-            percentIntractive.beforeImageViewFrame = beforeImageViewFrame
+            percentIntractive.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
         }
     }
-    var currentImageViewFrame: CGRect! {
+    var transitionBrowserImgFrame: CGRect? {
         didSet {
-            percentIntractive.currentImageViewFrame = currentImageViewFrame
+            percentIntractive.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
         }
     }
-    var currentImage: UIImage! {
+    var transitionImage: UIImage? {
         didSet {
-            percentIntractive.currentImage = currentImage
+            percentIntractive.transitionImage = transitionImage
+        }
+    }
+    var transitionImageView: UIView? {
+        didSet {
+            percentIntractive.transitionImageView = transitionImageView
         }
     }
     var gestureRecognizer: UIPanGestureRecognizer! {
@@ -39,31 +44,18 @@ class YLAnimatedTransition: NSObject,UIViewControllerTransitioningDelegate {
         
     }
     
-    convenience init(_ image: UIImage?,beforeImgFrame: CGRect? ,afterImgFrame: CGRect?) {
+    convenience init(_ transitionImage: UIImage?,transitionImageView: UIView?,transitionOriginalImgFrame: CGRect? ,transitionBrowserImgFrame: CGRect?) {
         self.init()
         
-        setTransitionImage(image)
-        setTransitionBeforeImgFrame(beforeImgFrame)
-        setTransitionAfterImgFrame(afterImgFrame)
-    }
-    
-    // 转场过渡的图片
-    private func setTransitionImage(_ transitionImage: UIImage?) {
+        customPush.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
+        customPop.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
+        customPush.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
+        customPop.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
         customPush.transitionImage = transitionImage
         customPop.transitionImage = transitionImage
-    }
-    
-    // 转场前的图片frame
-    private func setTransitionBeforeImgFrame(_ frame: CGRect?) {
-        customPush.transitionBeforeImgFrame = frame ?? CGRect.zero
-        customPop.transitionBeforeImgFrame = frame ?? CGRect.zero
-        percentIntractive.beforeImageViewFrame = frame ?? CGRect.zero
-    }
-    
-    // 转场后的图片frame
-    private func setTransitionAfterImgFrame(_ frame: CGRect?) {
-        customPush.transitionAfterImgFrame = frame ?? CGRect.zero
-        customPop.transitionAfterImgFrame = frame ?? CGRect.zero
+        customPush.transitionImageView = transitionImageView
+        customPop.transitionImageView = transitionImageView
+
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

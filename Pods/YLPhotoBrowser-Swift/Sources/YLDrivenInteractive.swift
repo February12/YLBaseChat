@@ -10,9 +10,10 @@ import UIKit
 
 class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     
-    var beforeImageViewFrame: CGRect = CGRect.zero
-    var currentImageViewFrame: CGRect = CGRect.zero
-    var currentImage: UIImage?
+    var transitionOriginalImgFrame: CGRect = CGRect.zero
+    var transitionBrowserImgFrame: CGRect = CGRect.zero
+    var transitionImage: UIImage?
+    var transitionImageView: UIView?
     
     var gestureRecognizer: UIPanGestureRecognizer! {
         didSet {
@@ -125,15 +126,35 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
         // 转场过渡的容器view
         if let containerView = transitionContext?.containerView {
             
+            if transitionOriginalImgFrame == CGRect.zero ||
+                (transitionImage == nil && transitionImageView == nil) {
+                
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    
+                    self?.blackBgView?.alpha = 0
+                    
+                }, completion: { [weak self] (finished:Bool) in
+                    
+                    self?.blackBgView?.removeFromSuperview()
+                    
+                    transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+                    
+                    self?.fromView?.isHidden = false
+                    self?.toView?.isHidden = false
+                })
+                
+                return
+            }
+            
             // 过度的图片
-            let transitionImgView = UIImageView.init(image: currentImage)
+            let transitionImgView = transitionImageView ?? UIImageView.init(image: transitionImage)
             transitionImgView.clipsToBounds = true
-            transitionImgView.frame = currentImageViewFrame
+            transitionImgView.frame = transitionBrowserImgFrame
             containerView.addSubview(transitionImgView)
             
             UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
                 
-                transitionImgView.frame = (self?.beforeImageViewFrame)!
+                transitionImgView.frame = (self?.transitionOriginalImgFrame)!
                 self?.blackBgView?.alpha = 0
                 
             }) { [weak self] (finished: Bool) in

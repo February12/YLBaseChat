@@ -17,7 +17,18 @@ var ImageViewCenter = CGPoint.init(x: YLScreenW / 2, y: YLScreenH / 2)
 var YLScreenW = UIScreen.main.bounds.width
 var YLScreenH = UIScreen.main.bounds.height
 
+public typealias GetTransitionImageView = (_ currentIndex: Int,_ image: UIImage?,_ isBack: Bool) -> (UIView?)
+
 public class YLPhotoBrowser: UIViewController {
+    
+    // 非矩形图片需要实现(比如聊天界面带三角形的图片) 默认是矩形图片
+    public var getTransitionImageView:GetTransitionImageView? {
+        didSet {
+            if let photo = photos?[currentIndex] {
+                editTransitioningDelegate(photo,isBack: false)
+            }
+        }
+    }
     
     fileprivate var photos: [YLPhoto]? // 图片
     fileprivate var currentIndex: Int = 0 // 当前row
@@ -36,6 +47,7 @@ public class YLPhotoBrowser: UIViewController {
     
     deinit {
         removeObserver(self, forKeyPath: "view.frame")
+        getTransitionImageView = nil
         transitioningDelegate = nil
         appearAnimatedTransition = nil
     }
@@ -54,7 +66,7 @@ public class YLPhotoBrowser: UIViewController {
         
         let photo = photos[index]
         
-        editTransitioningDelegate(photo)
+        editTransitioningDelegate(photo,isBack: false)
     }
     
     // 键盘 View frame 改变
@@ -151,7 +163,7 @@ public class YLPhotoBrowser: UIViewController {
     func singleTap() {
         
         if let photo = photos?[currentIndex]{
-            editTransitioningDelegate(photo)
+            editTransitioningDelegate(photo,isBack: true)
             dismiss(animated: true, completion: nil)
         }
     }
@@ -254,9 +266,11 @@ public class YLPhotoBrowser: UIViewController {
                 }else {
                     
                     currentImageView?.isHidden = true
-                    disappearAnimatedTransition?.currentImage = photos?[currentIndex].image
-                    disappearAnimatedTransition?.currentImageViewFrame = currentImageView?.frame ?? CGRect.zero
-                    disappearAnimatedTransition?.beforeImageViewFrame = photos?[currentIndex].frame ?? CGRect.zero
+                     let imageView = getTransitionImageView?(currentIndex,photos?[currentIndex].image,true)
+                    disappearAnimatedTransition?.transitionImage = photos?[currentIndex].image
+                    disappearAnimatedTransition?.transitionImageView = imageView
+                    disappearAnimatedTransition?.transitionBrowserImgFrame = currentImageView?.frame ?? CGRect.zero
+                    disappearAnimatedTransition?.transitionOriginalImgFrame = photos?[currentIndex].frame ?? CGRect.zero
                 }
                 
                 break
@@ -325,7 +339,7 @@ public class YLPhotoBrowser: UIViewController {
     }
     
     // 修改 transitioningDelegate
-    func editTransitioningDelegate(_ photo: YLPhoto) {
+    func editTransitioningDelegate(_ photo: YLPhoto,isBack: Bool) {
         
         if photo.image == nil {
             
@@ -340,17 +354,18 @@ public class YLPhotoBrowser: UIViewController {
         
         let currentImageView = getCurrentImageView()
         
-        var afterImgFrame = CGRect.zero
+        var transitionBrowserImgFrame = CGRect.zero
         if currentImageView != nil {
-            afterImgFrame = (currentImageView?.frame)!
+            transitionBrowserImgFrame = (currentImageView?.frame)!
         }else if photo.image != nil {
-            afterImgFrame = YLPhotoBrowser.getImageViewFrame((photo.image?.size)!)
+            transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame((photo.image?.size)!)
         }else {
-            afterImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: YLScreenW, height: YLScreenW))
+            transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: YLScreenW, height: YLScreenW))
         }
         
         appearAnimatedTransition = nil
-        appearAnimatedTransition = YLAnimatedTransition.init(photo.image, beforeImgFrame: photo.frame, afterImgFrame:afterImgFrame)
+        let imageView = getTransitionImageView?(currentIndex,photo.image,isBack)
+        appearAnimatedTransition = YLAnimatedTransition.init(photo.image,transitionImageView: imageView, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
         
         self.transitioningDelegate = appearAnimatedTransition
         

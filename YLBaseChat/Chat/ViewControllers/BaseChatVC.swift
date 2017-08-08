@@ -339,10 +339,10 @@ extension BaseChatVC:BaseChatCellDelegate {
                 let image = UIImage(data: data as Data)
                 
                 if let cell = tableView.cellForRow(at: IndexPath.init(row: row, section: 0)) {
-                
+                    
                     if let imageView = (cell as! ChatImageCell).messagePhotoImageView {
                         
-                        let rectFromCell = imageView.convert(CGRect.init(origin: CGPoint.init(x: imageView.yl_x, y: imageView.yl_y), size: CGSize.init(width: imageView.yl_width-10, height: imageView.yl_height)), from: cell.contentView)
+                        let rectFromCell = imageView.convert(imageView.frame, from: cell.contentView)
                         let rectToW = imageView.convert(rectFromCell, to: window)
                         
                         photos.append(YLPhoto.addImage(image, imageUrl: nil, frame: rectToW))
@@ -353,13 +353,37 @@ extension BaseChatVC:BaseChatCellDelegate {
                     }
                 }else {
                     photos.append(YLPhoto.addImage(image, imageUrl: nil, frame: nil))
+                    if (m.messageId == message.messageId) {
+                        index = photos.count - 1
+                    }
                 }
             }
         }
         
         if photos.count == 0 {return}
         
-        let photoBrowser = YLPhotoBrowser.init(photos, index: imageDataArray.index(of: message) ?? 0)
+        let photoBrowser = YLPhotoBrowser.init(photos, index: index)
+        // 自定义过度图片
+        photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bool) -> UIView? in
+            
+            if isBack == false {
+                return nil
+            }
+            
+            let message = imageDataArray[index]
+    
+            let messagePhotoImageView = ChatPhotoImageView(frame: CGRect.zero)
+            if message.direction == MessageDirection.send.rawValue {
+                
+                messagePhotoImageView.updateMessagePhoto(image, isSendMessage: true)
+            }else {
+                
+                messagePhotoImageView.updateMessagePhoto(image, isSendMessage: false)
+                
+            }
+            
+            return messagePhotoImageView
+        }
         present(photoBrowser, animated: true, completion: nil)
         
     }
