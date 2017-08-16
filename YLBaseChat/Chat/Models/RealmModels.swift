@@ -16,6 +16,20 @@ extension Object {
     }
 }
 
+// 消息方向类型
+enum MessageDirection:Int{
+    case send = 1 // 发送的消息
+    case receive  // 接收的消息
+    
+}
+// 消息体类型
+enum MessageBodyType:Int{
+    case text = 1
+    case image
+    case voice
+    
+}
+
 // 用户model
 class Conversation: Object {
     
@@ -41,13 +55,6 @@ class Conversation: Object {
     }
 }
 
-// 消息方向类型
-enum MessageDirection:Int{
-    case send = 1 // 发送的消息
-    case receive  // 接收的消息
-    
-}
-
 // 消息model
 class Message: Object {
     
@@ -71,14 +78,6 @@ class Message: Object {
         message.messageBody = messageBody.clone()
         return message
     }
-}
-
-// 消息体类型
-enum MessageBodyType:Int{
-    case text = 1
-    case image
-    case voice
-    
 }
 
 // 消息体
