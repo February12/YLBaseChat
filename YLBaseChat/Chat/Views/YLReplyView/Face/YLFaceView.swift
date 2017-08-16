@@ -50,7 +50,7 @@ class YLFaceView: UIView {
         pageControl = UIPageControl()
         pageControl.center = CGPoint(x: yl_width / 2 , y: 170 - 15)
         pageControl.currentPage = 0
-        pageControl.pageIndicatorTintColor = Definition.colorFromRGB(0xdfdfdf)
+        pageControl.pageIndicatorTintColor = UIColor.colorFromRGB(0xdfdfdf)
         pageControl.currentPageIndicatorTintColor = UIColor(red: 245/255.0, green: 62/255.0, blue: 102/255.0, alpha: 1.0)
         pageControl.numberOfPages = 2
         pageControl.backgroundColor = UIColor.clear

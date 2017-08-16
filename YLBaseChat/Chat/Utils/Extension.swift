@@ -85,5 +85,20 @@ extension UIImage {
 
         
     }
+
+}
+
+
+// MARK: - UIColor
+extension UIColor {
+    
+    class func colorFromRGB(_ rgb:Int) -> UIColor {
+        
+        return UIColor(red: CGFloat(CGFloat((rgb & 0xFF0000) >> 16) / 255.0) ,
+                       green: CGFloat(CGFloat((rgb & 0xFF00) >> 8) / 255.0) ,
+                       blue: CGFloat(CGFloat(rgb & 0xFF) / 255.0) ,
+                       alpha: 1.0)
+        
+    }
     
 }

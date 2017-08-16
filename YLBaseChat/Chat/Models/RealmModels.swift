@@ -9,17 +9,35 @@
 import UIKit
 import RealmSwift
 
+// 自定义拷贝
+extension Object {
+    func clone() -> Object {
+        return Object()
+    }
+}
+
 // 用户model
-class UserInfo: Object {
+class Conversation: Object {
     
-    dynamic var userId = NSUUID().uuidString // 用户id
+    dynamic var conversationId = NSUUID().uuidString // 用户id
     
     dynamic var nickname = "" // 昵称
     
     let messages = List<Message>()  // 用户对应的聊天消息
     
     override static func primaryKey() -> String? {
-        return "userId"
+        return "conversationId"
+    }
+    
+    override func clone() -> Conversation {
+        let conversation = Conversation()
+        conversation.conversationId = conversationId
+        conversation.nickname = nickname
+        for message in messages {
+            conversation.messages.append(message.clone())
+        }
+        
+        return conversation
     }
 }
 
@@ -44,6 +62,15 @@ class Message: Object {
     override static func primaryKey() -> String? {
         return "messageId"
     }
+    
+    override func clone() -> Message {
+        let message = Message()
+        message.messageId = messageId
+        message.timestamp = timestamp
+        message.direction = direction
+        message.messageBody = messageBody.clone()
+        return message
+    }
 }
 
 // 消息体类型
@@ -65,6 +92,16 @@ class MessageBody: Object {
     // 语音
     dynamic var voicePath = ""
     dynamic var voiceDuration = 0
+    
+    override func clone() -> MessageBody {
+        let messageBody = MessageBody()
+        messageBody.type = type
+        messageBody.text = text
+        messageBody.image = image
+        messageBody.voicePath = voicePath
+        messageBody.voiceDuration = voiceDuration
+        return messageBody
+    }
 }
 
 

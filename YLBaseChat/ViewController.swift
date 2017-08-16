@@ -12,12 +12,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     var tableView = UITableView(frame: UIScreen.main.bounds, style: UITableViewStyle.plain)
     
-    var dataArray = Array<UserInfo>()
+    var dataArray = Array<Conversation>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
+        dataArray += RealmManagers.shared.selectModel(Conversation.self,predicate: nil)
         
         if dataArray.count == 0 {
             addData()
@@ -34,10 +34,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func addData() {
         
-        let userInfo = UserInfo()
-        userInfo.nickname = "龙五"
+        let conversation = Conversation()
+        conversation.nickname = "龙五"
         
-        RealmManagers.shared.addSynModel(userInfo)
+        RealmManagers.shared.addSynModel(conversation.clone())
         
         let message = Message()
         message.timestamp = "1494573288"
@@ -49,11 +49,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         message.messageBody = messageBody
         
-        RealmManagers.shared.commitWrite {
-            userInfo.messages.append(message)
-        }
+        conversation.messages.append(message)
+        RealmManagers.shared.addSynModel(conversation.clone())
         
-        dataArray = dataArray + RealmManagers.shared.selectModel(UserInfo.self,predicate: nil)
+        dataArray += RealmManagers.shared.selectModel(Conversation.self,predicate: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -68,9 +67,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         
-        let userInfo = dataArray[indexPath.row]
+        let conversation = dataArray[indexPath.row]
         
-        cell.textLabel?.text = userInfo.nickname
+        cell.textLabel?.text = conversation.nickname
         
         return cell
         
@@ -81,9 +80,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         let baseChatVC = BaseChatVC()
         
-        let userInfo = dataArray[indexPath.row]
+        let conversation = dataArray[indexPath.row]
         
-        baseChatVC.userInfo = userInfo
+        baseChatVC.conversation = conversation
         
         self.navigationController?.pushViewController(baseChatVC, animated: true)
     }

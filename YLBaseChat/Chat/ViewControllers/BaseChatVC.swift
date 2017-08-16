@@ -23,7 +23,7 @@ class BaseChatVC: UIViewController {
     
     fileprivate var dataArray = Array<Message>()
     
-    var userInfo:UserInfo!
+    var conversation:Conversation!
     
     fileprivate var chatView:ChatView = ChatView(frame: CGRect.zero)
     
@@ -64,7 +64,7 @@ class BaseChatVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
+        tableView.backgroundColor = UIColor.colorFromRGB(0xf2f2f2)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         chatView.insertSubview(tableView, at: 0)
@@ -134,7 +134,7 @@ class BaseChatVC: UIViewController {
     // 获取数组中的指定区域
     fileprivate func getDataArray(_ from:Int ,limit: Int) -> Array<Message>?{
         
-        let array = userInfo.messages
+        let array = conversation.messages
         
         if from > array.count - 1 {
             return nil
@@ -371,7 +371,7 @@ extension BaseChatVC:BaseChatCellDelegate {
             }
             
             let message = imageDataArray[index]
-    
+            
             let messagePhotoImageView = ChatPhotoImageView(frame: CGRect.zero)
             if message.direction == MessageDirection.send.rawValue {
                 
@@ -404,11 +404,11 @@ extension BaseChatVC:ChatViewDelegate {
         
         message.messageBody = messageBody
         
-        RealmManagers.shared.commitWrite {
-            userInfo.messages.append(message)
-        }
+        conversation.messages.append(message)
+        RealmManagers.shared.addSynModel(conversation.clone())
         
-        dataArray.append(userInfo.messages.last!)
+        
+        dataArray.append(conversation.messages.last!)
         tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
         
         efScrollToLastCell()
@@ -432,11 +432,10 @@ extension BaseChatVC:ChatViewDelegate {
                 
                 message.messageBody = messageBody
                 
-                RealmManagers.shared.commitWrite {
-                    userInfo.messages.append(message)
-                }
+                conversation.messages.append(message)
+                RealmManagers.shared.addSynModel(conversation.clone())
                 
-                dataArray.append(userInfo.messages.last!)
+                dataArray.append(conversation.messages.last!)
                 
                 indexPaths.append(IndexPath.init(row: dataArray.count-1, section: 0))
                 
@@ -464,11 +463,10 @@ extension BaseChatVC:ChatViewDelegate {
             
             message.messageBody = messageBody
             
-            RealmManagers.shared.commitWrite {
-                userInfo.messages.append(message)
-            }
+            conversation.messages.append(message)
+            RealmManagers.shared.addSynModel(conversation.clone())
             
-            dataArray.append(userInfo.messages.last!)
+            dataArray.append(conversation.messages.last!)
             tableView.insertRows(at: [IndexPath.init(row: dataArray.count-1, section: 0)], with: UITableViewRowAnimation.bottom)
             
             efScrollToLastCell()

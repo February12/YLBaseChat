@@ -32,37 +32,41 @@ class RealmManagers{
     }
     
     // 异步保存数据
-    func addASynModel(_ obj:Object){
-        
-        DispatchQueue(label: "background").async {
-            autoreleasepool {
-            
-                let realm = try! Realm()
-                
-                realm.beginWrite()
-                
-                realm.add(obj , update:true)
-                
-                // 提交写入事务以确保数据在其他线程可用
-                try! realm.commitWrite()
-        
-            }
-        }
-    }
+//    func addASynModel(_ obj:Object){
+//        
+//        DispatchQueue(label: "background").async {
+//            autoreleasepool {
+//            
+//                let realm = try! Realm()
+//                
+//                realm.beginWrite()
+//                
+//                realm.add(obj , update:true)
+//                
+//                // 提交写入事务以确保数据在其他线程可用
+//                try! realm.commitWrite()
+//        
+//            }
+//        }
+//    }
     
     // 查询数据
-    func selectModel<T: Object>(_ type:T.Type ,predicate:NSPredicate?) -> Results<T>{
+    func selectModel<T: Object>(_ type:T.Type ,predicate:NSPredicate?) -> Array<T>{
         let realm = try! Realm()
         
-        var objs:Results<T>!
+        var objs = Array<Object>()
         
         if(predicate == nil){
-            objs = realm.objects(type)
+            for obj in realm.objects(type) {
+                objs.append(obj.clone())
+            }
         }else{
-            objs = realm.objects(type).filter(predicate!)
+            for obj in realm.objects(type).filter(predicate!) {
+                objs.append(obj.clone())
+            }
         }
         
-        return objs
+        return objs as! Array<T>
     }
     
     // 同步删除数据

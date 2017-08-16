@@ -76,9 +76,9 @@ class YLInputView: UIView,UITextViewDelegate {
     // 初始化UI
     fileprivate func layoutUI() {
         
-        layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
+        layer.borderColor = UIColor.colorFromRGB(0xdcdcdc).cgColor
         layer.borderWidth = 1
-        backgroundColor = Definition.colorFromRGB(0xf2f2f2)
+        backgroundColor = UIColor.colorFromRGB(0xf2f2f2)
         isUserInteractionEnabled = true
         
         // 录音按钮
@@ -122,7 +122,7 @@ class YLInputView: UIView,UITextViewDelegate {
         inputTextView.backgroundColor = UIColor.white
         inputTextView.clipsToBounds = true
         inputTextView.layer.cornerRadius = 5.0
-        inputTextView.layer.borderColor = Definition.colorFromRGB(0xdcdcdc).cgColor
+        inputTextView.layer.borderColor = UIColor.colorFromRGB(0xdcdcdc).cgColor
         inputTextView.layer.borderWidth = 1
         inputTextView.delegate = self
         inputTextView.font = UIFont.systemFont(ofSize: 16)

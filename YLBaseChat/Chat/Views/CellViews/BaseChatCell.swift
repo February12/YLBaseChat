@@ -40,13 +40,13 @@ class BaseChatCell: UITableViewCell {
     // 初始化
     func layoutUI() {
         
-        contentView.backgroundColor = Definition.colorFromRGB(0xf2f2f2)
+        contentView.backgroundColor = UIColor.colorFromRGB(0xf2f2f2)
         
         // 消息时间
         messageTimeLabel = UILabel()
         messageTimeLabel.font = UIFont.systemFont(ofSize: 12)
         messageTimeLabel.textColor = UIColor.white
-        messageTimeLabel.backgroundColor = Definition.colorFromRGB(0xd7d7d7)
+        messageTimeLabel.backgroundColor = UIColor.colorFromRGB(0xd7d7d7)
         messageTimeLabel.layer.cornerRadius = 10
         messageTimeLabel.clipsToBounds = true
         messageTimeLabel.textAlignment = NSTextAlignment.center
@@ -61,7 +61,7 @@ class BaseChatCell: UITableViewCell {
         // 用户名
         messageUserNameLabel = UILabel()
         messageUserNameLabel.font = UIFont.systemFont(ofSize: 12)
-        messageUserNameLabel.textColor = Definition.colorFromRGB(0xb9b9bb)
+        messageUserNameLabel.textColor = UIColor.colorFromRGB(0xb9b9bb)
         contentView.addSubview(messageUserNameLabel)
         
         if isNeedBubbleBackground {

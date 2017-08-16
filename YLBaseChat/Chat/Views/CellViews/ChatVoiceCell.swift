@@ -28,7 +28,7 @@ class ChatVoiceCell: BaseChatCell {
         
         messageVoiceDurationLabel = UILabel()
         messageVoiceDurationLabel.font = UIFont.systemFont(ofSize: 12)
-        messageVoiceDurationLabel.textColor = Definition.colorFromRGB(0xb9b9bb)
+        messageVoiceDurationLabel.textColor = UIColor.colorFromRGB(0xb9b9bb)
         messageVoiceDurationLabel.yl_autoW()
         messagebubbleBackImageView?.addSubview(messageVoiceDurationLabel)
     }
