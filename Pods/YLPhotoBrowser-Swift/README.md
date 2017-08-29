@@ -16,7 +16,7 @@
 pod 'YLPhotoBrowser-Swift' 
 ```
 
-# 使用  使用 -> 简单易用,拖拽取消 
+# 使用 
 
 ```swift
 var photos = [YLPhoto]()  
@@ -31,6 +31,36 @@ photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bo
     }
     let messagePhotoImageView = ChatPhotoImageView(frame: CGRect.zero)
     return messagePhotoImageView
+}
+// 可选
+// 每张图片上的 View 视图
+photoBrowser.getViewOnTheBrowser = { [weak self] (currentIndex: Int) -> UIView? in
+
+    let view = UIView()
+    view.backgroundColor = UIColor.clear
+
+    let label = UILabel()
+    label.text = "第 \(currentIndex) 张"
+    label.textColor = UIColor.red
+    view.addSubview(label)
+    // label 约束
+    label.translatesAutoresizingMaskIntoConstraints = false
+    let lConstraintsCX = NSLayoutConstraint
+    .init(item: label, attribute: 	NSLayoutAttribute.centerX, 
+    relatedBy: NSLayoutRelation.equal, toItem: view, 
+    attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+    let lConstraintsTop = NSLayoutConstraint
+    .init(item: label, attribute: NSLayoutAttribute.top, 
+    relatedBy: NSLayoutRelation.equal, toItem: view, 
+    attribute: NSLayoutAttribute.top, multiplier: 1, constant: 40)
+
+    NSLayoutConstraint.activate([lConstraintsCX,lConstraintsTop])
+    label.backgroundColor = UIColor.blue
+    label.isUserInteractionEnabled = true
+    label.addGestureRecognizer(UITapGestureRecognizer
+    .init(target: self, action: #selector(ViewController.tap)))
+
+    return view
 }
 
 present(photoBrowser, animated: true, completion: nil)

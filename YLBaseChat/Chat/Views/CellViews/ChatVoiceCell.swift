@@ -13,11 +13,7 @@ class ChatVoiceCell: BaseChatCell {
     
     var messageAnimationVoiceImageView:UIImageView!
     var messageVoiceDurationLabel:UILabel!
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: (messagebubbleBackImageView?.yl_bottom)! + 10)
-    }
-    
+        
     override func layoutUI() {
         super.layoutUI()
         

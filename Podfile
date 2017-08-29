@@ -10,7 +10,6 @@ use_frameworks!
 pod 'RealmSwift', '~> 2.6.2'
 pod 'SnapKit', '~> 3.2.0'
 pod 'YYText', '~> 1.0.7'
-pod 'UITableView+FDTemplateLayoutCell', '~> 1.6.beta'
 pod 'TZImagePickerController', '~> 1.7.9'
 pod 'YLPhotoBrowser-Swift'
 

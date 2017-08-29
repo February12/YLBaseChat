@@ -9,7 +9,19 @@
 import UIKit
 import Kingfisher
 
+protocol YLPhotoCellDelegate :NSObjectProtocol {
+    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer)
+    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect)
+}
+
 class YLPhotoCell: UICollectionViewCell {
+    
+    var panGestureRecognizer: UIPanGestureRecognizer!
+    var transitionImageViewFrame = CGRect.zero
+    var panBeginScaleX:CGFloat = 0
+    var panBeginScaleY:CGFloat = 0
+    
+    weak var delegate: YLPhotoCellDelegate?
     
     let scrollView: UIScrollView = {
         let sv = UIScrollView(frame: CGRect.zero)
@@ -53,6 +65,11 @@ class YLPhotoCell: UICollectionViewCell {
         
         backgroundColor = UIColor.clear
         
+        panGestureRecognizer = UIPanGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.pan(_:)))
+        panGestureRecognizer.delegate = self
+        scrollView.addGestureRecognizer(panGestureRecognizer)
+        
+        
         scrollView.delegate = self
         addSubview(scrollView)
         
@@ -78,9 +95,84 @@ class YLPhotoCell: UICollectionViewCell {
         NSLayoutConstraint.activate([pConstraintsW,pConstraintsH,pConstraintsCX,pConstraintsCY])
     }
     
-    func updatePhoto(_ photo: YLPhoto) {
+    // 慢移手势
+    func pan(_ pan: UIPanGestureRecognizer) {
+        
+        let translation = pan.translation(in:  pan.view?.superview)
+        
+        var scale = 1 - translation.y / YLScreenH
+        
+        scale = scale > 1 ? 1:scale
+        scale = scale < 0 ? 0:scale
+        
+        switch pan.state {
+        case .possible:
+            break
+        case .began:
+            
+            transitionImageViewFrame = imageView.frame
+            panBeginScaleX = pan.location(in: pan.view).x / transitionImageViewFrame.width
+            panBeginScaleY = pan.location(in: imageView).y / imageView.frame.height
+            scrollView.delegate = nil
+            
+            if panBeginScaleX < 0 {
+                panBeginScaleX = 0
+            }else if panBeginScaleX > 1 {
+                panBeginScaleX = 1
+            }
+            
+            if panBeginScaleY < 0 {
+                panBeginScaleY = 0
+            }else if panBeginScaleY > 1 {
+                panBeginScaleY = 1
+            }
+            
+            delegate?.epPanGestureRecognizerBegin(pan)
+            
+            break
+        case .changed:
+            
+            imageView.frame.size = CGSize.init(width: transitionImageViewFrame.size.width * scale, height: transitionImageViewFrame.size.height * scale)
+            
+            var frame = imageView.frame
     
+            frame.origin.x = transitionImageViewFrame.origin.x + (transitionImageViewFrame.size.width -
+                imageView.frame.size.width ) * panBeginScaleX  + translation.x
+            
+            frame.origin.y = transitionImageViewFrame.origin.y + (transitionImageViewFrame.size.height -
+                imageView.frame.size.height ) * panBeginScaleY  + translation.y
+            
+            imageView.frame = frame
+            
+            
+            break
+        case .failed,.cancelled,.ended:
+            
+            if translation.y <= 80 {
+                
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.imageView.frame = self.transitionImageViewFrame
+                })
+                
+                scrollView.delegate = self
+                
+            }else {
+                
+                imageView.isHidden = true
+                delegate?.epPanGestureRecognizerEnd(imageView.frame)
+                
+            }
+            
+            break
+        }
+    }
+    
+    
+    func updatePhoto(_ photo: YLPhoto) {
+        
         scrollView.setZoomScale(1, animated: false)
+        scrollView.contentOffset.y = 0
+        
         imageView.image = nil
         progressView.isHidden = true
         
@@ -93,28 +185,31 @@ class YLPhotoCell: UICollectionViewCell {
             
             progressView.isHidden = false
             
-            KingfisherManager.shared.retrieveImage(with: URL(string: photo.imageUrl)!, options: [.transition(.fade(1))], progressBlock: { [weak self] (receivedSize:Int64, totalSize:Int64) in
-                
-                self?.progressView.progress = CGFloat(receivedSize) / CGFloat(totalSize)
-                
-            }, completionHandler: { [weak self] (image:Image?, _, _, _) in
-                
-                self?.progressView.isHidden = true
-                
-                guard let img = image else {
-                    
-                    return
-                }
-                
-                UIView.animate(withDuration: 0.3, animations: {
-                    self?.imageView.frame = YLPhotoBrowser.getImageViewFrame(img.size)
+            KingfisherManager.shared
+                .retrieveImage(with: URL(string: photo.imageUrl)!,
+                               options: [.preloadAllAnimationData,.transition(.fade(1))],
+                               progressBlock: { [weak self] (receivedSize:Int64, totalSize:Int64) in
+                                
+                                self?.progressView.progress = CGFloat(receivedSize) / CGFloat(totalSize)
+                                
+                    }, completionHandler: { [weak self] (image:Image?, _, _, _) in
+                        
+                        self?.progressView.isHidden = true
+                        
+                        guard let img = image else {
+                            
+                            return
+                        }
+                        
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self?.imageView.frame = YLPhotoBrowser.getImageViewFrame(img.size)
+                        })
+                        self?.imageView.image = img
+                        photo.image = img
+                        
+                        self?.scrollView.contentSize = self?.imageView.frame.size ?? CGSize.zero
+                        
                 })
-                self?.imageView.image = img
-                photo.image = image
-                
-                self?.scrollView.contentSize = self?.imageView.frame.size ?? CGSize.zero
-                
-            })
             
         }else if let image = photo.image {
             
@@ -149,4 +244,55 @@ extension YLPhotoCell: UIScrollViewDelegate {
         
     }
     
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension YLPhotoCell: UIGestureRecognizerDelegate {
+    
+    func isScrollViewOnTopOrBottom(_ pan:UIPanGestureRecognizer) -> Bool {
+        
+        let translation = pan.translation(in:  pan.view?.superview)
+        
+        if translation.y > 0 && scrollView.contentOffset.y <= 0 {
+            return true
+        }
+        
+        //        let maxOffsetY = floor(scrollView.contentSize.height - scrollView.bounds.size.height)
+        //        if translation.y < 0 && scrollView.contentOffset.y >= maxOffsetY {
+        //            return true
+        //        }
+        return false
+    }
+    
+    public override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        if gestureRecognizer is UIPanGestureRecognizer &&
+            gestureRecognizer.state == UIGestureRecognizerState.possible {
+            if isScrollViewOnTopOrBottom(gestureRecognizer as! UIPanGestureRecognizer) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        if gestureRecognizer is UIPanGestureRecognizer &&
+            otherGestureRecognizer is UIPanGestureRecognizer &&
+            otherGestureRecognizer.view == scrollView {
+            return true
+        }
+        
+        return false
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        // 系统找到的最合适的view
+        let view = super.hitTest(point, with: event)
+        // 如果最合适的view 是 用于用户自定义的View 则传递给 scrollView
+        if view?.tag == CoverViewTag {
+            return scrollView
+        }
+        return view
+    }
 }

@@ -104,6 +104,7 @@ class BaseChatCell: UITableViewCell {
                 messagebubbleBackImageView?.snp.remakeConstraints({ (make) in
                     make.right.equalTo(messageAvatarsImageView.snp.left).offset(-8)
                     make.top.equalTo(messageAvatarsImageView)
+                    make.bottom.equalTo(-10)
                 })
                 
             }
@@ -135,6 +136,7 @@ class BaseChatCell: UITableViewCell {
                 messagebubbleBackImageView?.snp.remakeConstraints({ (make) in
                     make.left.equalTo(messageAvatarsImageView.snp.right).offset(8)
                     make.top.equalTo(messageUserNameLabel.snp.bottom).offset(4)
+                    make.bottom.equalTo(-10)
                 })
                 
             }

@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import SnapKit
 import YYText
-import UITableView_FDTemplateLayoutCell
 import YLPhotoBrowser_Swift
 
 class BaseChatVC: UIViewController {
@@ -61,6 +60,9 @@ class BaseChatVC: UIViewController {
         tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
         tableView.register(ChatImageCell.self, forCellReuseIdentifier: "ChatImageCell")
         tableView.register(ChatVoiceCell.self, forCellReuseIdentifier: "ChatVoiceCell")
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -229,29 +231,6 @@ extension BaseChatVC:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        let message = dataArray[indexPath.row]
-        
-        if message.messageBody.type == MessageBodyType.text.rawValue {
-            return tableView.fd_heightForCell(withIdentifier: "ChatTextCell", cacheBy: indexPath, configuration: { (cell) in
-                (cell as? ChatTextCell)?.fd_enforceFrameLayout = true
-                (cell as? ChatTextCell)?.updateMessage(message, idx: indexPath)
-            })
-        }else if message.messageBody.type == MessageBodyType.image.rawValue {
-            return tableView.fd_heightForCell(withIdentifier: "ChatImageCell", cacheBy: indexPath, configuration: { (cell) in
-                (cell as? ChatImageCell)?.fd_enforceFrameLayout = true
-                (cell as? ChatImageCell)?.updateMessage(message, idx: indexPath)
-            })
-        }else if message.messageBody.type == MessageBodyType.voice.rawValue {
-            return tableView.fd_heightForCell(withIdentifier: "ChatVoiceCell", cacheBy: indexPath, configuration: { (cell) in
-                (cell as? ChatVoiceCell)?.fd_enforceFrameLayout = true
-                (cell as? ChatVoiceCell)?.updateMessage(message, idx: indexPath)
-            })
-        }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

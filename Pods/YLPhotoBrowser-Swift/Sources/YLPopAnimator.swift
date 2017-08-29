@@ -41,16 +41,24 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         bgView.alpha = 1
         containerView.addSubview(bgView)
         
+        // 过渡的图片
+        let transitionImgView = transitionImageView ?? UIImageView.init(image: self.transitionImage)
+        transitionImgView.frame = self.transitionBrowserImgFrame
+        containerView.addSubview(transitionImgView)
+        
         if transitionOriginalImgFrame == CGRect.zero ||
             (transitionImage == nil && transitionImageView == nil) {
             
             UIView.animate(withDuration: 0.3, animations: {
                 
+                transitionImgView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                transitionImgView.alpha = 0
                 bgView.alpha = 0
                 
             }, completion: { (finished:Bool) in
                 
                 bgView.removeFromSuperview()
+                transitionImgView.removeFromSuperview()
                 
                 // 设置transitionContext通知系统动画执行完毕
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
@@ -58,11 +66,6 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
             
             return
         }
-        
-        // 过渡的图片
-        let transitionImgView = transitionImageView ?? UIImageView.init(image: self.transitionImage)
-        transitionImgView.frame = self.transitionBrowserImgFrame
-        containerView.addSubview(transitionImgView)
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
             

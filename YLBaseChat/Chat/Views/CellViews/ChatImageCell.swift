@@ -13,10 +13,6 @@ class ChatImageCell: BaseChatCell {
     
     var messagePhotoImageView:ChatPhotoImageView!
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: (messagePhotoImageView?.yl_bottom)! + 10)
-    }
-    
     override func layoutUI() {
         isNeedBubbleBackground = false
         super.layoutUI()
@@ -39,8 +35,7 @@ class ChatImageCell: BaseChatCell {
         
         let messageBody = message?.messageBody
         
-        let image:UIImage = UIImage(data: messageBody?.image as! Data)!
-        
+        let image:UIImage = UIImage(data: (messageBody?.image)! as Data)!
         
         var w = image.size.width
         var h = image.size.height
@@ -60,6 +55,7 @@ class ChatImageCell: BaseChatCell {
                 make.height.equalTo(h)
                 make.right.equalTo(messageAvatarsImageView.snp.left).offset(-16)
                 make.top.equalTo(messageAvatarsImageView)
+                make.bottom.equalTo(-10)
             })
             messagePhotoImageView.updateMessagePhoto(image, isSendMessage: true)
         }else {
@@ -69,6 +65,7 @@ class ChatImageCell: BaseChatCell {
                 make.height.equalTo(h)
                 make.left.equalTo(messageAvatarsImageView.snp.right).offset(8)
                 make.top.equalTo(messageUserNameLabel.snp.bottom).offset(4)
+                make.bottom.equalTo(-10)
             })
             messagePhotoImageView.updateMessagePhoto(image, isSendMessage: false)
             

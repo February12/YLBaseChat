@@ -14,10 +14,6 @@ class ChatTextCell: BaseChatCell {
     
     var messageTextLabel:YYLabel!
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: (messagebubbleBackImageView?.yl_bottom)! + 10)
-    }
-    
     override func layoutUI() {
         super.layoutUI()
         
