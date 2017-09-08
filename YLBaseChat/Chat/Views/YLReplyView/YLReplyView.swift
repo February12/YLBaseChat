@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import TZImagePickerController
+import YLImagePickerController
 
 // 表情框
 fileprivate let defaultPanelViewH:CGFloat = 210.0
@@ -154,15 +154,16 @@ class YLReplyView: UIView,YLInputViewDelegate {
     // 选择相片
     @objc fileprivate func handlePhotos() {
         if let vc = self.getVC(){
-            let imagePicker = TZImagePickerController(maxImagesCount: 9, delegate: nil)
-            imagePicker?.didFinishPickingPhotosHandle = didFinishPickingPhotosHandle
-            vc.present(imagePicker!, animated: true, completion: nil )
-            
+            let imagePicker = YLImagePickerController.init(maxImagesCount: 9)
+            imagePicker.didFinishPickingPhotosHandle = {[weak self] (images: [UIImage]) in
+                self?.efSendMessageImage(images)
+            }
+            vc.present(imagePicker, animated: true, completion: nil )
         }
         
     }
     fileprivate func didFinishPickingPhotosHandle(photos: [UIImage]?, _: [Any]?,_: Bool) -> Void {
-        efSendMessageImage(photos)
+        
     }
     
     // 设置显示用户讲话音量

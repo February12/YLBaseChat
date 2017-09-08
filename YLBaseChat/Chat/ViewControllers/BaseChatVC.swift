@@ -407,8 +407,8 @@ extension BaseChatVC:ChatViewDelegate {
                 
                 let messageBody = MessageBody()
                 messageBody.type = MessageBodyType.image.rawValue
-                messageBody.image = UIImagePNGRepresentation(img) as NSData?
-                
+                messageBody.image = UIImageJPEGRepresentation(img, 0.1) as NSData?
+                 
                 message.messageBody = messageBody
                 
                 conversation.messages.append(message)
