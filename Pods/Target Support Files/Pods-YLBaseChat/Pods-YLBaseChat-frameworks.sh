@@ -93,7 +93,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Realm/Realm.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RealmSwift/RealmSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/TZImagePickerController/TZImagePickerController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TOCropViewController/TOCropViewController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YLImagePickerController/YLImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLPhotoBrowser-Swift/YLPhotoBrowser_Swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YYText/YYText.framework"
 fi
@@ -102,7 +103,8 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Realm/Realm.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RealmSwift/RealmSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/TZImagePickerController/TZImagePickerController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TOCropViewController/TOCropViewController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/YLImagePickerController/YLImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLPhotoBrowser-Swift/YLPhotoBrowser_Swift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YYText/YYText.framework"
 fi
