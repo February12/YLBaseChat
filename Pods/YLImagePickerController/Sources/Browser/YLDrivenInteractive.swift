@@ -147,14 +147,14 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
                     transitionImgView.alpha = 0
                     self?.blackBgView?.alpha = 0
                     
-                }, completion: { [weak self] (finished:Bool) in
-                    
-                    self?.blackBgView?.removeFromSuperview()
-                    self?.originalCoverView?.removeFromSuperview()
-                    transitionImgView.removeFromSuperview()
-                    
-                    transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
-                    
+                    }, completion: { [weak self] (finished:Bool) in
+                        
+                        self?.blackBgView?.removeFromSuperview()
+                        self?.originalCoverView?.removeFromSuperview()
+                        transitionImgView.removeFromSuperview()
+                        
+                        transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+                        
                 })
                 
                 return

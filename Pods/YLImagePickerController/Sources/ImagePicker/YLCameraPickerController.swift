@@ -36,7 +36,7 @@ class YLCameraPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         let imagePicker = self.navigationController as! YLImagePickerController
+        let imagePicker = self.navigationController as! YLImagePickerController
         cropType = imagePicker.cropType
         
         cameraView = UIView()
@@ -203,27 +203,46 @@ class YLCameraPickerController: UIViewController {
         
         let cameraCount = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).count
         if cameraCount > 1 {
+            
+            let animation = CATransition()
+            animation.duration = 0.5
+            animation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
+            animation.type = "oglFlip"
+            
             var newDevice: AVCaptureDevice? = nil
             var newInput: AVCaptureDeviceInput? = nil
             
             let position = input?.device.position
             if position == AVCaptureDevicePosition.front {
                 newDevice = cameraOfPosition(AVCaptureDevicePosition.back)
+                animation.subtype = kCATransitionFromLeft
             }else {
                 newDevice = cameraOfPosition(AVCaptureDevicePosition.front)
+                animation.subtype = kCATransitionFromRight
             }
             
             newInput = try! AVCaptureDeviceInput.init(device: newDevice)
-            if newInput != nil {
-                session?.beginConfiguration()
-                session?.removeInput(input)
-                if session?.canAddInput(newInput) == true {
-                    session?.addInput(newInput)
-                    input = newInput
-                }else {
-                    session?.addInput(input)
+            previewLayer?.add(animation, forKey: "animation")
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) { [weak self] in
+             
+                if newInput != nil {
+                    self?.session?.beginConfiguration()
+                    self?.session?.removeInput(self?.input)
+                    if position == AVCaptureDevicePosition.front {
+                        self?.session?.sessionPreset = AVCaptureSessionPreset1920x1080
+                    }else {
+                        self?.session?.sessionPreset = AVCaptureSessionPreset1280x720
+                    }
+                    if self?.session?.canAddInput(newInput) == true {
+                        self?.session?.addInput(newInput)
+                        self?.input = newInput
+                    }else {
+                        self?.session?.addInput(self?.input)
+                    }
+                    self?.session?.commitConfiguration()
                 }
-                session?.commitConfiguration()
+                
             }
         }
     }
@@ -275,11 +294,10 @@ class YLCameraPickerController: UIViewController {
                     
                 }else {
                     
-                    self?.displayImage.image = nil
-                    self?.cameraView.isHidden = false
-                    self?.photoView.isHidden = true
-                    
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self?.displayImage.image = nil
+                        self?.cameraView.isHidden = false
+                        self?.photoView.isHidden = true
                         self?.session?.startRunning()
                     }
                     
@@ -290,13 +308,12 @@ class YLCameraPickerController: UIViewController {
     }
     
     func takePhotoAgain() {
-        image = nil
-        
-        displayImage.image = nil
-        cameraView.isHidden = false
-        photoView.isHidden = true
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) { [weak self] in
+            self?.image = nil
+            self?.displayImage.image = nil
+            self?.cameraView.isHidden = false
+            self?.photoView.isHidden = true
             self?.session?.startRunning()
         }
     }

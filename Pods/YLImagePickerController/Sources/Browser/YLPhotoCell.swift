@@ -44,14 +44,6 @@ class YLPhotoCell: UICollectionViewCell {
         
     }()
     
-    // 进度条
-    let progressView: YLPhotoProgressView = {
-        let p = YLPhotoProgressView(frame: CGRect.zero)
-        p.progress = 0
-        p.isHidden = true
-        return p
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         layoutUI()
@@ -79,15 +71,6 @@ class YLPhotoCell: UICollectionViewCell {
         scrollView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
         
         scrollView.addSubview(imageView)
-        
-        addSubview(progressView)
-        
-        // progressView 约束
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 40)
-        progressView.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 40)
-        progressView.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: self, constant: 0)
-        progressView.addLayoutConstraint(attribute: NSLayoutAttribute.centerY, toItem: self, constant: 0)
         
     }
     
@@ -172,7 +155,6 @@ class YLPhotoCell: UICollectionViewCell {
         scrollView.contentOffset.y = 0
         
         imageView.image = nil
-        progressView.isHidden = true
         
         if let image = photo.image {
             imageView.frame = YLPhotoBrowser.getImageViewFrame(image.size)

@@ -9,28 +9,47 @@
 import UIKit
 import Photos
 
+
 /// 默认缩略图大小
 let thumbnailSize = CGSize.init(width: 150, height: 150)
 
+/// ImagePicker类型
+///
+/// - camera: 拍照
+/// - album: 相
 public enum ImagePickerType {
-    case camera   // 拍照
-    case album // 相册
+    case camera
+    case album
 }
 
+/// 裁剪类型
+///
+/// - none: 不裁剪
+/// - square: 方形
+/// - circular: 圆形
 public enum CropType {
-    case none     // 不裁剪
-    case square   // 方形
-    case circular // 圆形
+    case none
+    case square
+    case circular
 }
 
+/// 导出图片
 public typealias DidFinishPickingPhotosHandle = (_ images: [UIImage]) -> Void
 
+/// 权限判断
 typealias CheckPhotoAuthBlock = (_ result: Bool) -> Void
 
 public class YLImagePickerController: UINavigationController {
     
     /// 获取选择的图片
     public var didFinishPickingPhotosHandle: DidFinishPickingPhotosHandle?
+    /// 导出图片的宽度 默认828像素宽
+    public var photoWidth: CGFloat = 828
+    /** 是否选择原图 默认 false
+     *  单选 true 返回原图 false 返回缩略图
+     *  多选 true 默认用户点击了一次原图按钮
+     */
+    public var isSelectedOriginalImage = false
     
     var maxImagesCount:Int = 0                  // 最大可选数量
     var isOneChoose: Bool = false               // 是否单选
@@ -183,7 +202,7 @@ public class YLImagePickerController: UINavigationController {
             
             let albumPicker = YLAlbumPickerController()
             self.pushViewController(albumPicker, animated: false)
-        
+            
             if isPushPhotoPicker == true {
                 
                 let photoPicker = YLPhotoPickerController()

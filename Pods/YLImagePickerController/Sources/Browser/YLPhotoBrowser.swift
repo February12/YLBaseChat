@@ -21,7 +21,6 @@ protocol YLPhotoBrowserDelegate: NSObjectProtocol {
 let PhotoBrowserBG = UIColor.black
 let ImageViewTag = 1000
 
-var ImageViewCenter = CGPoint.init(x: YLScreenW / 2, y: YLScreenH / 2)
 var YLScreenW = UIScreen.main.bounds.width
 var YLScreenH = UIScreen.main.bounds.height
 
@@ -43,6 +42,7 @@ class YLPhotoBrowser: UIViewController {
         
         let toolbar = YLToolbarBottom.loadNib()
         toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.SendBtnHandle), for: UIControlEvents.touchUpInside)
+        toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         return toolbar
     }()
     
@@ -58,7 +58,12 @@ class YLPhotoBrowser: UIViewController {
         print("释放\(self)")
     }
     
-    // 初始化
+    
+    /// 初始化
+    ///
+    /// - Parameters:
+    ///   - index: 当前页
+    ///   - delegate: 代理
     convenience init(_ index: Int,_ delegate: YLPhotoBrowserDelegate) {
         self.init()
         
@@ -103,7 +108,7 @@ class YLPhotoBrowser: UIViewController {
         
     }
     
-    // 绘制 UI
+    /// 绘制 UI
     private func layoutUI() {
         
         let layout = UICollectionViewFlowLayout()
@@ -127,6 +132,10 @@ class YLPhotoBrowser: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
         
+        
+        let imagePicker = navigationController as! YLImagePickerController
+        toolbarBottom.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
+        
         // 下面的toobbar
         view.addSubview(toolbarBottom)
         // 约束
@@ -139,13 +148,13 @@ class YLPhotoBrowser: UIViewController {
         view.layoutIfNeeded()
     }
     
-    // 单击手势
+    /// 单击手势
     func singleTap() {
         self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
         toolbarBottom.isHidden = !toolbarBottom.isHidden
     }
     
-    // 双击手势
+    /// 双击手势
     func doubleTap() {
         
         if let imageView = getCurrentImageView(),
@@ -174,14 +183,14 @@ class YLPhotoBrowser: UIViewController {
         }
     }
     
-    // 返回
+    /// 返回
     func backBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         editTransitioningDelegate(photo!)
         self.navigationController?.popViewController(animated: true)
     }
     
-    // 点击 是否选择按钮
+    /// 点击 是否选择按钮
     func photoTagBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         delegate?.epPhotoBrowserByPhotoTagBtnHandle(photo?.assetModel)
@@ -189,7 +198,7 @@ class YLPhotoBrowser: UIViewController {
         showPhotoTagBtn(photo?.assetModel)
     }
     
-    // 处理选择按钮显内容
+    /// 处理选择按钮显内容
     func showPhotoTagBtn(_ assetModel: YLAssetModel?) {
         
         let photoTagBtn = UIButton.init(type: UIButtonType.custom)
@@ -212,9 +221,19 @@ class YLPhotoBrowser: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: photoTagBtn)
     }
     
-    // 发送按钮
+    /// 发送按钮
     func SendBtnHandle() {
         delegate?.epPhotoBrowserBySendBtnHandle(currentIndex)
+    }
+    
+    /// 选择原图
+    func originalImageClickBtnHandle() {
+        
+        let imagePicker = self.navigationController as! YLImagePickerController
+        let isSelectedOriginalImage = imagePicker.isSelectedOriginalImage
+        toolbarBottom.originalImageBtnIsSelect(!isSelectedOriginalImage)
+        (delegate as! YLPhotoPickerController).toolbar.originalImageBtnIsSelect(!isSelectedOriginalImage)
+        imagePicker.isSelectedOriginalImage = !isSelectedOriginalImage
     }
     
     // 获取imageView frame

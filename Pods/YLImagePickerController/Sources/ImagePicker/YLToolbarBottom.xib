@@ -25,18 +25,46 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMh-nX-ca8">
+                    <rect key="frame" x="157" y="0.0" width="60" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="ZBH-VT-ajR"/>
+                    </constraints>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UaI-UK-l6W">
+                    <rect key="frame" x="165.5" y="15" width="14" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="277-n4-TNi"/>
+                        <constraint firstAttribute="width" constant="14" id="V5S-Wa-0UO"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="原图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZX-iy-39h">
+                    <rect key="frame" x="184.5" y="15.5" width="25" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="UaI-UK-l6W" firstAttribute="centerY" secondItem="McZ-C9-ENO" secondAttribute="centerY" id="0hm-Ix-ZxH"/>
+                <constraint firstItem="GMh-nX-ca8" firstAttribute="top" secondItem="McZ-C9-ENO" secondAttribute="top" id="4Vf-Ps-sRW"/>
+                <constraint firstItem="xZX-iy-39h" firstAttribute="centerY" secondItem="McZ-C9-ENO" secondAttribute="centerY" id="5nc-aL-4mi"/>
+                <constraint firstItem="UaI-UK-l6W" firstAttribute="centerX" secondItem="McZ-C9-ENO" secondAttribute="centerX" constant="-15" id="73I-yy-9lO"/>
+                <constraint firstItem="xZX-iy-39h" firstAttribute="leading" secondItem="UaI-UK-l6W" secondAttribute="trailing" constant="5" id="I6j-3D-OM3"/>
+                <constraint firstItem="GMh-nX-ca8" firstAttribute="centerX" secondItem="McZ-C9-ENO" secondAttribute="centerX" id="Oyg-j1-k8m"/>
                 <constraint firstAttribute="trailing" secondItem="oAi-ye-xGR" secondAttribute="trailing" constant="15" id="SIx-h2-tj0"/>
                 <constraint firstItem="oAi-ye-xGR" firstAttribute="centerY" secondItem="McZ-C9-ENO" secondAttribute="centerY" id="Y52-kO-X9R"/>
                 <constraint firstAttribute="height" constant="44" id="afO-on-VVF"/>
+                <constraint firstAttribute="bottom" secondItem="GMh-nX-ca8" secondAttribute="bottom" id="ySL-No-p97"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="originalImageClickBtn" destination="GMh-nX-ca8" id="aSX-Ca-ZfS"/>
+                <outlet property="originalImageImageView" destination="UaI-UK-l6W" id="V2w-on-uYD"/>
                 <outlet property="sendBtn" destination="oAi-ye-xGR" id="3HE-sH-B5P"/>
             </connections>
-            <point key="canvasLocation" x="196" y="-32"/>
+            <point key="canvasLocation" x="-154" y="37"/>
         </view>
     </objects>
 </document>

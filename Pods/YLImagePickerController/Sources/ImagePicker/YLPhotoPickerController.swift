@@ -35,6 +35,7 @@ class YLPhotoPickerController: UIViewController {
         let toolbar = YLToolbarBottom.loadNib()
         toolbar.sendBtnIsSelect(false)
         toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoPickerController.sendBtnHandle), for: UIControlEvents.touchUpInside)
+        toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         return toolbar
     }()
     
@@ -96,7 +97,9 @@ class YLPhotoPickerController: UIViewController {
         
         
         if imagePicker.isOneChoose == false {
-        
+            
+            toolbar.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
+            
             view.addSubview(toolbar)
             // 约束
             toolbar.translatesAutoresizingMaskIntoConstraints = false
@@ -145,13 +148,43 @@ class YLPhotoPickerController: UIViewController {
             DispatchQueue.main.async {
                 self?.navigationItem.title = self?.assetCollection?.localizedTitle
                 self?.collectionView.reloadData()
+                if (self?.photos.count)! > 12 {
+                    self?.collectionView.scrollToItem(at: IndexPath.init(row: (self?.photos.count)! - 1, section: 0), at: UICollectionViewScrollPosition.bottom, animated: false)
+                }
             }
         }
         
     }
     
+    /// 发送按钮
     func sendBtnHandle() {
         epPhotoBrowserBySendBtnHandle(-1)
+    }
+    
+    /// 选择原图
+    func originalImageClickBtnHandle() {
+        
+        let imagePicker = self.navigationController as! YLImagePickerController
+        let isSelectedOriginalImage = imagePicker.isSelectedOriginalImage
+        toolbar.originalImageBtnIsSelect(!isSelectedOriginalImage)
+        imagePicker.isSelectedOriginalImage = !isSelectedOriginalImage
+        
+    }
+    
+    /// 获取用户导出图片大小
+    func getUserNeedSize(_ size: CGSize) -> CGSize {
+        var width:CGFloat = CGFloat(size.width)
+        var height:CGFloat = CGFloat(size.height)
+        // 是否选择了原图
+        let imagePicker = navigationController as! YLImagePickerController
+        if imagePicker.isSelectedOriginalImage == false &&
+            width > imagePicker.photoWidth {
+            
+            width = imagePicker.photoWidth
+            height = CGFloat(size.height) / CGFloat(size.width) * width
+            
+        }
+        return CGSize.init(width: width, height: height)
     }
 }
 
@@ -267,10 +300,10 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
         
         if imagePicker.isOneChoose == true {
             
-            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 
                 if let image = result {
-                
+                    
                     if imagePicker.cropType != CropType.none {
                         
                         // 单选 裁剪
@@ -306,7 +339,7 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
 
 // MARK: - YLPhotoBrowserDelegate
 extension YLPhotoPickerController: YLPhotoBrowserDelegate {
-
+    
     func epPhotoBrowserGetPhotoCount() -> Int {
         return photos.count
     }
@@ -364,7 +397,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
             }
             
         }
-    
+        
         return photo ?? YLPhoto()
     }
     
@@ -387,8 +420,8 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         
         var images = [UIImage]()
         for assetModel in selectPhotos {
-        
-            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+            
+            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                 
                 if let image = result {
                     images.append(image)
@@ -398,7 +431,6 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
         
         let imagePicker = navigationController as! YLImagePickerController
         imagePicker.didFinishPickingPhotosHandle?(images)
-        
         imagePicker.goBack()
         
     }

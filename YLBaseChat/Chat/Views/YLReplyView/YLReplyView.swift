@@ -155,6 +155,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
     @objc fileprivate func handlePhotos() {
         if let vc = self.getVC(){
             let imagePicker = YLImagePickerController.init(maxImagesCount: 9)
+            
             imagePicker.didFinishPickingPhotosHandle = {[weak self] (images: [UIImage]) in
                 self?.efSendMessageImage(images)
             }

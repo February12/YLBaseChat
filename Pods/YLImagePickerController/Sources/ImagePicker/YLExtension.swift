@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImage {
-    
+    // 获取 YLImagePickerController.bundle 图片
     class func yl_imageName(_ name: String) -> UIImage? {
         
         let bundle = Bundle.yl_imagePickerFileBundle()
@@ -25,19 +25,19 @@ extension UIImage {
 }
 
 extension Bundle {
-    
+    // 获取文件 Bundle
     class func yl_imagePickerFileBundle() -> Bundle? {
         
         let bundle = Bundle.yl_imagePickerNibBundle()
         
-        if  let url = bundle.url(forResource: "YLImagePickerController", withExtension: "bundle"),
+        if let url = bundle.url(forResource: "YLImagePickerController", withExtension: "bundle"),
             let b = Bundle.init(url: url) {
             return b
         }else {
             return bundle
         }
     }
-    
+    // 获取xib Bundle
     class func yl_imagePickerNibBundle() -> Bundle {
         let bundle = Bundle.init(for: YLImagePickerController.self)
         return bundle

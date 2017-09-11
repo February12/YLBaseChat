@@ -10,12 +10,13 @@ import UIKit
 import Photos
 
 class YLAssetModel {
-    
+    /// 资源
     var asset: PHAsset!
-    
+    /// 缩略图
     var thumbnailImage: UIImage?
-    
+    /// 是否选择
     var isSelected: Bool = false
-    
+    /// 第几个被选择的
     var selectedSerialNumber: Int = 0
+    
 }
