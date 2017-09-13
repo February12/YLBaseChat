@@ -44,6 +44,12 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-VO-66A">
+                    <rect key="frame" x="15" y="7" width="31" height="30"/>
+                    <state key="normal" title="预览">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -56,15 +62,18 @@
                 <constraint firstAttribute="trailing" secondItem="oAi-ye-xGR" secondAttribute="trailing" constant="15" id="SIx-h2-tj0"/>
                 <constraint firstItem="oAi-ye-xGR" firstAttribute="centerY" secondItem="McZ-C9-ENO" secondAttribute="centerY" id="Y52-kO-X9R"/>
                 <constraint firstAttribute="height" constant="44" id="afO-on-VVF"/>
+                <constraint firstItem="7AG-VO-66A" firstAttribute="centerY" secondItem="McZ-C9-ENO" secondAttribute="centerY" id="tbk-xo-IGu"/>
+                <constraint firstItem="7AG-VO-66A" firstAttribute="leading" secondItem="McZ-C9-ENO" secondAttribute="leading" constant="15" id="ukA-g3-6z1"/>
                 <constraint firstAttribute="bottom" secondItem="GMh-nX-ca8" secondAttribute="bottom" id="ySL-No-p97"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="originalImageClickBtn" destination="GMh-nX-ca8" id="aSX-Ca-ZfS"/>
                 <outlet property="originalImageImageView" destination="UaI-UK-l6W" id="V2w-on-uYD"/>
+                <outlet property="previewBtn" destination="7AG-VO-66A" id="nZd-4E-V3e"/>
                 <outlet property="sendBtn" destination="oAi-ye-xGR" id="3HE-sH-B5P"/>
             </connections>
-            <point key="canvasLocation" x="-154" y="37"/>
+            <point key="canvasLocation" x="-404" y="12"/>
         </view>
     </objects>
 </document>

@@ -15,14 +15,11 @@ protocol YLPhotoBrowserDelegate: NSObjectProtocol {
     func epPhotoBrowserGetPhotoCount() -> Int
     func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto
     func epPhotoBrowserByPhotoTagBtnHandle(_ assetModel:YLAssetModel?)
-    func epPhotoBrowserBySendBtnHandle(_ currentIndex: Int)
+    func epPhotoBrowserBySendBtnHandle(_ assetModel:YLAssetModel?)
 }
 
 let PhotoBrowserBG = UIColor.black
 let ImageViewTag = 1000
-
-var YLScreenW = UIScreen.main.bounds.width
-var YLScreenH = UIScreen.main.bounds.height
 
 class YLPhotoBrowser: UIViewController {
     
@@ -170,10 +167,10 @@ class YLPhotoBrowser: UIViewController {
                 var scale:CGFloat = 0
                 
                 let height = YLPhotoBrowser.getImageViewFrame(image.size).height
-                if height >= YLScreenH {
+                if height >= view.frame.height {
                     scale = 2
                 }else {
-                    scale = YLScreenH / height
+                    scale = view.frame.height / height
                 }
                 
                 scale = scale > 4 ? 4: scale
@@ -227,7 +224,8 @@ class YLPhotoBrowser: UIViewController {
     
     /// 发送按钮
     func sendBtnHandle() {
-        delegate?.epPhotoBrowserBySendBtnHandle(currentIndex)
+        let photo = getDataByCurrentIndex(currentIndex)
+        delegate?.epPhotoBrowserBySendBtnHandle(photo?.assetModel)
     }
     
     /// 选择原图
@@ -243,25 +241,30 @@ class YLPhotoBrowser: UIViewController {
     // 获取imageView frame
     class func getImageViewFrame(_ size: CGSize) -> CGRect {
         
-        if size.width > YLScreenW {
-            let height = YLScreenW * (size.height / size.width)
-            if height <= YLScreenH {
+        let window = UIApplication.shared.keyWindow
+        
+        let w = window?.frame.width ?? UIScreen.main.bounds.width
+        let h = window?.frame.height ?? UIScreen.main.bounds.height
+        
+        if size.width > w {
+            let height = w * (size.height / size.width)
+            if height <= h {
                 
-                let frame = CGRect.init(x: 0, y: YLScreenH/2 - height/2, width: YLScreenW, height: height)
+                let frame = CGRect.init(x: 0, y: h/2 - height/2, width: w, height: height)
                 return frame
             }else {
                 
-                let frame = CGRect.init(x: 0, y: 0, width: YLScreenW, height: height)
+                let frame = CGRect.init(x: 0, y: 0, width: w, height: height)
                 return frame
                 
             }
         }else {
             
-            if size.height <= YLScreenH {
-                let frame = CGRect.init(x: YLScreenW/2 - size.width/2, y: YLScreenH/2 - size.height/2, width: size.width, height: size.height)
+            if size.height <= h {
+                let frame = CGRect.init(x: w/2 - size.width/2, y: h/2 - size.height/2, width: size.width, height: size.height)
                 return frame
             }else {
-                let frame = CGRect.init(x: YLScreenW/2 - size.width/2, y: 0, width: size.width, height: size.height)
+                let frame = CGRect.init(x: w/2 - size.width/2, y: 0, width: size.width, height: size.height)
                 return frame
             }
             
@@ -295,7 +298,7 @@ class YLPhotoBrowser: UIViewController {
         }else if photo.image != nil {
             transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame((photo.image?.size)!)
         }else {
-            transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: YLScreenW, height: YLScreenW))
+            transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: view.frame.width, height: view.frame.width))
         }
         
         animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
@@ -356,14 +359,14 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize.init(width: YLScreenW, height: YLScreenH)
+        return CGSize.init(width: view.frame.width, height: view.frame.height)
     }
     
     // 已经停止减速
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         if scrollView == collectionView {
-            currentIndex = Int(scrollView.contentOffset.x / YLScreenW)
+            currentIndex = Int(scrollView.contentOffset.x / view.frame.width)
             
             let photo = getDataByCurrentIndex(currentIndex)
             showPhotoTagBtn(photo?.assetModel)
@@ -389,6 +392,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
     
     func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
+        animatedTransition?.gestureRecognizer = nil
         animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
     }
 }

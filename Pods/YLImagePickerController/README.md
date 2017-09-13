@@ -59,6 +59,7 @@ present(imagePicker!, animated: true, completion: nil)
 
 # 最近更新 
 
-- 0.0.6	添加GIF功能
-- 0.0.5	添加原图功能 
+- 0.0.7    添加预览功能
+- 0.0.6    添加GIF功能
+- 0.0.5    添加原图功能 
 

@@ -24,10 +24,10 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         // 转场过渡的容器view
         let containerView = transitionContext.containerView
         
-        //        // FromVC
-        //        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
-        //        let fromView = fromViewController?.view
-        //        fromView?.isHidden = true
+        // FromVC
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+        let fromView = fromViewController?.view
+        fromView?.isHidden = true
         
         // ToVC
         let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
@@ -64,6 +64,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
             }, completion: { (finished:Bool) in
                 
                 bgView.removeFromSuperview()
+                originalCoverView.removeFromSuperview()
                 transitionImgView.removeFromSuperview()
                 
                 // 设置transitionContext通知系统动画执行完毕

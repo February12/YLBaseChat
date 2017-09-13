@@ -40,7 +40,10 @@ class YLAnimatedTransition: NSObject,UINavigationControllerDelegate {
     }
     var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
-            percentIntractive.gestureRecognizer = gestureRecognizer
+            if let gestureRecognizer = gestureRecognizer {
+                percentIntractive.gestureRecognizer = gestureRecognizer
+            }
+
         }
     }
     

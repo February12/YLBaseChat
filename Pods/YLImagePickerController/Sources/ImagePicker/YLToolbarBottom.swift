@@ -13,6 +13,8 @@ class YLToolbarBottom: UIView {
     @IBOutlet weak var sendBtn: UIButton!
     @IBOutlet weak var originalImageClickBtn: UIButton!
     @IBOutlet weak var originalImageImageView: UIImageView!
+    @IBOutlet weak var previewBtn: UIButton!
+    
     var sendBtnDefaultColor: UIColor?
     
     override func awakeFromNib() {
@@ -21,7 +23,8 @@ class YLToolbarBottom: UIView {
         originalImageImageView.clipsToBounds = true
         originalImageImageView.layer.borderColor = UIColor.white.cgColor
         originalImageImageView.layer.borderWidth = 0.5
-        originalImageImageView.image = UIImage.yl_imageName("photo_selected")
+        
+        previewBtn.isHidden = true
     }
     
     func originalImageBtnIsSelect(_ isSelect: Bool) {
@@ -39,6 +42,16 @@ class YLToolbarBottom: UIView {
         }else {
             sendBtn.backgroundColor = sendBtnDefaultColor
             sendBtn.isEnabled = true
+        }
+    }
+    
+    func previewBtnIsSelect(_ isSelect: Bool) {
+        if isSelect == false {
+            previewBtn.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+            previewBtn.isEnabled = false
+        }else {
+            previewBtn.setTitleColor(UIColor.white, for: UIControlState.normal)
+            previewBtn.isEnabled = true
         }
     }
     

@@ -33,7 +33,9 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
         
         let translation = gestureRecognizer.translation(in:  gestureRecognizer.view?.superview)
         
-        var scale = 1 - translation.y / YLScreenH
+        let window = UIApplication.shared.keyWindow
+        
+        var scale = 1 - translation.y / (window?.frame.height ?? UIScreen.main.bounds.height)
         
         scale = scale > 1 ? 1:scale
         scale = scale < 0 ? 0:scale
