@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import ImageIO
 
 extension UIImage {
-    // 获取 YLImagePickerController.bundle 图片
+    /// 获取 YLImagePickerController.bundle 图片
     class func yl_imageName(_ name: String) -> UIImage? {
         
         let bundle = Bundle.yl_imagePickerFileBundle()
@@ -22,10 +23,55 @@ extension UIImage {
             return UIImage.init(named: name)
         }
     }
+    
+    /// 获取gif
+    class func yl_gifWithData(_ data: Data) -> UIImage? {
+        
+        if let source: CGImageSource = CGImageSourceCreateWithData(data as CFData, nil) {
+            
+            let count = CGImageSourceGetCount(source)
+            
+            if count <= 1 {
+                return UIImage.init(data: data)
+            }else {
+                var images = [UIImage]()
+                
+                var duration: TimeInterval = 0.0
+                
+                for i in 0...count-1 {
+                    if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
+                        images.append(UIImage.init(cgImage: image, scale: UIScreen.main.scale, orientation: UIImageOrientation.up))
+                        if let properties = CGImageSourceCopyPropertiesAtIndex(source, i, nil) as? Dictionary<String, Any>,
+                            let gifProperties = properties[kCGImagePropertyGIFDictionary as String] as?
+                            Dictionary<String, Any> {
+                            
+                            var frameDuration: TimeInterval = 0.1
+                            
+                            if let delayTime = gifProperties[kCGImagePropertyGIFUnclampedDelayTime as String] as? TimeInterval {
+                                frameDuration = delayTime
+                            }else if let delayTime = gifProperties[kCGImagePropertyGIFDelayTime as String] as? TimeInterval {
+                                frameDuration = delayTime
+                            }
+        
+                            if frameDuration < 0.011 {
+                                frameDuration = 0.100
+                            }
+                            
+                            duration += frameDuration
+                        }
+                        
+                    }
+                    
+                }
+                return  UIImage.animatedImage(with: images, duration: duration)
+            }
+        }
+        return nil
+    }
 }
 
 extension Bundle {
-    // 获取文件 Bundle
+    /// 获取文件 Bundle
     class func yl_imagePickerFileBundle() -> Bundle? {
         
         let bundle = Bundle.yl_imagePickerNibBundle()
@@ -37,7 +83,7 @@ extension Bundle {
             return bundle
         }
     }
-    // 获取xib Bundle
+    /// 获取xib Bundle
     class func yl_imagePickerNibBundle() -> Bundle {
         let bundle = Bundle.init(for: YLImagePickerController.self)
         return bundle
@@ -54,7 +100,7 @@ extension UIColor {
                        alpha: 1.0)
         
     }
-    
+    /// 创建图片
     func createImage(size: CGSize) -> UIImage? {
         
         var rect = CGRect(origin: CGPoint.zero, size: size)

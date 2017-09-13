@@ -23,6 +23,8 @@ class YLThumbnailCell: UICollectionViewCell {
     
     @IBOutlet weak var tapBtn: UIButton!
     
+    @IBOutlet weak var photoTypeLabel: UILabel!
+    
     weak var delegate: YLThumbnailCellDelegate?
     
     var assetModel: YLAssetModel?
@@ -66,6 +68,11 @@ class YLThumbnailCell: UICollectionViewCell {
             
         }
         
+        if assetModel.type == .gif {
+            photoTypeLabel.text = "GIF"
+        }else {
+            photoTypeLabel.text = ""
+        }
     }
     
     @IBAction func photoTagBtnHandle(_ sender: Any) {

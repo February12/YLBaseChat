@@ -22,6 +22,10 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8ul-Np-d8T">
                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                     </imageView>
+                    <view userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="axp-E5-lg4">
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kB2-9O-ku3">
                         <rect key="frame" x="35" y="5" width="40" height="40"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -40,27 +44,44 @@
                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GIF" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhO-de-BUp">
+                        <rect key="frame" x="10" y="59" width="60" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="UBx-pt-t4K"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="lhO-de-BUp" firstAttribute="leading" secondItem="NIA-NV-unF" secondAttribute="leading" constant="10" id="0qB-ab-6jf"/>
                 <constraint firstAttribute="trailing" secondItem="2Eb-wy-Ln6" secondAttribute="trailing" constant="5" id="Fpi-4k-hFV"/>
                 <constraint firstItem="kB2-9O-ku3" firstAttribute="width" secondItem="NIA-NV-unF" secondAttribute="width" multiplier="1:2" id="Jaw-T8-6A6"/>
+                <constraint firstAttribute="bottom" secondItem="lhO-de-BUp" secondAttribute="bottom" id="QSb-MS-gVY"/>
                 <constraint firstAttribute="trailing" secondItem="8ul-Np-d8T" secondAttribute="trailing" id="UPO-mt-mSh"/>
                 <constraint firstItem="kB2-9O-ku3" firstAttribute="height" secondItem="NIA-NV-unF" secondAttribute="height" multiplier="1:2" id="XbQ-Xb-kEX"/>
                 <constraint firstItem="2Eb-wy-Ln6" firstAttribute="top" secondItem="NIA-NV-unF" secondAttribute="top" constant="5" id="Yky-R6-ovJ"/>
                 <constraint firstAttribute="bottom" secondItem="8ul-Np-d8T" secondAttribute="bottom" id="a8b-YN-p7A"/>
                 <constraint firstItem="kB2-9O-ku3" firstAttribute="top" secondItem="NIA-NV-unF" secondAttribute="top" constant="5" id="beF-mj-Lis"/>
+                <constraint firstAttribute="trailing" secondItem="lhO-de-BUp" secondAttribute="trailing" constant="10" id="fh8-sd-Trz"/>
                 <constraint firstItem="8ul-Np-d8T" firstAttribute="top" secondItem="NIA-NV-unF" secondAttribute="top" id="m7X-2I-xw6"/>
+                <constraint firstAttribute="bottom" secondItem="axp-E5-lg4" secondAttribute="bottom" id="rKd-gc-3Yr"/>
+                <constraint firstItem="axp-E5-lg4" firstAttribute="leading" secondItem="NIA-NV-unF" secondAttribute="leading" id="sAg-bI-3Fc"/>
+                <constraint firstAttribute="trailing" secondItem="axp-E5-lg4" secondAttribute="trailing" id="tak-em-NhR"/>
                 <constraint firstAttribute="trailing" secondItem="kB2-9O-ku3" secondAttribute="trailing" constant="5" id="umx-CL-yct"/>
                 <constraint firstItem="8ul-Np-d8T" firstAttribute="leading" secondItem="NIA-NV-unF" secondAttribute="leading" id="vq2-p5-nb9"/>
+                <constraint firstItem="axp-E5-lg4" firstAttribute="top" secondItem="NIA-NV-unF" secondAttribute="top" id="vze-Bg-8Wg"/>
             </constraints>
             <size key="customSize" width="50" height="89"/>
             <connections>
                 <outlet property="photoImageView" destination="8ul-Np-d8T" id="UEt-2Q-XA2"/>
                 <outlet property="photoTagBtn" destination="2Eb-wy-Ln6" id="tfx-iZ-wGS"/>
+                <outlet property="photoTypeLabel" destination="lhO-de-BUp" id="yJV-22-l5Y"/>
                 <outlet property="tapBtn" destination="kB2-9O-ku3" id="fyv-Yi-WnN"/>
             </connections>
-            <point key="canvasLocation" x="-234" y="9"/>
+            <point key="canvasLocation" x="-392" y="11"/>
         </collectionViewCell>
     </objects>
 </document>

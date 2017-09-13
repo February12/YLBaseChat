@@ -22,10 +22,6 @@ class YLAlbumPickerController: UIViewController {
     
     var dataArray = [PHAssetCollection]()
     
-    deinit {
-        print("释放\(self)")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,9 +119,10 @@ extension YLAlbumPickerController: UITableViewDelegate,UITableViewDataSource {
         if let asset = assets.lastObject {
             
             let options = PHImageRequestOptions()
+            options.resizeMode = PHImageRequestOptionsResizeMode.fast
             options.isSynchronous = true
             
-            PHImageManager.default().requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.default, options: options) { (image:UIImage?, _) in
+            PHImageManager.default().requestImage(for: asset, targetSize: thumbnailSize, contentMode: PHImageContentMode.aspectFill, options: options) { (image:UIImage?, _) in
                 cell?.albumImageView.image = image
             }
         }

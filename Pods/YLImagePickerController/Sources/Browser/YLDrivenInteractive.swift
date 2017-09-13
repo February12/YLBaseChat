@@ -15,9 +15,9 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     var transitionImage: UIImage?
     var transitionImageView: UIView?
     
-    var gestureRecognizer: UIPanGestureRecognizer! {
+    var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
-            gestureRecognizer.addTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+            gestureRecognizer?.addTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
         }
     }
     
@@ -28,10 +28,6 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     private var originalCoverView: UIView?
     
     private var isFirst = true
-    
-    deinit {
-        gestureRecognizer = nil
-    }
     
     func gestureRecognizeDidUpdate(_ gestureRecognizer: UIPanGestureRecognizer) {
         
@@ -113,6 +109,11 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     
     func interPercentCancel() {
         
+        gestureRecognizer?.removeTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+        gestureRecognizer = nil
+        
+        isFirst = true
+        
         let transitionContext = self.transitionContext
         
         fromView?.backgroundColor = PhotoBrowserBG
@@ -120,9 +121,13 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
         originalCoverView?.removeFromSuperview()
         
         transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+        
     }
     
     func interPercentFinish() {
+        
+        gestureRecognizer?.removeTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+        gestureRecognizer = nil
         
         let transitionContext = self.transitionContext
         

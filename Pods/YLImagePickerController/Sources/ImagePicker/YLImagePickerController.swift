@@ -9,10 +9,8 @@
 import UIKit
 import Photos
 
-
 /// 默认缩略图大小
 let thumbnailSize = CGSize.init(width: 150, height: 150)
-
 /// ImagePicker类型
 ///
 /// - camera: 拍照
@@ -21,7 +19,6 @@ public enum ImagePickerType {
     case camera
     case album
 }
-
 /// 裁剪类型
 ///
 /// - none: 不裁剪
@@ -32,9 +29,35 @@ public enum CropType {
     case square
     case circular
 }
+/// 图片类型
+///
+/// - photo: jpg、png
+/// - gif: gif动画
+/// - video: 视频
+public enum YLAssetType {
+    case photo
+    case gif
+    case video
+}
 
-/// 导出图片
-public typealias DidFinishPickingPhotosHandle = (_ images: [UIImage]) -> Void
+/// 导出Model
+public struct YLPhotoModel {
+    public var image: UIImage?
+    public var data: Data?
+    public var type: YLAssetType?
+    
+    init(image: UIImage?) {
+        self.image = image
+        self.type = YLAssetType.photo
+    }
+    init(gifData: Data) {
+        self.data = gifData
+        self.type = YLAssetType.gif
+    }
+}
+
+/// 导出资源
+public typealias DidFinishPickingPhotosHandle = (_ photos: [YLPhotoModel]) -> Void
 
 /// 权限判断
 typealias CheckPhotoAuthBlock = (_ result: Bool) -> Void
@@ -50,14 +73,12 @@ public class YLImagePickerController: UINavigationController {
      *  多选 true 默认用户点击了一次原图按钮
      */
     public var isSelectedOriginalImage = false
+    /// 是否需要选择gif 动图  默认不需要
+    public var isNeedSelectGifImage = false
     
     var maxImagesCount:Int = 0                  // 最大可选数量
     var isOneChoose: Bool = false               // 是否单选
     var cropType: CropType = CropType.none      // 裁剪类型
-    
-    deinit {
-        print("释放\(self)")
-    }
     
     // 是否支持屏幕旋转
     override public var shouldAutorotate: Bool {

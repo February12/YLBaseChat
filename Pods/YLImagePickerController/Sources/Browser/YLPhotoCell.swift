@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol YLPhotoCellDelegate :NSObjectProtocol {
     func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
@@ -159,6 +160,21 @@ class YLPhotoCell: UICollectionViewCell {
         if let image = photo.image {
             imageView.frame = YLPhotoBrowser.getImageViewFrame(image.size)
             imageView.image = image
+        }
+        
+        if photo.assetModel?.type == .gif {
+            if let asset = photo.assetModel?.asset {
+                let options = PHImageRequestOptions()
+                options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                options.isSynchronous = true
+                PHImageManager.default().requestImageData(for: asset, options: options, resultHandler: { [weak self] (data:Data?, dataUTI:String?, _, _) in
+                    
+                    if let data = data {
+                        self?.imageView.image =  UIImage.yl_gifWithData(data)
+                    }
+                    
+                })
+            }
         }
         
         scrollView.contentSize = imageView.frame.size

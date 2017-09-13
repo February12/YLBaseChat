@@ -24,10 +24,6 @@ class YLCameraPickerController: UIViewController {
     
     var cropType: CropType = CropType.none
     
-    deinit {
-        print("释放\(self)")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -191,7 +187,6 @@ class YLCameraPickerController: UIViewController {
         sureBtn.addLayoutConstraint(widthConstant: 100, heightConstant: 100)
         
         photoView.layoutSubviews()
-        print("")
     }
     
     func closeCamera() {
@@ -321,7 +316,8 @@ class YLCameraPickerController: UIViewController {
     func surePhoto() {
         let imagePicker = self.navigationController as! YLImagePickerController
         if let image = image {
-            imagePicker.didFinishPickingPhotosHandle?([image])
+            let photoModel = YLPhotoModel.init(image: image)
+            imagePicker.didFinishPickingPhotosHandle?([photoModel])
         }
         imagePicker.goBack()
     }
@@ -348,7 +344,8 @@ extension YLCameraPickerController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
         
         let imagePicker = self.navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?([image])
+        let photoModel = YLPhotoModel.init(image: image)
+        imagePicker.didFinishPickingPhotosHandle?([photoModel])
         imagePicker.goBack()
     }
 }

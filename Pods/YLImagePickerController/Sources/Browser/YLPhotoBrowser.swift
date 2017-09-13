@@ -32,8 +32,7 @@ class YLPhotoBrowser: UIViewController {
     
     fileprivate var currentIndex: Int = 0 // 当前row
     
-    fileprivate var appearAnimatedTransition:YLAnimatedTransition? // 进来的动画
-    fileprivate var disappearAnimatedTransition:YLAnimatedTransition? // 出去的动画
+    fileprivate var animatedTransition:YLAnimatedTransition? // 控制器动画
     
     var collectionView:UICollectionView!
     
@@ -41,21 +40,20 @@ class YLPhotoBrowser: UIViewController {
     var toolbarBottom : YLToolbarBottom = {
         
         let toolbar = YLToolbarBottom.loadNib()
-        toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.SendBtnHandle), for: UIControlEvents.touchUpInside)
-        toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         return toolbar
     }()
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        disappearAnimatedTransition = nil
+        animatedTransition = nil
+        (delegate as! YLPhotoPickerController).navigationController?.delegate = nil
     }
     
     deinit {
+        animatedTransition = nil
         dataArray.removeAll()
         delegate = nil
-        print("释放\(self)")
     }
     
     
@@ -71,6 +69,9 @@ class YLPhotoBrowser: UIViewController {
         self.delegate = delegate
         
         let photo = getDataByCurrentIndex(currentIndex)
+        
+        animatedTransition = YLAnimatedTransition()
+        (delegate as! YLPhotoPickerController).navigationController?.delegate = animatedTransition
         
         editTransitioningDelegate(photo!)
         
@@ -135,6 +136,9 @@ class YLPhotoBrowser: UIViewController {
         
         let imagePicker = navigationController as! YLImagePickerController
         toolbarBottom.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
+        
+        toolbarBottom.sendBtn.addTarget(self, action: #selector(YLPhotoBrowser.sendBtnHandle), for: UIControlEvents.touchUpInside)
+        toolbarBottom.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
         
         // 下面的toobbar
         view.addSubview(toolbarBottom)
@@ -222,7 +226,7 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 发送按钮
-    func SendBtnHandle() {
+    func sendBtnHandle() {
         delegate?.epPhotoBrowserBySendBtnHandle(currentIndex)
     }
     
@@ -294,12 +298,8 @@ class YLPhotoBrowser: UIViewController {
             transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: YLScreenW, height: YLScreenW))
         }
         
-        appearAnimatedTransition = nil
-        (delegate as! YLPhotoPickerController).navigationController?.delegate = nil
-        appearAnimatedTransition = YLAnimatedTransition.init(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
+        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
         
-        (delegate as! YLPhotoPickerController).navigationController?.delegate =
-        appearAnimatedTransition
     }
     
     // 获取数据源,并缓存数据
@@ -380,22 +380,15 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         toolbarBottom.isHidden = true
         
-        disappearAnimatedTransition = nil
-        self.navigationController?.delegate = nil
-        disappearAnimatedTransition = YLAnimatedTransition()
-        disappearAnimatedTransition?.transitionOriginalImgFrame = photo.frame ?? CGRect.zero
-        disappearAnimatedTransition?.gestureRecognizer = pan
-        self.navigationController?.delegate = disappearAnimatedTransition
+        animatedTransition?.transitionOriginalImgFrame = photo.frame
+        animatedTransition?.gestureRecognizer = pan
+        
         self.navigationController?.popViewController(animated: true)
         
     }
     
     func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
-        disappearAnimatedTransition?.transitionImage = photo.image
-        disappearAnimatedTransition?.transitionImageView = nil
-        disappearAnimatedTransition?.transitionBrowserImgFrame = currentImageViewFrame
-        disappearAnimatedTransition?.transitionOriginalImgFrame = photo.frame ?? CGRect.zero
-        
+        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
     }
 }

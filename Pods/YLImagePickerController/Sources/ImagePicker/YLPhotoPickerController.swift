@@ -34,8 +34,7 @@ class YLPhotoPickerController: UIViewController {
         
         let toolbar = YLToolbarBottom.loadNib()
         toolbar.sendBtnIsSelect(false)
-        toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoPickerController.sendBtnHandle), for: UIControlEvents.touchUpInside)
-        toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
+        
         return toolbar
     }()
     
@@ -43,10 +42,6 @@ class YLPhotoPickerController: UIViewController {
     var photos = [YLAssetModel]()
     // 已经选择的资源
     var selectPhotos = [YLAssetModel]()
-    
-    deinit {
-        print("释放\(self)")
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -98,6 +93,9 @@ class YLPhotoPickerController: UIViewController {
         
         if imagePicker.isOneChoose == false {
             
+            toolbar.sendBtn.addTarget(self, action: #selector(YLPhotoPickerController.sendBtnHandle), for: UIControlEvents.touchUpInside)
+            toolbar.originalImageClickBtn.addTarget(self, action: #selector(YLPhotoPickerController.originalImageClickBtnHandle), for: UIControlEvents.touchUpInside)
+            
             toolbar.originalImageBtnIsSelect(imagePicker.isSelectedOriginalImage)
             
             view.addSubview(toolbar)
@@ -131,6 +129,8 @@ class YLPhotoPickerController: UIViewController {
                 })
             }
             
+            let imagePicker = self?.navigationController as! YLImagePickerController
+            
             if let assetCollection = self?.assetCollection {
                 
                 let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
@@ -139,6 +139,17 @@ class YLPhotoPickerController: UIViewController {
                     
                     let assetModel = YLAssetModel()
                     assetModel.asset = asset
+                    
+                    if let assetType = asset.value(forKey: "filename") as? String {
+                        if assetType.hasSuffix("GIF") == true &&
+                            imagePicker.isNeedSelectGifImage == true {
+                            assetModel.type = .gif 
+                        }else {
+                            assetModel.type = .photo
+                        }
+                    }else {
+                        assetModel.type = .photo
+                    }
                     
                     self?.photos.append(assetModel)
                 })
@@ -185,6 +196,45 @@ class YLPhotoPickerController: UIViewController {
             
         }
         return CGSize.init(width: width, height: height)
+    }
+    
+    /// 完成选择
+    func didFinishPickingPhotos(_ assetModels: [YLAssetModel]) {
+    
+        let options = PHImageRequestOptions()
+        options.resizeMode = PHImageRequestOptionsResizeMode.fast
+        options.isSynchronous = true
+        
+        var photos = [YLPhotoModel]()
+        for assetModel in assetModels {
+            
+            if assetModel.type == .gif {
+    
+                PHImageManager.default().requestImageData(for: assetModel.asset, options: options, resultHandler: { (data:Data?, dataUTI:String?, _, _) in
+                    
+                    if let data = data {
+                        let photoModel = YLPhotoModel.init(gifData: data)
+                        photos.append(photoModel)
+                    }
+                    
+                })
+                
+            }else {
+                
+                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
+                    
+                    if let image = result {
+                        let photoModel = YLPhotoModel.init(image: image)
+                        photos.append(photoModel)
+                    }
+                })
+            }
+        }
+        
+        let imagePicker = navigationController as! YLImagePickerController
+        imagePicker.didFinishPickingPhotosHandle?(photos)
+        imagePicker.goBack()
+        
     }
 }
 
@@ -292,39 +342,42 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
     
     func epImageViewHandle(_ assetModel: YLAssetModel) {
         
-        let options = PHImageRequestOptions()
-        options.resizeMode = PHImageRequestOptionsResizeMode.fast
-        options.isSynchronous = true
         
         let imagePicker = navigationController as! YLImagePickerController
         
         if imagePicker.isOneChoose == true {
             
-            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
-                
-                if let image = result {
+            if imagePicker.cropType != CropType.none &&
+                assetModel.type != .gif {
+            
+                let options = PHImageRequestOptions()
+                options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                options.isSynchronous = true
+
+                PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
-                    if imagePicker.cropType != CropType.none {
+                    if let image = result {
                         
-                        // 单选 裁剪
-                        var style = TOCropViewCroppingStyle.default
-                        if imagePicker.cropType == CropType.circular {
-                            style = TOCropViewCroppingStyle.circular
+                        if imagePicker.cropType != CropType.none {
+                            
+                            // 单选 裁剪
+                            var style = TOCropViewCroppingStyle.default
+                            if imagePicker.cropType == CropType.circular {
+                                style = TOCropViewCroppingStyle.circular
+                            }
+                            
+                            let cropViewController = TOCropViewController.init(croppingStyle: style, image: image)
+                            cropViewController.delegate = self
+                            self.navigationController?.pushViewController(cropViewController, animated: true)
+                            
                         }
-                        
-                        let cropViewController = TOCropViewController.init(croppingStyle: style, image: image)
-                        cropViewController.delegate = self
-                        self.navigationController?.pushViewController(cropViewController, animated: true)
-                        
-                    }else {
-                        // 单选 不裁剪
-                        imagePicker.didFinishPickingPhotosHandle?([image])
-                        imagePicker.goBack()
                     }
                     
-                }
+                })
                 
-            })
+            }else {
+                didFinishPickingPhotos([assetModel])
+            }
             
         }else {
             
@@ -382,13 +435,10 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
                 
                 if let cell = self.collectionView.cellForItem(at: IndexPath.init(row: currentIndex, section: 0)) {
                     
-                    let window = UIApplication.shared.keyWindow
-                    
-                    let rect1 = cell.convert(cell.frame, from: self.collectionView)
-                    frame = cell.convert(rect1, to: window)
-                    
+                    frame = self.collectionView.convert(cell.frame, to: self.collectionView.superview)
+
                     if frame!.minY < 64 ||  frame!.maxY > YLScreenH - 44 {
-                        frame = nil
+                        frame = CGRect.zero
                     }
                 }
                 
@@ -418,21 +468,7 @@ extension YLPhotoPickerController: YLPhotoBrowserDelegate {
             selectPhotos.append(photos[currentIndex])
         }
         
-        var images = [UIImage]()
-        for assetModel in selectPhotos {
-            
-            PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
-                
-                if let image = result {
-                    images.append(image)
-                }
-            })
-        }
-        
-        let imagePicker = navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?(images)
-        imagePicker.goBack()
-        
+        didFinishPickingPhotos(selectPhotos)
     }
 }
 
@@ -446,7 +482,8 @@ extension YLPhotoPickerController: TOCropViewControllerDelegate {
     func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
         
         let imagePicker = self.navigationController as! YLImagePickerController
-        imagePicker.didFinishPickingPhotosHandle?([image])
+        let photoModel = YLPhotoModel.init(image: image)
+        imagePicker.didFinishPickingPhotosHandle?([photoModel])
         imagePicker.goBack()
     }
 }

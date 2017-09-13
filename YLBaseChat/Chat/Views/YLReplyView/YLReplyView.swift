@@ -155,9 +155,15 @@ class YLReplyView: UIView,YLInputViewDelegate {
     @objc fileprivate func handlePhotos() {
         if let vc = self.getVC(){
             let imagePicker = YLImagePickerController.init(maxImagesCount: 9)
-            
-            imagePicker.didFinishPickingPhotosHandle = {[weak self] (images: [UIImage]) in
-                self?.efSendMessageImage(images)
+            imagePicker.isNeedSelectGifImage = true
+            imagePicker.didFinishPickingPhotosHandle = {[weak self] (photos: [YLPhotoModel]) in
+                for photo in photos {
+                    if photo.type == YLAssetType.photo {
+                        self?.efSendMessageImage([photo.image!])
+                    }else if photo.type == YLAssetType.gif {
+                        print((photo.data?.count)! / 1024)
+                    }
+                }
             }
             vc.present(imagePicker, animated: true, completion: nil )
         }
