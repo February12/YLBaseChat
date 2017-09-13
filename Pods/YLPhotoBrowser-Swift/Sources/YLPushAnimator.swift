@@ -25,9 +25,9 @@ class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         let containerView = transitionContext.containerView
         
         // FromVC
-        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
-        let fromView = fromViewController?.view
-        fromView?.isHidden = true
+//        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+//        let fromView = fromViewController?.view
+//        fromView?.isHidden = true
         
         // ToVC
         let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
@@ -65,7 +65,7 @@ class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         transitionImgView.frame = self.transitionOriginalImgFrame
         containerView.addSubview(transitionImgView)
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             transitionImgView.frame = (self?.transitionBrowserImgFrame)!
             bgView.alpha = 1

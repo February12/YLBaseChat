@@ -10,8 +10,8 @@ import UIKit
 import Kingfisher
 
 protocol YLPhotoCellDelegate :NSObjectProtocol {
-    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer)
-    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect)
+    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer,photo: YLPhoto)
+    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect,photo: YLPhoto)
 }
 
 class YLPhotoCell: UICollectionViewCell {
@@ -22,6 +22,8 @@ class YLPhotoCell: UICollectionViewCell {
     var panBeginScaleY:CGFloat = 0
     
     weak var delegate: YLPhotoCellDelegate?
+    
+    var photo: YLPhoto!
     
     let scrollView: UIScrollView = {
         let sv = UIScrollView(frame: CGRect.zero)
@@ -75,11 +77,7 @@ class YLPhotoCell: UICollectionViewCell {
         
         // scrollView 约束
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        let sConstraintsTop = NSLayoutConstraint.init(item: scrollView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
-        let sConstraintsLeft = NSLayoutConstraint.init(item: scrollView, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.left, multiplier: 1, constant: 0)
-        let sConstraintsRight = NSLayoutConstraint.init(item: scrollView, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.right, multiplier: 1, constant: 0)
-        let sConstraintsBottom = NSLayoutConstraint.init(item: scrollView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
-        NSLayoutConstraint.activate([sConstraintsTop,sConstraintsLeft,sConstraintsRight,sConstraintsBottom])
+        scrollView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
         
         
         scrollView.addSubview(imageView)
@@ -88,11 +86,9 @@ class YLPhotoCell: UICollectionViewCell {
         
         // progressView 约束
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        let pConstraintsW = NSLayoutConstraint.init(item: progressView, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 40)
-        let pConstraintsH = NSLayoutConstraint.init(item: progressView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 40)
-        let pConstraintsCX = NSLayoutConstraint.init(item: progressView, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-        let pConstraintsCY = NSLayoutConstraint.init(item: progressView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
-        NSLayoutConstraint.activate([pConstraintsW,pConstraintsH,pConstraintsCX,pConstraintsCY])
+        progressView.addLayoutConstraint(widthConstant: 40, heightConstant: 40)
+        progressView.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
+        
     }
     
     // 慢移手势
@@ -100,7 +96,7 @@ class YLPhotoCell: UICollectionViewCell {
         
         let translation = pan.translation(in:  pan.view?.superview)
         
-        var scale = 1 - translation.y / YLScreenH
+        var scale = 1 - translation.y / self.frame.height
         
         scale = scale > 1 ? 1:scale
         scale = scale < 0 ? 0:scale
@@ -127,7 +123,7 @@ class YLPhotoCell: UICollectionViewCell {
                 panBeginScaleY = 1
             }
             
-            delegate?.epPanGestureRecognizerBegin(pan)
+            delegate?.epPanGestureRecognizerBegin(pan,photo: self.photo)
             
             break
         case .changed:
@@ -135,7 +131,7 @@ class YLPhotoCell: UICollectionViewCell {
             imageView.frame.size = CGSize.init(width: transitionImageViewFrame.size.width * scale, height: transitionImageViewFrame.size.height * scale)
             
             var frame = imageView.frame
-    
+            
             frame.origin.x = transitionImageViewFrame.origin.x + (transitionImageViewFrame.size.width -
                 imageView.frame.size.width ) * panBeginScaleX  + translation.x
             
@@ -159,9 +155,9 @@ class YLPhotoCell: UICollectionViewCell {
             }else {
                 
                 imageView.isHidden = true
-                delegate?.epPanGestureRecognizerEnd(imageView.frame)
-                
             }
+            
+            delegate?.epPanGestureRecognizerEnd(imageView.frame,photo: self.photo)
             
             break
         }
@@ -169,6 +165,8 @@ class YLPhotoCell: UICollectionViewCell {
     
     
     func updatePhoto(_ photo: YLPhoto) {
+        
+        self.photo = photo
         
         scrollView.setZoomScale(1, animated: false)
         scrollView.contentOffset.y = 0
@@ -178,8 +176,8 @@ class YLPhotoCell: UICollectionViewCell {
         
         if photo.imageUrl != "" {
             
-            imageView.frame.size = CGSize.init(width: YLScreenW, height: YLScreenW)
-            imageView.center = ImageViewCenter
+            imageView.frame.size = CGSize.init(width: frame.width, height: frame.width)
+            imageView.center = center
             
             imageView.image = photo.image
             

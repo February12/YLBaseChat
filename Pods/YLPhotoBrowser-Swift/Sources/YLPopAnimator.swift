@@ -35,6 +35,10 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         containerView.addSubview(toView!)
         toView?.isHidden = false
         
+        let originalCoverView = UIView.init(frame: transitionOriginalImgFrame)
+        originalCoverView.backgroundColor = UIColor.white
+        containerView.addSubview(originalCoverView)
+        
         // 有渐变的黑色背景
         let bgView = UIView.init(frame: containerView.bounds)
         bgView.backgroundColor = PhotoBrowserBG
@@ -58,6 +62,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
             }, completion: { (finished:Bool) in
                 
                 bgView.removeFromSuperview()
+                originalCoverView.removeFromSuperview()
                 transitionImgView.removeFromSuperview()
                 
                 // 设置transitionContext通知系统动画执行完毕
@@ -67,7 +72,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
             return
         }
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
+       UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             transitionImgView.frame = (self?.transitionOriginalImgFrame)!
             bgView.alpha = 0
@@ -75,6 +80,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         }) { (finished:Bool) in
             
             bgView.removeFromSuperview()
+            originalCoverView.removeFromSuperview()
             transitionImgView.removeFromSuperview()
             
             //  设置transitionContext通知系统动画执行完毕

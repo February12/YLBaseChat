@@ -13,26 +13,36 @@ class YLAnimatedTransition: NSObject,UIViewControllerTransitioningDelegate {
     var transitionOriginalImgFrame: CGRect? {
         didSet {
             percentIntractive.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
+            customPush.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
+            customPop.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
         }
     }
     var transitionBrowserImgFrame: CGRect? {
         didSet {
             percentIntractive.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
+            customPush.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
+            customPop.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
         }
     }
     var transitionImage: UIImage? {
         didSet {
             percentIntractive.transitionImage = transitionImage
+            customPush.transitionImage = transitionImage
+            customPop.transitionImage = transitionImage
         }
     }
     var transitionImageView: UIView? {
         didSet {
             percentIntractive.transitionImageView = transitionImageView
+            customPush.transitionImageView = transitionImageView
+            customPop.transitionImageView = transitionImageView
         }
     }
-    var gestureRecognizer: UIPanGestureRecognizer! {
+    var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
-            percentIntractive.gestureRecognizer = gestureRecognizer
+            if let gestureRecognizer = gestureRecognizer {
+                percentIntractive.gestureRecognizer = gestureRecognizer
+            }
         }
     }
     
@@ -40,22 +50,13 @@ class YLAnimatedTransition: NSObject,UIViewControllerTransitioningDelegate {
     private var customPop:YLPopAnimator = YLPopAnimator()
     private var percentIntractive:YLDrivenInteractive = YLDrivenInteractive()
     
-    deinit {
+    func update(_ transitionImage: UIImage?,transitionImageView: UIView?,transitionOriginalImgFrame: CGRect? ,transitionBrowserImgFrame: CGRect?) {
         
-    }
-    
-    convenience init(_ transitionImage: UIImage?,transitionImageView: UIView?,transitionOriginalImgFrame: CGRect? ,transitionBrowserImgFrame: CGRect?) {
-        self.init()
+        self.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
+        self.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
+        self.transitionImage = transitionImage
+        self.transitionImageView = transitionImageView
         
-        customPush.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
-        customPop.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
-        customPush.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
-        customPop.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
-        customPush.transitionImage = transitionImage
-        customPop.transitionImage = transitionImage
-        customPush.transitionImageView = transitionImageView
-        customPop.transitionImageView = transitionImageView
-
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

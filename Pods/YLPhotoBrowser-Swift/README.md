@@ -19,8 +19,6 @@ pod 'YLPhotoBrowser-Swift'
 # 使用 
 
 ```swift
-var photos = [YLPhoto]()  
-photos.append(YLPhoto.addImage(image, imageUrl: nil, frame: frame))  
 let photoBrowser = YLPhotoBrowser.init(photos, index: index)
 
 // 可选
@@ -64,35 +62,44 @@ photoBrowser.getViewOnTheBrowser = { [weak self] (currentIndex: Int) -> UIView? 
 }
 
 present(photoBrowser, animated: true, completion: nil)
-```
 
-# 介绍   
+// 代理
+func epPhotoBrowserGetPhotoCount() -> Int {
+        return dataArray.count
+}
+    
+func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
 
-```swift
-// YLPhoto                                      
-// 为了让动画效果最佳,最好有 image(原图/缩略图) 和 frame(图片初始位置)                                           
-public class func addImage(_ image: UIImage?,imageUrl: String?,frame: CGRect?) -> YLPhoto {
-    let photo = YLPhoto()
-    photo.image = image
-    photo.imageUrl = imageUrl ?? ""
-    photo.frame = frame
-    return photo
+    var photo: YLPhoto?
+    if let cell = collectionView.cellForItem(at: IndexPath.init(row: currentIndex, 					section: 0)) {
+
+        let frame = collectionView.convert(cell.frame, to: collectionView.superview)
+        if currentIndex <= 2 {
+            let imageName = dataArray[currentIndex]
+            var image:UIImage?
+            if currentIndex == 2 {
+                // gif
+                let path = Bundle.main.path(forResource: imageName, ofType: nil)
+                let data = try! Data.init(contentsOf: URL.init(fileURLWithPath: path!))
+                image = UIImage.yl_gifWithData(data)
+            }else {
+                // 非 gif
+                image = UIImage.init(named: imageName)
+            }
+            photo =  YLPhoto.addImage(image, imageUrl: nil, frame: frame)
+        }else {
+            let url = dataArray[currentIndex]
+            // 最佳
+            let imageView:UIImageView? = cell.viewWithTag(100) as! UIImageView?
+            photo = YLPhoto.addImage(imageView?.image, imageUrl: url, frame: frame)
+            // 其次
+            // photo = YLPhoto.addImage(nil, imageUrl: url, frame: frame)
+        }
+    }
+    return photo ?? YLPhoto()
 }
 
-// YLPhotoBrowser                                                 
-// 初始化
-public convenience init(_ photos: [YLPhoto],index: Int) {
-    self.init()
-    
-    self.photos = photos
-    self.currentIndex = index
-    
-    let photo = photos[index]
-    
-    editTransitioningDelegate(photo)
-}
 
-// YLGifImage
-// 获取本地gif name 带后缀 如  1.gif
-public class func yl_gifAnimated(_ name: String) -> UIImage?       
 ```
+
+   

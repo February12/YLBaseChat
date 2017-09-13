@@ -15,9 +15,9 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     var transitionImage: UIImage?
     var transitionImageView: UIView?
     
-    var gestureRecognizer: UIPanGestureRecognizer! {
+    var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
-            gestureRecognizer.addTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+            gestureRecognizer?.addTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
         }
     }
     
@@ -25,18 +25,17 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     private var blackBgView: UIView?
     private var fromView: UIView?
     private var toView: UIView?
+    private var originalCoverView: UIView?
     
     private var isFirst = true
-    
-    deinit {
-        gestureRecognizer = nil
-    }
     
     func gestureRecognizeDidUpdate(_ gestureRecognizer: UIPanGestureRecognizer) {
         
         let translation = gestureRecognizer.translation(in:  gestureRecognizer.view?.superview)
         
-        var scale = 1 - translation.y / YLScreenH
+        let window = UIApplication.shared.keyWindow
+        
+        var scale = 1 - translation.y / (window?.frame.height ?? UIScreen.main.bounds.height)
         
         scale = scale > 1 ? 1:scale
         scale = scale < 0 ? 0:scale
@@ -86,6 +85,10 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
             toView?.isHidden = false
             containerView.addSubview(toView!)
             
+            originalCoverView = UIView.init(frame: transitionOriginalImgFrame)
+            originalCoverView?.backgroundColor = UIColor.white
+            containerView.addSubview(originalCoverView!)
+            
             // 有渐变的黑色背景
             blackBgView = UIView.init(frame: containerView.bounds)
             blackBgView?.backgroundColor = PhotoBrowserBG
@@ -99,7 +102,6 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
             fromView?.backgroundColor = UIColor.clear
             fromView?.isHidden = false
             containerView.addSubview(fromView!)
-            
         }
     }
     
@@ -109,15 +111,25 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     
     func interPercentCancel() {
         
+        gestureRecognizer?.removeTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+        gestureRecognizer = nil
+        
+        isFirst = true
+        
         let transitionContext = self.transitionContext
         
         fromView?.backgroundColor = PhotoBrowserBG
         blackBgView?.removeFromSuperview()
+        originalCoverView?.removeFromSuperview()
         
         transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+        
     }
     
     func interPercentFinish() {
+        
+        gestureRecognizer?.removeTarget(self, action: #selector(YLDrivenInteractive.gestureRecognizeDidUpdate(_:)))
+        gestureRecognizer = nil
         
         let transitionContext = self.transitionContext
         
@@ -129,6 +141,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
             // 过度的图片
             let transitionImgView = transitionImageView ?? UIImageView.init(image: transitionImage)
             transitionImgView.clipsToBounds = true
+            transitionImgView.contentMode = UIViewContentMode.scaleAspectFill
             transitionImgView.frame = transitionBrowserImgFrame
             containerView.addSubview(transitionImgView)
             
@@ -141,19 +154,20 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
                     transitionImgView.alpha = 0
                     self?.blackBgView?.alpha = 0
                     
-                }, completion: { [weak self] (finished:Bool) in
-                    
-                    self?.blackBgView?.removeFromSuperview()
-                    transitionImgView.removeFromSuperview()
-                    
-                    transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
-                    
+                    }, completion: { [weak self] (finished:Bool) in
+                        
+                        self?.blackBgView?.removeFromSuperview()
+                        self?.originalCoverView?.removeFromSuperview()
+                        transitionImgView.removeFromSuperview()
+                        
+                        transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)
+                        
                 })
                 
                 return
             }
             
-            UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
                 
                 transitionImgView.frame = (self?.transitionOriginalImgFrame)!
                 self?.blackBgView?.alpha = 0
@@ -161,6 +175,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
             }) { [weak self] (finished: Bool) in
                 
                 self?.blackBgView?.removeFromSuperview()
+                self?.originalCoverView?.removeFromSuperview()
                 transitionImgView.removeFromSuperview()
                 
                 transitionContext?.completeTransition(!(transitionContext?.transitionWasCancelled)!)

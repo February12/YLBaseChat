@@ -22,6 +22,8 @@ class BaseChatVC: UIViewController {
     
     fileprivate var dataArray = Array<Message>()
     
+    fileprivate var showPhotos = [YLPhoto]()
+    
     var conversation:Conversation!
     
     fileprivate var chatView:ChatView = ChatView(frame: CGRect.zero)
@@ -340,8 +342,10 @@ extension BaseChatVC:BaseChatCellDelegate {
         }
         
         if photos.count == 0 {return}
+        showPhotos.removeAll()
+        showPhotos += photos
         
-        let photoBrowser = YLPhotoBrowser.init(photos, index: index)
+        let photoBrowser = YLPhotoBrowser.init(index, self)
         // 自定义过度图片
         photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bool) -> UIView? in
             
@@ -454,6 +458,18 @@ extension BaseChatVC:ChatViewDelegate {
     }
 }
 
+// MARK: - YLPhotoBrowserDelegate
+extension BaseChatVC: YLPhotoBrowserDelegate {
+
+    func epPhotoBrowserGetPhotoCount() -> Int {
+        return showPhotos.count
+    }
+    
+    func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
+        return showPhotos[currentIndex]
+    }
+    
+}
 
 // MARK: - UIScrollViewDelegate
 extension BaseChatVC:UIScrollViewDelegate {
