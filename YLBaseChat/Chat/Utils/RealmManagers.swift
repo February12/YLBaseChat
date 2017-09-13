@@ -75,6 +75,12 @@ class RealmManagers{
         try! realm.write {
             realm.delete(obj)
         }
+        /* delete with class ref
+        let realm = try! Realm()
+        try! realm.write {
+            realm.delete(realm.objects(RMMyBoardList.self))
+        }
+        */
     }
     
 }
