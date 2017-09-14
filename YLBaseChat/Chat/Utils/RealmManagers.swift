@@ -71,6 +71,8 @@ class RealmManagers{
     
     // 同步删除数据
     func deleteSynModel(_ obj:Object){
+        
+        
         let realm = try! Realm()
         try! realm.write {
             realm.delete(obj)
