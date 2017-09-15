@@ -91,15 +91,6 @@ class YLPhotoBrowser: UIViewController {
         let photo = getDataByCurrentIndex(currentIndex)
         showPhotoTagBtn(photo?.assetModel)
         
-        // 手势
-        let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoBrowser.singleTap))
-        view.addGestureRecognizer(singleTap)
-        let doubleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoBrowser.doubleTap))
-        doubleTap.numberOfTapsRequired = 2
-        view.addGestureRecognizer(doubleTap)
-        // 优先识别 双击
-        singleTap.require(toFail: doubleTap)
-        
         layoutUI()
         
         collectionView.scrollToItem(at: IndexPath.init(row: currentIndex, section: 0), at: UICollectionViewScrollPosition.left, animated: false)
@@ -116,7 +107,9 @@ class YLPhotoBrowser: UIViewController {
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         
-        collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "YLPhotoCell")
+        collectionView.register(YLVideoCell.self, forCellWithReuseIdentifier: "YLVideoCell")
         
         collectionView.backgroundColor = UIColor.clear
         collectionView.isPagingEnabled = true
@@ -147,41 +140,6 @@ class YLPhotoBrowser: UIViewController {
         toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
         
         view.layoutIfNeeded()
-    }
-    
-    /// 单击手势
-    func singleTap() {
-        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
-        toolbarBottom.isHidden = !toolbarBottom.isHidden
-    }
-    
-    /// 双击手势
-    func doubleTap() {
-        
-        if let imageView = getCurrentImageView(),
-            let scrollView = imageView.superview as? UIScrollView,
-            let image = imageView.image {
-            
-            if scrollView.zoomScale == 1 {
-                
-                var scale:CGFloat = 0
-                
-                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
-                if height >= view.frame.height {
-                    scale = 2
-                }else {
-                    scale = view.frame.height / height
-                }
-                
-                scale = scale > 4 ? 4: scale
-                scale = scale < 1 ? 2: scale
-                
-                scrollView.setZoomScale(scale, animated: true)
-            }else {
-                scrollView.setZoomScale(1, animated: true)
-            }
-            
-        }
     }
     
     /// 返回
@@ -344,16 +302,27 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: YLPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! YLPhotoCell
-        
         if let photo = getDataByCurrentIndex(indexPath.row) {
             
-            cell.updatePhoto(photo)
-            cell.delegate = self
+            if photo.assetModel?.type == .video {
             
+                let cell: YLVideoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLVideoCell", for: indexPath) as! YLVideoCell
+                cell.updatePhoto(photo,row: indexPath.row)
+                cell.delegate = self
+                
+                return cell
+            }else if photo.assetModel?.type == .photo ||
+                photo.assetModel?.type == .gif {
+                
+                let cell: YLPhotoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "YLPhotoCell", for: indexPath) as! YLPhotoCell
+                cell.updatePhoto(photo)
+                cell.delegate = self
+                
+                return cell
+            }
         }
         
-        return cell
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
     }
     
@@ -371,14 +340,30 @@ extension YLPhotoBrowser:UICollectionViewDelegate,UICollectionViewDataSource,UIC
             let photo = getDataByCurrentIndex(currentIndex)
             showPhotoTagBtn(photo?.assetModel)
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("videoCellReceivescrollViewDelegate"), object: ["state":"endDecelerating","currentIndex":String(currentIndex)])
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name("videoCellReceivescrollViewDelegate"), object: ["state":"beginDragging","currentIndex":String(currentIndex)])
+        
     }
 }
 
+extension YLPhotoBrowser: YLVideoCellDelegate {
+
+    func epVideoSingleTap(isHidden: Bool) {
+        self.navigationController?.setNavigationBarHidden(isHidden, animated: false)
+        toolbarBottom.isHidden = isHidden
+    }
+
+}
 
 // MARK: - YLPhotoCellDelegate
 extension YLPhotoBrowser: YLPhotoCellDelegate {
     
-    func epPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
+    func epPhotoPanGestureRecognizerBegin(_ pan: UIPanGestureRecognizer, photo: YLPhoto) {
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         toolbarBottom.isHidden = true
@@ -390,9 +375,41 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
         
     }
     
-    func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
+    func epPhotoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
         animatedTransition?.gestureRecognizer = nil
         animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
+    }
+    
+    func epPhotoSingleTap() {
+        self.navigationController?.setNavigationBarHidden(!toolbarBottom.isHidden, animated: false)
+        toolbarBottom.isHidden = !toolbarBottom.isHidden
+    }
+    
+    func epPhotoDoubleTap() {
+        if let imageView = getCurrentImageView(),
+            let scrollView = imageView.superview as? UIScrollView,
+            let image = imageView.image {
+            
+            if scrollView.zoomScale == 1 {
+                
+                var scale:CGFloat = 0
+                
+                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
+                if height >= view.frame.height {
+                    scale = 2
+                }else {
+                    scale = view.frame.height / height
+                }
+                
+                scale = scale > 4 ? 4: scale
+                scale = scale < 1 ? 2: scale
+                
+                scrollView.setZoomScale(scale, animated: true)
+            }else {
+                scrollView.setZoomScale(1, animated: true)
+            }
+            
+        }
     }
 }

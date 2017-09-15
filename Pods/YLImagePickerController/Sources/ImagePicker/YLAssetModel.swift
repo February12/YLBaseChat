@@ -12,8 +12,8 @@ import Photos
 class YLAssetModel {
     /// 资源
     var asset: PHAsset!
-    /// 类型
-    var type: YLAssetType!
+    /// 类型 默认是常规图片类型
+    var type: YLAssetType = YLAssetType.photo
     /// 缩略图
     var thumbnailImage: UIImage?
     /// 是否选择

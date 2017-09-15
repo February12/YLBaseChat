@@ -42,17 +42,33 @@ public enum YLAssetType {
 
 /// 导出Model
 public struct YLPhotoModel {
+    
+    public var asset: PHAsset?
     public var image: UIImage?
     public var data: Data?
     public var type: YLAssetType?
     
+    // 导出图片(截图)
     init(image: UIImage?) {
         self.image = image
         self.type = YLAssetType.photo
     }
-    init(gifData: Data) {
+    // 导出图片(没有截图)
+    init(image: UIImage?,asset: PHAsset?) {
+        self.image = image
+        self.asset = asset
+        self.type = YLAssetType.photo
+    }
+    // 导出gif
+    init(gifData: Data,asset: PHAsset?) {
         self.data = gifData
+        self.asset = asset
         self.type = YLAssetType.gif
+    }
+    // 导出视频
+    init(asset: PHAsset?) {
+        self.asset = asset
+        self.type = YLAssetType.video
     }
 }
 
@@ -75,6 +91,8 @@ public class YLImagePickerController: UINavigationController {
     public var isSelectedOriginalImage = false
     /// 是否需要选择gif 动图  默认不需要
     public var isNeedSelectGifImage = false
+    /// 是否需要选择视频      默认不需要
+    public var isNeedSelectVideo = false
     
     var maxImagesCount:Int = 0                  // 最大可选数量
     var isOneChoose: Bool = false               // 是否单选

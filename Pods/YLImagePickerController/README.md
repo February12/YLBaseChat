@@ -41,7 +41,10 @@ imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.came
 ///拍照方形裁剪
 imagePicker = YLImagePickerController.init(imagePickerType: ImagePickerType.camera, cropType: CropType.square)
 
-/// 是否需要选择gif 动图  默认不需要 isNeedSelectGifImage
+/// 可以选择GIf
+imagePicker?.isNeedSelectGifImage = true
+/// 可以选择视频
+imagePicker?.isNeedSelectVideo = true
    
 /// 导出图片
 imagePicker?.didFinishPickingPhotosHandle = {(photos: [YLPhotoModel]) in
@@ -50,6 +53,8 @@ imagePicker?.didFinishPickingPhotosHandle = {(photos: [YLPhotoModel]) in
               print((UIImagePNGRepresentation(photo.image!)?.count)! / 1024)
           }else if photo.type == YLAssetType.gif {
               print((photo.data?.count)! / 1024)
+          }else if photo.type == YLAssetType.video {
+              print("视频")
           }
       }
 }
@@ -59,6 +64,7 @@ present(imagePicker!, animated: true, completion: nil)
 
 # 最近更新 
 
+- 0.0.8   添加视频功能
 - 0.0.7    添加预览功能
 - 0.0.6    添加GIF功能
 - 0.0.5    添加原图功能 

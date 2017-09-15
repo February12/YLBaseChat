@@ -10,7 +10,7 @@
 - SnapKit      约束
 - YYText       图文
 - [YLPhotoBrowser-Swift](https://github.com/February12/YLPhotoBrowser)  图片浏览器
-- TZImagePickerController 选择相册
+- [YLImagePickerController](https://github.com/February12/YLImagePickerController)  相册
 - YLReplyView 输入框的封装
 
 

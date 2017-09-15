@@ -153,15 +153,18 @@ class YLPhotoPickerController: UIViewController {
                     let assetModel = YLAssetModel()
                     assetModel.asset = asset
                     
-                    if let assetType = asset.value(forKey: "filename") as? String {
-                        if assetType.hasSuffix("GIF") == true &&
-                            imagePicker.isNeedSelectGifImage == true {
-                            assetModel.type = .gif
-                        }else {
-                            assetModel.type = .photo
+                    // 判断gif
+                    if asset.mediaType == PHAssetMediaType.image &&
+                        imagePicker.isNeedSelectGifImage == true {
+                        if let assetType = asset.value(forKey: "filename") as? String {
+                            if assetType.hasSuffix("GIF") == true {
+                                    assetModel.type = .gif
+                            }
                         }
-                    }else {
-                        assetModel.type = .photo
+                    // 判断视频
+                    }else if asset.mediaType == PHAssetMediaType.video &&
+                        imagePicker.isNeedSelectVideo == true {
+                        assetModel.type = .video
                     }
                     
                     self?.photos.append(assetModel)
@@ -177,7 +180,6 @@ class YLPhotoPickerController: UIViewController {
                 }
             }
         }
-        
     }
     
     /// 发送按钮
@@ -223,30 +225,38 @@ class YLPhotoPickerController: UIViewController {
     /// 完成选择
     func didFinishPickingPhotos(_ assetModels: [YLAssetModel]) {
         
-        let options = PHImageRequestOptions()
-        options.resizeMode = PHImageRequestOptionsResizeMode.fast
-        options.isSynchronous = true
-        
         var photos = [YLPhotoModel]()
+        
         for assetModel in assetModels {
             
             if assetModel.type == .gif {
                 
+                let options = PHImageRequestOptions()
+                options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                options.isSynchronous = true
                 PHImageManager.default().requestImageData(for: assetModel.asset, options: options, resultHandler: { (data:Data?, dataUTI:String?, _, _) in
                     
                     if let data = data {
-                        let photoModel = YLPhotoModel.init(gifData: data)
+                        let photoModel = YLPhotoModel.init(gifData: data,asset: assetModel.asset)
                         photos.append(photoModel)
                     }
                     
                 })
                 
+            }else if assetModel.type == .video {
+                
+                let photoModel = YLPhotoModel.init(asset: assetModel.asset)
+                photos.append(photoModel)
+                
             }else {
                 
+                let options = PHImageRequestOptions()
+                options.resizeMode = PHImageRequestOptionsResizeMode.fast
+                options.isSynchronous = true
                 PHImageManager.default().requestImage(for: assetModel.asset, targetSize: getUserNeedSize(CGSize.init(width: assetModel.asset.pixelWidth, height: assetModel.asset.pixelHeight)), contentMode: PHImageContentMode.aspectFill, options: options, resultHandler: { (result:UIImage?, _) in
                     
                     if let image = result {
-                        let photoModel = YLPhotoModel.init(image: image)
+                        let photoModel = YLPhotoModel.init(image: image,asset: assetModel.asset)
                         photos.append(photoModel)
                     }
                 })
@@ -372,7 +382,8 @@ extension YLPhotoPickerController :YLThumbnailCellDelegate {
         if imagePicker.isOneChoose == true {
             
             if imagePicker.cropType != CropType.none &&
-                assetModel.type != .gif {
+                assetModel.type != .gif &&
+                assetModel.type != .video {
                 
                 let options = PHImageRequestOptions()
                 options.resizeMode = PHImageRequestOptionsResizeMode.fast

@@ -70,6 +70,8 @@ class YLThumbnailCell: UICollectionViewCell {
         
         if assetModel.type == .gif {
             photoTypeLabel.text = "GIF"
+        }else if assetModel.type == .video {
+            photoTypeLabel.text = "Video"
         }else {
             photoTypeLabel.text = ""
         }

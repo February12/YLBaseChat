@@ -156,6 +156,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
         if let vc = self.getVC(){
             let imagePicker = YLImagePickerController.init(maxImagesCount: 9)
             imagePicker.isNeedSelectGifImage = true
+            imagePicker.isNeedSelectVideo = true
             imagePicker.didFinishPickingPhotosHandle = {[weak self] (photos: [YLPhotoModel]) in
                 for photo in photos {
                     if photo.type == YLAssetType.photo {
