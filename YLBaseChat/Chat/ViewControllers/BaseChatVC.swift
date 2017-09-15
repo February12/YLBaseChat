@@ -346,6 +346,8 @@ extension BaseChatVC:BaseChatCellDelegate {
         showPhotos += photos
         
         let photoBrowser = YLPhotoBrowser.init(index, self)
+        photoBrowser.originalCoverViewBG = UIColor.colorFromRGB(0xf2f2f2)
+        
         // 自定义过度图片
         photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bool) -> UIView? in
             

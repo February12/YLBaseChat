@@ -340,18 +340,16 @@ extension Kingfisher where Base: Image {
     // MARK: - Round Corner
     /// Create a round corner image based on `self`.
     ///
-    /// - parameter radius:          The round corner radius of creating image.
-    /// - parameter size:            The target size of creating image.
-    /// - parameter corners:         The target corners which will be applied rounding.
-    /// - parameter backgroundColor: The background color for the output image
+    /// - parameter radius:  The round corner radius of creating image.
+    /// - parameter size:    The target size of creating image.
+    /// - parameter corners: The target corners which will be applied rounding.
     ///
     /// - returns: An image with round corner of `self`.
     ///
     /// - Note: This method only works for CG-based image.
     public func image(withRoundRadius radius: CGFloat,
                       fit size: CGSize,
-                      roundingCorners corners: RectCorner = .all,
-                      backgroundColor: Color? = nil) -> Image
+                      roundingCorners corners: RectCorner = .all) -> Image
     {   
         guard let cgImage = cgImage else {
             assertionFailure("[Kingfisher] Round corner image only works for CG-based image.")
@@ -361,12 +359,6 @@ extension Kingfisher where Base: Image {
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
         return draw(cgImage: cgImage, to: size) {
             #if os(macOS)
-                if let backgroundColor = backgroundColor {
-                    let rectPath = NSBezierPath(rect: rect)
-                    backgroundColor.setFill()
-                    rectPath.fill()
-                }
-
                 let path = NSBezierPath(roundedRect: rect, byRoundingCorners: corners, radius: radius)
                 path.windingRule = .evenOddWindingRule
                 path.addClip()
@@ -376,13 +368,6 @@ extension Kingfisher where Base: Image {
                     assertionFailure("[Kingfisher] Failed to create CG context for image.")
                     return
                 }
-
-                if let backgroundColor = backgroundColor {
-                    let rectPath = UIBezierPath(rect: rect)
-                    backgroundColor.setFill()
-                    rectPath.fill()
-                }
-
                 let path = UIBezierPath(roundedRect: rect,
                                         byRoundingCorners: corners.uiRectCorner,
                                         cornerRadii: CGSize(width: radius, height: radius)).cgPath
@@ -521,7 +506,7 @@ extension Kingfisher where Base: Image {
                 return vImage_Buffer(data: data, height: height, width: width, rowBytes: rowBytes)
             }
 
-            guard let context = beginContext(size: size, scale: scale) else {
+            guard let context = beginContext(size: size) else {
                 assertionFailure("[Kingfisher] Failed to create CG context for blurring image.")
                 return base
             }
@@ -531,7 +516,7 @@ extension Kingfisher where Base: Image {
             
             var inBuffer = createEffectBuffer(context)
             
-            guard let outContext = beginContext(size: size, scale: scale) else {
+            guard let outContext = beginContext(size: size) else {
                 assertionFailure("[Kingfisher] Failed to create CG context for blurring image.")
                 return base
             }
@@ -630,7 +615,7 @@ extension Kingfisher where Base: Image {
 
 // MARK: - Decode
 extension Kingfisher where Base: Image {
-    var decoded: Image {
+    var decoded: Image? {
         return decoded(scale: scale)
     }
     
@@ -647,15 +632,14 @@ extension Kingfisher where Base: Image {
             return base
         }
         
-        // Draw CGImage in a plain context with scale of 1.0.
-        guard let context = beginContext(size: CGSize(width: imageRef.width, height: imageRef.height), scale: 1.0) else {
+        guard let context = beginContext(size: CGSize(width: imageRef.width, height: imageRef.height)) else {
             assertionFailure("[Kingfisher] Decoding fails to create a valid context.")
             return base
         }
         
         defer { endContext() }
         
-        let rect = CGRect(x: 0, y: 0, width: CGFloat(imageRef.width), height: CGFloat(imageRef.height))
+        let rect = CGRect(x: 0, y: 0, width: imageRef.width, height: imageRef.height)
         context.draw(imageRef, in: rect)
         let decompressedImageRef = context.makeImage()
         return Kingfisher<Image>.image(cgImage: decompressedImageRef!, scale: scale, refImage: base)
@@ -783,7 +767,7 @@ extension Comparable {
 
 extension Kingfisher where Base: Image {
     
-    func beginContext(size: CGSize, scale: CGFloat) -> CGContext? {
+    func beginContext(size: CGSize) -> CGContext? {
         #if os(macOS)
             guard let rep = NSBitmapImageRep(
                 bitmapDataPlanes: nil,

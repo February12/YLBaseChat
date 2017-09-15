@@ -55,23 +55,22 @@ extension Kingfisher where Base: ImageView {
      */
     @discardableResult
     public func setImage(with resource: Resource?,
-                         placeholder: Placeholder? = nil,
+                         placeholder: Image? = nil,
                          options: KingfisherOptionsInfo? = nil,
                          progressBlock: DownloadProgressBlock? = nil,
                          completionHandler: CompletionHandler? = nil) -> RetrieveImageTask
     {
         guard let resource = resource else {
-            self.placeholder = placeholder
+            base.image = placeholder
             setWebURL(nil)
             completionHandler?(nil, nil, .none, nil)
             return .empty
         }
         
         var options = KingfisherManager.shared.defaultOptions + (options ?? KingfisherEmptyOptionsInfo)
-        let noImageOrPlaceholderSet = base.image == nil && self.placeholder == nil
         
-        if !options.keepCurrentImageWhileLoading || noImageOrPlaceholderSet { // Always set placeholder while there is no image/placehoer yet.
-            self.placeholder = placeholder
+        if !options.keepCurrentImageWhileLoading {
+            base.image = placeholder
         }
 
         let maybeIndicator = indicator
@@ -111,7 +110,6 @@ extension Kingfisher where Base: ImageView {
                     guard let transitionItem = options.lastMatchIgnoringAssociatedValue(.transition(.none)),
                         case .transition(let transition) = transitionItem, ( options.forceTransition || cacheType == .none) else
                     {
-                        self.placeholder = nil
                         strongBase.image = image
                         completionHandler?(image, error, cacheType, imageURL)
                         return
@@ -121,8 +119,6 @@ extension Kingfisher where Base: ImageView {
                         UIView.transition(with: strongBase, duration: 0.0, options: [],
                                           animations: { maybeIndicator?.stopAnimatingView() },
                                           completion: { _ in
-
-                                            self.placeholder = nil
                                             UIView.transition(with: strongBase, duration: transition.duration,
                                                               options: [transition.animationOptions, .allowUserInteraction],
                                                               animations: {
@@ -156,7 +152,6 @@ extension Kingfisher where Base: ImageView {
 private var lastURLKey: Void?
 private var indicatorKey: Void?
 private var indicatorTypeKey: Void?
-private var placeholderKey: Void?
 private var imageTaskKey: Void?
 
 extension Kingfisher where Base: ImageView {
@@ -230,26 +225,6 @@ extension Kingfisher where Base: ImageView {
     fileprivate func setImageTask(_ task: RetrieveImageTask?) {
         objc_setAssociatedObject(base, &imageTaskKey, task, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
-    
-    public fileprivate(set) var placeholder: Placeholder? {
-        get {
-            return (objc_getAssociatedObject(base, &placeholderKey) as? Box<Placeholder?>)?.value
-        }
-        
-        set {
-            if let previousPlaceholder = placeholder {
-                previousPlaceholder.remove(from: base)
-            }
-            
-            if let newPlaceholder = newValue {
-                newPlaceholder.add(to: base)
-            } else {
-                base.image = nil
-            }
-            
-            objc_setAssociatedObject(base, &placeholderKey, Box(value: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
 }
 
 
@@ -275,7 +250,7 @@ extension ImageView {
     @available(*, deprecated, message: "Extensions directly on image views are deprecated. Use `imageView.kf.setImage` instead.", renamed: "kf.setImage")
     @discardableResult
     public func kf_setImage(with resource: Resource?,
-                              placeholder: Placeholder? = nil,
+                              placeholder: Image? = nil,
                                   options: KingfisherOptionsInfo? = nil,
                             progressBlock: DownloadProgressBlock? = nil,
                         completionHandler: CompletionHandler? = nil) -> RetrieveImageTask

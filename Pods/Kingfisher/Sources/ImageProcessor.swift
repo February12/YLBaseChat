@@ -176,38 +176,24 @@ public struct RoundCornerImageProcessor: ImageProcessor {
     
     /// Target size of output image should be. If `nil`, the image will keep its original size after processing.
     public let targetSize: CGSize?
-
-    /// Background color of the output image. If `nil`, it will stay transparent.
-    public let backgroundColor: Color?
-
+    
     /// Initialize a `RoundCornerImageProcessor`
     ///
-    /// - parameter cornerRadius:    Corner radius will be applied in processing.
-    /// - parameter targetSize:      Target size of output image should be. If `nil`, 
-    ///                              the image will keep its original size after processing.
-    ///                              Default is `nil`.
-    /// - parameter corners:         The target corners which will be applied rounding. Default is `.all`.
-    /// - parameter backgroundColor: Backgroud color to apply for the output image. Default is `nil`.
-    public init(cornerRadius: CGFloat, targetSize: CGSize? = nil, roundingCorners corners: RectCorner = .all, backgroundColor: Color? = nil) {
+    /// - parameter cornerRadius: Corner radius will be applied in processing.
+    /// - parameter targetSize:   Target size of output image should be. If `nil`, 
+    ///                           the image will keep its original size after processing.
+    ///                           Default is `nil`.
+    /// - parameter corners:      The target corners which will be applied rounding. Default is `.all`.
+    public init(cornerRadius: CGFloat, targetSize: CGSize? = nil, roundingCorners corners: RectCorner = .all) {
         self.cornerRadius = cornerRadius
         self.targetSize = targetSize
         self.roundingCorners = corners
-        self.backgroundColor = backgroundColor
-
-        self.identifier = {
-            var identifier = ""
-
-            if let size = targetSize {
-                identifier = "com.onevcat.Kingfisher.RoundCornerImageProcessor(\(cornerRadius)_\(size)\(corners.cornerIdentifier))"
-            } else {
-                identifier = "com.onevcat.Kingfisher.RoundCornerImageProcessor(\(cornerRadius)\(corners.cornerIdentifier))"
-            }
-            if let backgroundColor = backgroundColor {
-                identifier += "_\(backgroundColor)"
-            }
-
-            return identifier
-        }()
+        
+        if let size = targetSize {
+            self.identifier = "com.onevcat.Kingfisher.RoundCornerImageProcessor(\(cornerRadius)_\(size)\(corners.cornerIdentifier))"
+        } else {
+            self.identifier = "com.onevcat.Kingfisher.RoundCornerImageProcessor(\(cornerRadius)\(corners.cornerIdentifier))"
+        }
     }
     
     /// Process an input `ImageProcessItem` item to an image for this processor.
@@ -222,7 +208,7 @@ public struct RoundCornerImageProcessor: ImageProcessor {
         switch item {
         case .image(let image):
             let size = targetSize ?? image.kf.size
-            return image.kf.image(withRoundRadius: cornerRadius, fit: size, roundingCorners: roundingCorners, backgroundColor: backgroundColor)
+            return image.kf.image(withRoundRadius: cornerRadius, fit: size, roundingCorners: roundingCorners)
         case .data(_):
             return (DefaultImageProcessor.default >> self).process(item: item, options: options)
         }

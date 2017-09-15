@@ -22,6 +22,10 @@ pod 'YLPhotoBrowser-Swift'
 let photoBrowser = YLPhotoBrowser.init(photos, index: index)
 
 // 可选
+// 用于遮挡原来图片的View的背景色 public var originalCoverViewBG = UIColor.clear
+photoBrowser.originalCoverViewBG = UIColor.white
+
+// 可选
 // 非矩形图片需要实现(比如聊天界面带三角形的图片) 默认是矩形图片
 photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bool) -> UIView? in
     if isBack == false {
@@ -33,7 +37,7 @@ photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bo
 // 可选
 // 每张图片上的 View 视图
 photoBrowser.getViewOnTheBrowser = { [weak self] (currentIndex: Int) -> UIView? in
-
+            
     let view = UIView()
     view.backgroundColor = UIColor.clear
 
@@ -43,20 +47,11 @@ photoBrowser.getViewOnTheBrowser = { [weak self] (currentIndex: Int) -> UIView? 
     view.addSubview(label)
     // label 约束
     label.translatesAutoresizingMaskIntoConstraints = false
-    let lConstraintsCX = NSLayoutConstraint
-    .init(item: label, attribute: 	NSLayoutAttribute.centerX, 
-    relatedBy: NSLayoutRelation.equal, toItem: view, 
-    attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
-    let lConstraintsTop = NSLayoutConstraint
-    .init(item: label, attribute: NSLayoutAttribute.top, 
-    relatedBy: NSLayoutRelation.equal, toItem: view, 
-    attribute: NSLayoutAttribute.top, multiplier: 1, constant: 40)
+    label.addLayoutConstraint(attributes: [.centerX,.top], toItem: view, 						constants: [0,40])
 
-    NSLayoutConstraint.activate([lConstraintsCX,lConstraintsTop])
     label.backgroundColor = UIColor.blue
     label.isUserInteractionEnabled = true
-    label.addGestureRecognizer(UITapGestureRecognizer
-    .init(target: self, action: #selector(ViewController.tap)))
+    label.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: 					#selector(ViewController.tap)))
 
     return view
 }
@@ -65,7 +60,7 @@ present(photoBrowser, animated: true, completion: nil)
 
 // 代理
 func epPhotoBrowserGetPhotoCount() -> Int {
-        return dataArray.count
+    return dataArray.count
 }
     
 func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
@@ -98,7 +93,6 @@ func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
     }
     return photo ?? YLPhoto()
 }
-
 
 ```
 

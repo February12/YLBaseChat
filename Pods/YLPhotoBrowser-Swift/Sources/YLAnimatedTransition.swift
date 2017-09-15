@@ -38,6 +38,12 @@ class YLAnimatedTransition: NSObject,UIViewControllerTransitioningDelegate {
             customPop.transitionImageView = transitionImageView
         }
     }
+    var originalCoverViewBG: UIColor? {
+        didSet {
+            customPop.originalCoverViewBG = originalCoverViewBG
+            percentIntractive.originalCoverViewBG = originalCoverViewBG
+        }
+    }
     var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
             if let gestureRecognizer = gestureRecognizer {

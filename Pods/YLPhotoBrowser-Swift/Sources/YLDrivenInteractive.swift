@@ -14,6 +14,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
     var transitionBrowserImgFrame: CGRect = CGRect.zero
     var transitionImage: UIImage?
     var transitionImageView: UIView?
+    var originalCoverViewBG: UIColor?
     
     var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
@@ -86,7 +87,7 @@ class YLDrivenInteractive: UIPercentDrivenInteractiveTransition {
             containerView.addSubview(toView!)
             
             originalCoverView = UIView.init(frame: transitionOriginalImgFrame)
-            originalCoverView?.backgroundColor = UIColor.white
+            originalCoverView?.backgroundColor = originalCoverViewBG
             containerView.addSubview(originalCoverView!)
             
             // 有渐变的黑色背景

@@ -12,7 +12,6 @@ pod 'SnapKit', '~> 3.2.0'
 pod 'YYText', '~> 1.0.7'
 pod 'YLImagePickerController'
 pod 'YLPhotoBrowser-Swift'
-pod 'Kingfisher', '~> 3.13.0'
 
 end
 
