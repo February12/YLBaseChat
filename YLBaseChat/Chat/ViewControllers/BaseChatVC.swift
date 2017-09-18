@@ -348,27 +348,6 @@ extension BaseChatVC:BaseChatCellDelegate {
         let photoBrowser = YLPhotoBrowser.init(index, self)
         photoBrowser.originalCoverViewBG = UIColor.colorFromRGB(0xf2f2f2)
         
-        // 自定义过度图片
-        photoBrowser.getTransitionImageView = { (index: Int, image: UIImage?, isBack: Bool) -> UIView? in
-            
-            if isBack == false {
-                return nil
-            }
-            
-            let message = imageDataArray[index]
-            
-            let messagePhotoImageView = ChatPhotoImageView(frame: CGRect.zero)
-            if message.direction == MessageDirection.send.rawValue {
-                
-                messagePhotoImageView.updateMessagePhoto(image, isSendMessage: true)
-            }else {
-                
-                messagePhotoImageView.updateMessagePhoto(image, isSendMessage: false)
-                
-            }
-            
-            return messagePhotoImageView
-        }
         present(photoBrowser, animated: true, completion: nil)
         
     }
