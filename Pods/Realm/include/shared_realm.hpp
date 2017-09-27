@@ -51,10 +51,7 @@ typedef std::weak_ptr<Realm> WeakRealm;
 namespace _impl {
     class AnyHandover;
     class CollectionNotifier;
-    class ListNotifier;
-    class ObjectNotifier;
     class RealmCoordinator;
-    class ResultsNotifier;
     class RealmFriend;
 }
 
@@ -78,11 +75,26 @@ enum class SchemaMode : uint8_t {
     // identical.
     Automatic,
 
-    // Open the file in read-only mode. Schema version must match the
+    // Open the file in immutable mode. Schema version must match the
     // version in the file, and all tables present in the file must
     // exactly match the specified schema, except for indexes. Tables
     // are allowed to be missing from the file.
-    ReadOnly,
+    // WARNING: This is the original ReadOnly mode.
+    Immutable,
+
+    // Open the Realm in read-only mode, transactions are not allowed to
+    // be performed on the Realm instance. The schema of the existing Realm
+    // file won't be changed through this Realm instance. Extra tables and
+    // extra properties are allowed in the existing Realm schema. The
+    // difference of indexes is allowed as well. Other schema differences
+    // than those will cause an exception. This is different from Immutable
+    // mode, sync Realm can be opened with ReadOnly mode. Changes
+    // can be made to the Realm file through another writable Realm instance.
+    // Thus, notifications are also allowed in this mode.
+    // FIXME: Rename this to ReadOnly
+    // WARNING: This is not the original ReadOnly mode. The original ReadOnly
+    // has been renamed to Immutable.
+    ReadOnlyAlternative,
 
     // If the schema version matches and the only schema changes are new
     // tables and indexes being added or removed, apply the changes to
@@ -127,15 +139,23 @@ public:
     // functions which take a Schema from within the migration function.
     using MigrationFunction = std::function<void (SharedRealm old_realm, SharedRealm realm, Schema&)>;
 
-#if !WIN32
+    // A callback function to be called the first time when a schema is created.
+    // It is passed a SharedRealm which is in a write transaction with the schema
+    // initialized. So it is possible to create some initial objects inside the callback
+    // with the given SharedRealm. Those changes will be committed together with the
+    // schema creation in a single transaction.
+    using DataInitializationFunction = std::function<void (SharedRealm realm)>;
+
     // A callback function called when opening a SharedRealm when no cached
     // version of this Realm exists. It is passed the total bytes allocated for
     // the file (file size) and the total bytes used by data in the file.
     // Return `true` to indicate that an attempt to compact the file should be made
     // if it is possible to do so.
     // Won't compact the file if another process is accessing it.
+    //
+    // WARNING / FIXME: compact() should NOT be exposed publicly on Windows
+    // because it's not crash safe! It may corrupt your database if something fails
     using ShouldCompactOnLaunchFunction = std::function<bool (uint64_t total_bytes, uint64_t used_bytes)>;
-#endif
 
     struct Config {
         // Path and binary data are mutually exclusive
@@ -144,29 +164,34 @@ public:
         // User-supplied encryption key. Must be either empty or 64 bytes.
         std::vector<char> encryption_key;
 
-
         bool in_memory = false;
         SchemaMode schema_mode = SchemaMode::Automatic;
 
         // Optional schema for the file.
         // If the schema and schema version are supplied, update_schema() is
         // called with the supplied schema, version and migration function when
-        // the Realm is actually opened and not just retreived from the cache
+        // the Realm is actually opened and not just retrieved from the cache
         util::Optional<Schema> schema;
         uint64_t schema_version = -1;
         MigrationFunction migration_function;
 
-#if !WIN32
+        DataInitializationFunction initialization_function;
+
         // A callback function called when opening a SharedRealm when no cached
         // version of this Realm exists. It is passed the total bytes allocated for
         // the file (file size) and the total bytes used by data in the file.
         // Return `true` to indicate that an attempt to compact the file should be made
         // if it is possible to do so.
         // Won't compact the file if another process is accessing it.
+        //
+        // WARNING / FIXME: compact() should NOT be exposed publicly on Windows
+        // because it's not crash safe! It may corrupt your database if something fails
         ShouldCompactOnLaunchFunction should_compact_on_launch_function;
-#endif
 
-        bool read_only() const { return schema_mode == SchemaMode::ReadOnly; }
+        // WARNING: The original read_only() has been renamed to immutable().
+        bool immutable() const { return schema_mode == SchemaMode::Immutable; }
+        // FIXME: Rename this to read_only().
+        bool read_only_alternative() const { return schema_mode == SchemaMode::ReadOnlyAlternative; }
 
         // The following are intended for internal/testing purposes and
         // should not be publicly exposed in binding APIs
@@ -206,6 +231,7 @@ public:
     // Updates a Realm to a given schema, using the Realm's pre-set schema mode.
     void update_schema(Schema schema, uint64_t version=0,
                        MigrationFunction migration_function=nullptr,
+                       DataInitializationFunction initialization_function=nullptr,
                        bool in_transaction=false);
 
     // Set the schema used for this Realm, but do not update the file's schema
@@ -228,12 +254,17 @@ public:
     bool is_in_transaction() const noexcept;
     bool is_in_read_transaction() const { return !!m_group; }
 
+    bool is_in_migration() const noexcept { return m_in_migration; }
+
     bool refresh();
     void set_auto_refresh(bool auto_refresh) { m_auto_refresh = auto_refresh; }
     bool auto_refresh() const { return m_auto_refresh; }
     void notify();
 
     void invalidate();
+
+    // WARNING / FIXME: compact() should NOT be exposed publicly on Windows
+    // because it's not crash safe! It may corrupt your database if something fails
     bool compact();
     void write_copy(StringData path, BinaryData encryption_key);
     OwnedBinaryData write_copy();
@@ -279,10 +310,7 @@ public:
     // without making it public to everyone
     class Internal {
         friend class _impl::CollectionNotifier;
-        friend class _impl::ListNotifier;
-        friend class _impl::ObjectNotifier;
         friend class _impl::RealmCoordinator;
-        friend class _impl::ResultsNotifier;
         friend class ThreadSafeReferenceBase;
         friend class GlobalNotifier;
         friend class TestHelper;
@@ -337,6 +365,11 @@ private:
     // transaction version, to avoid recursive notifications where possible
     bool m_is_sending_notifications = false;
 
+    // True while we're performing a schema migration via this Realm instance
+    // to allow for different behavior (such as allowing modifications to
+    // primary key values)
+    bool m_in_migration = false;
+
     void begin_read(VersionID);
 
     void set_schema(Schema const& reference, Schema schema);
@@ -350,6 +383,7 @@ private:
 
     void add_schema_change_handler();
     void cache_new_schema();
+    void notify_schema_changed();
 
 public:
     std::unique_ptr<BindingContext> m_binding_context;

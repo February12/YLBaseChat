@@ -13,7 +13,7 @@
 # 导入
 
 ```swift
-pod 'YLPhotoBrowser-Swift' 
+pod 'YLPhotoBrowser-Swift', '~> 0.0.1'
 ```
 
 # 使用 
@@ -96,4 +96,6 @@ func epPhotoBrowserGetPhotoByCurrentIndex(_ currentIndex: Int) -> YLPhoto {
 
 ```
 
-   
+   最近更新
+
+- 0.0.1    适配iOS11、iPhoneX、swift 4.0

@@ -260,11 +260,11 @@ public class YLImagePickerController: UINavigationController {
         
         if imagePickerType == ImagePickerType.camera {
             
-            let authStatus = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+            let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
             
             if authStatus == AVAuthorizationStatus.notDetermined {
                 
-                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted:Bool) in
+                AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted:Bool) in
                     
                     checkPhotoAuthBlock(granted)
                 })
@@ -306,7 +306,7 @@ public class YLImagePickerController: UINavigationController {
     }
     
     // 退出相册
-    func goBack() {
+    @objc func goBack() {
         self.dismiss(animated: true, completion: nil)
     }
 }

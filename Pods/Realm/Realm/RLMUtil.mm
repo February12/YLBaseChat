@@ -82,8 +82,8 @@ static inline bool nsnumber_is_like_float(__unsafe_unretained NSNumber *const ob
            data_type == *@encode(unsigned int) ||
            data_type == *@encode(unsigned long) ||
            data_type == *@encode(unsigned long long) ||
-           // A double is like float if it fits within float bounds
-           (data_type == *@encode(double) && ABS([obj doubleValue]) <= FLT_MAX);
+           // A double is like float if it fits within float bounds or is NaN.
+           (data_type == *@encode(double) && (ABS([obj doubleValue]) <= FLT_MAX || isnan([obj doubleValue])));
 }
 
 static inline bool nsnumber_is_like_double(__unsafe_unretained NSNumber *const obj)
@@ -299,42 +299,6 @@ void RLMSetErrorOrThrow(NSError *error, NSError **outError) {
         }
         @throw RLMException(msg, @{NSUnderlyingErrorKey: error});
     }
-}
-
-// Determines if class1 descends from class2
-static inline BOOL RLMIsSubclass(Class class1, Class class2) {
-    class1 = class_getSuperclass(class1);
-    return RLMIsKindOfClass(class1, class2);
-}
-
-static bool treatFakeObjectAsRLMObject = false;
-
-void RLMSetTreatFakeObjectAsRLMObject(BOOL flag) {
-    treatFakeObjectAsRLMObject = flag;
-}
-
-BOOL RLMIsObjectOrSubclass(Class klass) {
-    if (RLMIsKindOfClass(klass, RLMObjectBase.class)) {
-        return YES;
-    }
-
-    if (treatFakeObjectAsRLMObject) {
-        static Class FakeObjectClass = NSClassFromString(@"FakeObject");
-        return RLMIsKindOfClass(klass, FakeObjectClass);
-    }
-    return NO;
-}
-
-BOOL RLMIsObjectSubclass(Class klass) {
-    if (RLMIsSubclass(class_getSuperclass(klass), RLMObjectBase.class)) {
-        return YES;
-    }
-
-    if (treatFakeObjectAsRLMObject) {
-        static Class FakeObjectClass = NSClassFromString(@"FakeObject");
-        return RLMIsSubclass(klass, FakeObjectClass);
-    }
-    return NO;
 }
 
 BOOL RLMIsDebuggerAttached()

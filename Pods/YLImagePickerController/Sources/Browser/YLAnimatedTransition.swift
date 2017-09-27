@@ -31,13 +31,6 @@ class YLAnimatedTransition: NSObject,UINavigationControllerDelegate {
             customPop.transitionImage = transitionImage
         }
     }
-    var transitionImageView: UIView? {
-        didSet {
-            percentIntractive.transitionImageView = transitionImageView
-            customPush.transitionImageView = transitionImageView
-            customPop.transitionImageView = transitionImageView
-        }
-    }
     var gestureRecognizer: UIPanGestureRecognizer? {
         didSet {
             if let gestureRecognizer = gestureRecognizer {
@@ -51,13 +44,11 @@ class YLAnimatedTransition: NSObject,UINavigationControllerDelegate {
     private var customPop:YLPopAnimator = YLPopAnimator()
     private var percentIntractive:YLDrivenInteractive = YLDrivenInteractive()
     
-    func update(_ transitionImage: UIImage?,transitionImageView: UIView?,transitionOriginalImgFrame: CGRect? ,transitionBrowserImgFrame: CGRect?) {
+    func update(_ transitionImage: UIImage?,transitionOriginalImgFrame: CGRect? ,transitionBrowserImgFrame: CGRect?) {
         
         self.transitionOriginalImgFrame = transitionOriginalImgFrame ?? CGRect.zero
         self.transitionBrowserImgFrame = transitionBrowserImgFrame ?? CGRect.zero
         self.transitionImage = transitionImage
-        self.transitionImageView = transitionImageView
-        
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

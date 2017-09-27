@@ -49,6 +49,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         // 过渡的图片
         let transitionImgView = transitionImageView ?? UIImageView.init(image: self.transitionImage)
         transitionImgView.frame = self.transitionBrowserImgFrame
+        transitionImageView?.layoutIfNeeded()
         containerView.addSubview(transitionImgView)
         
         if transitionOriginalImgFrame == CGRect.zero ||
@@ -76,6 +77,7 @@ class YLPopAnimator: NSObject,UIViewControllerAnimatedTransitioning {
        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             transitionImgView.frame = (self?.transitionOriginalImgFrame)!
+            self?.transitionImageView?.layoutIfNeeded()
             bgView.alpha = 0
             
         }) { (finished:Bool) in

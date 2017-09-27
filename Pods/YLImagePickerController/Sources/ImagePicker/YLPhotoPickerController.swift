@@ -68,8 +68,6 @@ class YLPhotoPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.automaticallyAdjustsScrollViewInsets = false
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "取消", style: UIBarButtonItemStyle.done, target: self.navigationController, action: #selector(YLImagePickerController.goBack))
         
         view.backgroundColor = UIColor.white
@@ -91,15 +89,13 @@ class YLPhotoPickerController: UIViewController {
         view.addSubview(collectionView)
         
         // 约束
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         var edgeInsets = UIEdgeInsets.zero
         if imagePicker.isOneChoose == false {
-            edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: -44, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: -44, right: -5)
         }else {
-            edgeInsets = UIEdgeInsets.init(top: 70, left: 5, bottom: 0, right: -5)
+            edgeInsets = UIEdgeInsets.init(top: 0, left: 5, bottom: 0, right: -5)
         }
-        collectionView.addLayoutConstraint(toItem: view, edgeInsets: edgeInsets)
+        collectionView.addConstraints(toItem: view, edgeInsets: edgeInsets)
         
         
         if imagePicker.isOneChoose == false {
@@ -113,12 +109,7 @@ class YLPhotoPickerController: UIViewController {
             
             view.addSubview(toolbar)
             // 约束
-            toolbar.translatesAutoresizingMaskIntoConstraints = false
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: view, constant: 0)
-            toolbar.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
-            
+            toolbar.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
         }
         
         view.layoutIfNeeded()
@@ -183,12 +174,12 @@ class YLPhotoPickerController: UIViewController {
     }
     
     /// 发送按钮
-    func sendBtnHandle() {
+    @objc func sendBtnHandle() {
         epPhotoBrowserBySendBtnHandle(nil)
     }
     
     /// 选择原图
-    func originalImageClickBtnHandle() {
+    @objc func originalImageClickBtnHandle() {
         
         let imagePicker = self.navigationController as! YLImagePickerController
         let isSelectedOriginalImage = imagePicker.isSelectedOriginalImage
@@ -198,7 +189,7 @@ class YLPhotoPickerController: UIViewController {
     }
     
     /// 预览
-    func previewBtnHandle() {
+    @objc func previewBtnHandle() {
         photoBrowserDataSource = .preview
         previewPhotos.removeAll()
         previewPhotos += selectPhotos

@@ -1,35 +1,35 @@
 PODS:
-  - Kingfisher (3.10.4)
-  - Realm (2.6.2):
-    - Realm/Headers (= 2.6.2)
-  - Realm/Headers (2.6.2)
-  - RealmSwift (2.6.2):
-    - Realm (= 2.6.2)
-  - SnapKit (3.2.0)
-  - TOCropViewController (2.0.12)
-  - YLImagePickerController (0.0.8):
-    - TOCropViewController (~> 2.0.12)
-  - YLPhotoBrowser-Swift (0.2.2):
-    - Kingfisher (~> 3.10.0)
+  - Kingfisher (4.0.1)
+  - Realm (2.10.1):
+    - Realm/Headers (= 2.10.1)
+  - Realm/Headers (2.10.1)
+  - RealmSwift (2.10.1):
+    - Realm (= 2.10.1)
+  - SnapKit (4.0.0)
+  - TOCropViewController (2.1.0)
+  - YLImagePickerController (0.0.9):
+    - TOCropViewController (~> 2.1.0)
+  - YLPhotoBrowser-Swift (0.0.1):
+    - Kingfisher (~> 4.0.1)
   - YYText (1.0.7)
 
 DEPENDENCIES:
-  - RealmSwift (~> 2.6.2)
-  - SnapKit (~> 3.2.0)
-  - YLImagePickerController
-  - YLPhotoBrowser-Swift
+  - RealmSwift (~> 2.10.1)
+  - SnapKit (~> 4.0.0)
+  - YLImagePickerController (~> 0.0.9)
+  - YLPhotoBrowser-Swift (~> 0.0.1)
   - YYText (~> 1.0.7)
 
 SPEC CHECKSUMS:
-  Kingfisher: dc3a4983e86d2dfa89513664983a82340c11a289
-  Realm: 29222766425b9f831228f81b63f0e38a97a4d700
-  RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
-  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
-  TOCropViewController: e6e31b38d785a901e5651a1e7fff71bcda6c5214
-  YLImagePickerController: 911217f66d176581e1d14c045871159a2a48462d
-  YLPhotoBrowser-Swift: 2414f5f10381f81fb5d18303678bb29157967ebf
+  Kingfisher: b771785e9461ed4b8686d40e7145f9e58100cb24
+  Realm: fc7a317a5c2c9ba91f5f235ede4e2ea76e9eba0c
+  RealmSwift: 505ed6c15942a2e76f5cfa78a8667cfa997ee75b
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
+  YLImagePickerController: 54a669c5ce7b5928ecf6321b706c4cec46294d67
+  YLPhotoBrowser-Swift: 5b8abd4b63ace0bab9841eaf1c9f9b7016719037
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 06f21f2c9a684a2f7d96b5d4d28fb33c3b029e64
+PODFILE CHECKSUM: 1bfdc63794029c89260339ab107958bc086db76d
 
 COCOAPODS: 1.2.1

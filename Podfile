@@ -7,11 +7,11 @@ use_frameworks!
 
 # Pods for YLBaseChat
   
-pod 'RealmSwift', '~> 2.6.2'
-pod 'SnapKit', '~> 3.2.0'
-pod 'YYText', '~> 1.0.7'
-pod 'YLImagePickerController'
-pod 'YLPhotoBrowser-Swift'
+pod 'RealmSwift','~> 2.10.1'
+pod 'SnapKit','~> 4.0.0'
+pod 'YYText','~> 1.0.7'
+pod 'YLImagePickerController','~> 0.0.9'
+pod 'YLPhotoBrowser-Swift','~> 0.0.1'
 
 end
 
@@ -19,7 +19,7 @@ end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
-            config.build_settings['SWIFT_VERSION'] = '3.0'
+            config.build_settings['SWIFT_VERSION'] = '4.0'
         end
     end
 end

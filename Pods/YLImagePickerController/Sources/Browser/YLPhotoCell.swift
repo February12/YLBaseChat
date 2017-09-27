@@ -34,6 +34,11 @@ class YLPhotoCell: UICollectionViewCell {
         sv.bounces = false
         sv.maximumZoomScale = 4.0
         sv.minimumZoomScale = 1.0
+        
+        if #available(iOS 11.0, *) {
+            sv.contentInsetAdjustmentBehavior = .never
+        }
+        
         return sv
     }()
     
@@ -75,9 +80,7 @@ class YLPhotoCell: UICollectionViewCell {
         addSubview(scrollView)
         
         // scrollView 约束
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
-        
+        scrollView.addConstraints(toItem: self, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         scrollView.addSubview(imageView)
         
         // 手势
@@ -92,18 +95,18 @@ class YLPhotoCell: UICollectionViewCell {
     }
     
     /// 单击手势
-    func singleTap() {
+    @objc func singleTap() {
         delegate?.epPhotoSingleTap()
     }
     
     /// 双击手势
-    func doubleTap() {
+    @objc func doubleTap() {
         delegate?.epPhotoDoubleTap()
     }
 
     
     // 慢移手势
-    func pan(_ pan: UIPanGestureRecognizer) {
+    @objc func pan(_ pan: UIPanGestureRecognizer) {
         
         let translation = pan.translation(in:  pan.view?.superview)
         

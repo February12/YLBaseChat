@@ -66,6 +66,10 @@ void RLMDisableSyncToDisk() {
     realm::disable_sync_to_disk();
 }
 
+static void RLMAddSkipBackupAttributeToItemAtPath(std::string const& path) {
+    [[NSURL fileURLWithPath:@(path.c_str())] setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];
+}
+
 @implementation RLMRealmNotificationToken
 - (void)stop {
     [_realm verifyThread];
@@ -108,13 +112,8 @@ NSData *RLMRealmValidatedEncryptionKey(NSData *key) {
         return nil;
     }
 
-    if (key) {
-        if (key.length != 64) {
-            @throw RLMException(@"Encryption key must be exactly 64 bytes long");
-        }
-#if TARGET_OS_WATCH
-        @throw RLMException(@"Cannot open an encrypted Realm on watchOS.");
-#endif
+    if (key && key.length != 64) {
+        @throw RLMException(@"Encryption key must be exactly 64 bytes long");
     }
 
     return key;
@@ -187,11 +186,10 @@ NSData *RLMRealmValidatedEncryptionKey(NSData *key) {
 + (void)asyncOpenWithConfiguration:(RLMRealmConfiguration *)configuration
                      callbackQueue:(dispatch_queue_t)callbackQueue
                           callback:(RLMAsyncOpenRealmCallback)callback {
-    __block NSError *error = nil;
-    RLMRealm *realmStrongRef = nil;
-    bool hasSyncConfig = (configuration.config.sync_config != nullptr);
-    if (hasSyncConfig) {
-        realmStrongRef = [RLMRealm uncachedSchemalessRealmWithConfiguration:configuration error:&error];
+    RLMRealm *strongReferenceToSyncedRealm = nil;
+    if (configuration.config.sync_config) {
+        NSError *error = nil;
+        strongReferenceToSyncedRealm = [RLMRealm uncachedSchemalessRealmWithConfiguration:configuration error:&error];
         if (error) {
             dispatch_async(callbackQueue, ^{
                 callback(nil, error);
@@ -202,15 +200,40 @@ NSData *RLMRealmValidatedEncryptionKey(NSData *key) {
     static dispatch_queue_t queue = dispatch_queue_create("io.realm.asyncOpenDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
         @autoreleasepool {
-            RLMRealm *realm = [RLMRealm realmWithConfiguration:configuration error:&error];
-            if (!realm || error) {
-                dispatch_async(callbackQueue, ^{
-                    callback(nil, error);
-                });
-                return;
-            }
-            auto session = sync_session_for_realm(realm);
-            if (!hasSyncConfig || !session) {
+            if (strongReferenceToSyncedRealm) {
+                // Sync behavior: get the raw session, then wait for it to download.
+                if (auto session = sync_session_for_realm(strongReferenceToSyncedRealm)) {
+                    // Wait for the session to download, then open it.
+                    session->wait_for_download_completion([=](std::error_code error_code) {
+                        dispatch_async(callbackQueue, ^{
+                            (void)strongReferenceToSyncedRealm;
+                            NSError *error = nil;
+                            if (error_code == std::error_code{}) {
+                                // Success
+                                @autoreleasepool {
+                                    // Try opening the Realm on the destination queue.
+                                    RLMRealm *localRealm = [RLMRealm realmWithConfiguration:configuration error:&error];
+                                    callback(localRealm, error);
+                                }
+                            } else {
+                                // Failure
+                                callback(nil, make_sync_error(RLMSyncSystemErrorKindSession,
+                                                              @(error_code.message().c_str()),
+                                                              error_code.value(),
+                                                              nil));
+                            }
+                        });
+                    });
+                } else {
+                    dispatch_async(callbackQueue, ^{
+                        callback(nil, make_sync_error(RLMSyncSystemErrorKindSession,
+                                                      @"Cannot asynchronously open synced Realm, because the associated session previously experienced a fatal error",
+                                                      NSNotFound,
+                                                      nil));
+                    });
+                    return;
+                }
+            } else {
                 // Default behavior: just dispatch onto the destination queue and open the Realm.
                 dispatch_async(callbackQueue, ^{
                     @autoreleasepool {
@@ -221,28 +244,6 @@ NSData *RLMRealmValidatedEncryptionKey(NSData *key) {
                 });
                 return;
             }
-            session->wait_for_download_completion([=](std::error_code error) {
-                dispatch_async(callbackQueue, ^{
-                    (void)realmStrongRef;
-                    NSError *err = nil;
-                    if (error == std::error_code{}) {
-                        // Success
-                        @autoreleasepool {
-                            // Try opening the Realm on the destination queue.
-                            RLMRealm *localRealm = [RLMRealm realmWithConfiguration:configuration error:&err];
-                            callback(localRealm, err);
-                        }
-                    } else {
-                        // Failure
-                        // FIXME: we need a less ad-hoc way to turn error codes into NSErrors.
-                        err = [NSError errorWithDomain:RLMSyncErrorDomain
-                                                  code:RLMSyncErrorClientInternalError
-                                              userInfo:@{@"underlying": @(error.value()),
-                                                         @"message": @(error.message().c_str())}];
-                        callback(nil, err);
-                    }
-                });
-            });
         }
     });
 }
@@ -337,7 +338,8 @@ REALM_NOINLINE void RLMRealmTranslateException(NSError **error) {
         if (cache || dynamic) {
             if (RLMRealm *realm = RLMGetThreadLocalCachedRealmForPath(config.path)) {
                 auto const& old_config = realm->_realm->config();
-                if (old_config.read_only() != config.read_only()) {
+                if (old_config.immutable() != config.immutable()
+                    || old_config.read_only_alternative() != config.read_only_alternative()) {
                     @throw RLMException(@"Realm at path '%s' already opened with different read permissions", config.path.c_str());
                 }
                 if (old_config.in_memory != config.in_memory) {
@@ -438,6 +440,10 @@ REALM_NOINLINE void RLMRealmTranslateException(NSError **error) {
     if (!readOnly) {
         realm->_realm->m_binding_context = RLMCreateBindingContext(realm);
         realm->_realm->m_binding_context->realm = realm->_realm;
+
+        RLMAddSkipBackupAttributeToItemAtPath(config.path + ".management");
+        RLMAddSkipBackupAttributeToItemAtPath(config.path + ".lock");
+        RLMAddSkipBackupAttributeToItemAtPath(config.path + ".note");
     }
 
     return RLMAutorelease(realm);
@@ -463,7 +469,7 @@ REALM_NOINLINE void RLMRealmTranslateException(NSError **error) {
 
 - (void)verifyNotificationsAreSupported {
     [self verifyThread];
-    if (_realm->config().read_only()) {
+    if (_realm->config().immutable()) {
         @throw RLMException(@"Read-only Realms do not change and do not have change notifications");
     }
     if (!_realm->can_deliver_notifications()) {
@@ -491,7 +497,7 @@ REALM_NOINLINE void RLMRealmTranslateException(NSError **error) {
 }
 
 - (void)sendNotifications:(RLMNotification)notification {
-    NSAssert(!_realm->config().read_only(), @"Read-only realms do not have notifications");
+    NSAssert(!_realm->config().immutable(), @"Read-only realms do not have notifications");
     if (_sendingNotifications) {
         return;
     }

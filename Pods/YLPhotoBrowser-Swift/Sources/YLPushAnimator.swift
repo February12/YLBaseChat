@@ -63,11 +63,13 @@ class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         // 过渡的图片
         let transitionImgView = transitionImageView ?? UIImageView.init(image: self.transitionImage)
         transitionImgView.frame = self.transitionOriginalImgFrame
+        transitionImageView?.layoutIfNeeded()
         containerView.addSubview(transitionImgView)
         
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             transitionImgView.frame = (self?.transitionBrowserImgFrame)!
+            self?.transitionImageView?.layoutIfNeeded()
             bgView.alpha = 1
             
         }) { (finished:Bool) in

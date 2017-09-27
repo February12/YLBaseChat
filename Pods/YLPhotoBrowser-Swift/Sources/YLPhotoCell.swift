@@ -31,6 +31,11 @@ class YLPhotoCell: UICollectionViewCell {
         sv.showsVerticalScrollIndicator = false
         sv.maximumZoomScale = 4.0
         sv.minimumZoomScale = 1.0
+        
+        if #available(iOS 11.0, *) {
+            sv.contentInsetAdjustmentBehavior = .never
+        }
+        
         return sv
     }()
     
@@ -76,23 +81,19 @@ class YLPhotoCell: UICollectionViewCell {
         addSubview(scrollView)
         
         // scrollView 约束
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
-        
+        scrollView.addConstraints(toItem: self, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         scrollView.addSubview(imageView)
         
         addSubview(progressView)
         
         // progressView 约束
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.addLayoutConstraint(widthConstant: 40, heightConstant: 40)
-        progressView.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
+        progressView.addConstraints(attributes: [.centerX,.centerY,.width,.height], toItem: self, attributes: nil, constants: [0,0,40,40])
         
     }
     
     // 慢移手势
-    func pan(_ pan: UIPanGestureRecognizer) {
+    @objc func pan(_ pan: UIPanGestureRecognizer) {
         
         let translation = pan.translation(in:  pan.view?.superview)
         

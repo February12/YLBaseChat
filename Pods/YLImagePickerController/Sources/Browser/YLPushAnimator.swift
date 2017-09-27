@@ -11,7 +11,6 @@ import UIKit
 class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
     
     var transitionImage: UIImage?
-    var transitionImageView: UIView?
     var transitionOriginalImgFrame: CGRect = CGRect.zero
     var transitionBrowserImgFrame: CGRect = CGRect.zero
     
@@ -36,7 +35,7 @@ class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         toView?.isHidden = true
         
         if transitionOriginalImgFrame == CGRect.zero ||
-            (transitionImage == nil && transitionImageView == nil) {
+            transitionImage == nil {
             
             toView?.isHidden = false
             toView?.alpha = 0
@@ -61,7 +60,7 @@ class YLPushAnimator: NSObject,UIViewControllerAnimatedTransitioning {
         containerView.addSubview(bgView)
         
         // 过渡的图片
-        let transitionImgView = transitionImageView ?? UIImageView.init(image: self.transitionImage)
+        let transitionImgView = UIImageView.init(image: self.transitionImage)
         transitionImgView.frame = self.transitionOriginalImgFrame
         containerView.addSubview(transitionImgView)
         

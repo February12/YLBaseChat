@@ -28,32 +28,23 @@ class YLAuthErrorViewController: UIViewController {
         view.addSubview(imageView)
         
         // 约束
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: view, constant: 50 + 64)
-        imageView.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: view, constant: 0)
-        imageView.addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: 200)
-        imageView.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 200)
+        imageView.addConstraints(attributes: [.top,.centerX,.width,.height], toItem: view, attributes: nil, constants: [114,0,200,200])
         
         let messageLabel = UILabel()
         messageLabel.font = UIFont.systemFont(ofSize: 17)
         view.addSubview(messageLabel)
         
         // 约束
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: view, constant: 0)
-        messageLabel.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: imageView, attribute: NSLayoutAttribute.bottom, constant: 30)
-        messageLabel.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 30)
-        
+        messageLabel.addConstraints(attributes: [.centerX,.height], toItem: view, attributes: nil, constants: [0,30])
+        messageLabel.addConstraint(attribute: .top, toItem: imageView, attribute: .bottom, constant: 30)
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = UIColor.lightGray
         view.addSubview(label)
         
         // 约束
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem: messageLabel, attribute: NSLayoutAttribute.bottom, constant: 0)
-        label.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 25)
-        label.addLayoutConstraint(attribute: NSLayoutAttribute.centerX, toItem: view, constant: 0)
+        label.addConstraints(attributes: [.centerX,.height], toItem: view, attributes: nil, constants: [0,25])
+        label.addConstraint(attribute: .top, toItem: messageLabel, attribute: .bottom, constant: 0)
         
         switch (imagePickerType) {
         case .camera:

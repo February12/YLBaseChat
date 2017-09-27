@@ -130,6 +130,12 @@ public class YLPhotoBrowser: UIViewController {
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+        
         collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "cell")
         
         collectionView.backgroundColor = UIColor.clear
@@ -141,8 +147,7 @@ public class YLPhotoBrowser: UIViewController {
         view.addSubview(collectionView)
         
         // collectionView 约束
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        collectionView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         let count = delegate?.epPhotoBrowserGetPhotoCount()
         if count! > 1 {
@@ -157,8 +162,7 @@ public class YLPhotoBrowser: UIViewController {
             view.addSubview(pageControl!)
             
             // pageControl 约束
-            pageControl?.translatesAutoresizingMaskIntoConstraints = false
-            pageControl?.addLayoutConstraint(attributes: [.centerX,.bottom], toItem: view, constants: [0,-30])
+            pageControl?.addConstraints(attributes: [.centerX,.bottom], toItem: view, attributes: nil, constants: [0,-30])
             
         }
         
@@ -166,7 +170,7 @@ public class YLPhotoBrowser: UIViewController {
     }
     
     // 单击手势
-    func singleTap() {
+    @objc func singleTap() {
         
         if let photo = getDataByCurrentIndex(currentIndex) {
             editTransitioningDelegate(photo,isBack: true)
@@ -175,7 +179,7 @@ public class YLPhotoBrowser: UIViewController {
     }
     
     // 双击手势
-    func doubleTap() {
+    @objc func doubleTap() {
         
         if let imageView = getCurrentImageView(),
             let scrollView = imageView.superview as? UIScrollView,
@@ -266,7 +270,7 @@ public class YLPhotoBrowser: UIViewController {
         
         if photo.image == nil {
             
-            let isCached = KingfisherManager.shared.cache.isImageCached(forKey: photo.imageUrl).cached
+            let isCached = KingfisherManager.shared.cache.imageCachedType(forKey: photo.imageUrl, processorIdentifier: "").cached
             
             if isCached {
                 KingfisherManager.shared.retrieveImage(with: URL.init(string: photo.imageUrl)!, options: [.preloadAllAnimationData,.transition(.fade(1))], progressBlock: nil, completionHandler: { (image:Image?, _, _, _) in
@@ -286,7 +290,8 @@ public class YLPhotoBrowser: UIViewController {
             transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: view.frame.width, height: view.frame.width))
         }
         
-        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
+        let transitionImageView = getTransitionImageView?(currentIndex,photo.image,isBack)
+        animatedTransition?.update(photo.image,transitionImageView: transitionImageView, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
         
     }
     
@@ -383,6 +388,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
     func epPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
         animatedTransition?.gestureRecognizer = nil
-        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
+        let transitionImageView = getTransitionImageView?(currentIndex,photo.image,true)
+        animatedTransition?.update(photo.image,transitionImageView: transitionImageView, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
     }
 }

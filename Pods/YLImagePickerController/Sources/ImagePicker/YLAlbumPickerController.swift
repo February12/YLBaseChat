@@ -46,8 +46,7 @@ class YLAlbumPickerController: UIViewController {
         view.addSubview(tableView)
         
         // 约束
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        tableView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         view.layoutIfNeeded()
     }

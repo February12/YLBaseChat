@@ -1,5 +1,5 @@
 //
-//  TOCropViewController.h
+//  TOCropViewController.m
 //
 //  Copyright 2015-2017 Timothy Oliver. All rights reserved.
 //
@@ -26,6 +26,8 @@
 #import "UIImage+CropRotate.h"
 #import "TOCroppedImageAttributes.h"
 
+static const CGFloat kTOCropViewControllerTitleTopPadding = 14.0f;
+
 @interface TOCropViewController () <UIActionSheetDelegate, UIViewControllerTransitioningDelegate, TOCropViewDelegate>
 
 /* The target image */
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) TOCropToolbar *toolbar;
 @property (nonatomic, strong, readwrite) TOCropView *cropView;
 @property (nonatomic, strong) UIView *toolbarSnapshotView;
+@property (nonatomic, strong, readwrite) UILabel *titleLabel;
 
 /* Transition animation controller */
 @property (nonatomic, copy) void (^prepareForTransitionHandler)(void);
@@ -49,27 +52,20 @@
 @property (nonatomic, assign) BOOL navigationBarHidden;
 @property (nonatomic, assign) BOOL toolbarHidden;
 
+/* Convenience method for checking vertical state */
+@property (nonatomic, readonly) BOOL verticalLayout;
+
 /* On iOS 7, the popover view controller that appears when tapping 'Done' */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 @property (nonatomic, strong) UIPopoverController *activityPopoverController;
 #pragma clang diagnostic pop
 
-/* Button callback */
-- (void)cancelButtonTapped;
-- (void)doneButtonTapped;
-- (void)showAspectRatioDialog;
-- (void)resetCropViewLayout;
-- (void)rotateCropViewClockwise;
-- (void)rotateCropViewCounterclockwise;
-
-/* View layout */
-- (CGRect)frameForToolBarWithVerticalLayout:(BOOL)verticalLayout;
-- (CGRect)frameForCropViewWithVerticalLayout:(BOOL)verticalLayout;
-
 @end
 
 @implementation TOCropViewController
+
+CGFloat titleLabelHeight;
 
 - (instancetype)initWithCroppingStyle:(TOCropViewCroppingStyle)style image:(UIImage *)image
 {
@@ -88,8 +84,10 @@
         _aspectRatioPreset = TOCropViewControllerAspectRatioPresetOriginal;
         _toolbarPosition = TOCropViewControllerToolbarPositionBottom;
         _rotateClockwiseButtonHidden = YES;
+		
+		titleLabelHeight = 0.0f;
     }
-    
+	
     return self;
 }
 
@@ -101,27 +99,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     BOOL circularMode = (self.croppingStyle == TOCropViewCroppingStyleCircular);
 
-    self.cropView.frame = [self frameForCropViewWithVerticalLayout:CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds)];
-    [self.view addSubview:self.cropView];
-    
-    self.toolbar.frame = [self frameForToolBarWithVerticalLayout:CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds)];
-    [self.view addSubview:self.toolbar];
-    
+    self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
+    self.toolbar.frame = [self frameForToolBarWithVerticalLayout:self.verticalLayout];
+
     __weak typeof(self) weakSelf = self;
-    self.toolbar.doneButtonTapped =     ^{ [weakSelf doneButtonTapped]; };
-    self.toolbar.cancelButtonTapped =   ^{ [weakSelf cancelButtonTapped]; };
+    self.toolbar.doneButtonTapped   = ^{ [weakSelf doneButtonTapped]; };
+    self.toolbar.cancelButtonTapped = ^{ [weakSelf cancelButtonTapped]; };
     
-    self.toolbar.resetButtonTapped =    ^{ [weakSelf resetCropViewLayout]; };
-    self.toolbar.clampButtonTapped =    ^{ [weakSelf showAspectRatioDialog]; };
+    self.toolbar.resetButtonTapped = ^{ [weakSelf resetCropViewLayout]; };
+    self.toolbar.clampButtonTapped = ^{ [weakSelf showAspectRatioDialog]; };
     
     self.toolbar.rotateCounterclockwiseButtonTapped = ^{ [weakSelf rotateCropViewCounterclockwise]; };
     self.toolbar.rotateClockwiseButtonTapped        = ^{ [weakSelf rotateCropViewClockwise]; };
     
     self.toolbar.clampButtonHidden = self.aspectRatioPickerButtonHidden || circularMode;
-    self.toolbar.rotateClockwiseButtonHidden = self.rotateClockwiseButtonHidden && !circularMode;
+    self.toolbar.rotateClockwiseButtonHidden = self.rotateClockwiseButtonHidden && circularMode;
     
     self.transitioningDelegate = self;
     self.view.backgroundColor = self.cropView.backgroundColor;
@@ -147,6 +141,7 @@
     }
     else {
         [self.cropView setBackgroundImageViewHidden:YES animated:NO];
+        self.titleLabel.alpha = 0.0f;
     }
 
     if (self.aspectRatioPreset != TOCropViewControllerAspectRatioPresetOriginal) {
@@ -159,16 +154,25 @@
     [super viewDidAppear:animated];
     self.inTransition = NO;
     self.cropView.simpleRenderMode = NO;
-    if (animated && [UIApplication sharedApplication].statusBarHidden == NO) {
-        [UIView animateWithDuration:0.3f animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
-        
-        if (self.cropView.gridOverlayHidden) {
-            [self.cropView setGridOverlayHidden:NO animated:YES];
-        }
-        
-        if (self.navigationController == nil) {
-            [self.cropView setBackgroundImageViewHidden:NO animated:YES];
-        }
+
+    void (^updateContentBlock)(void) = ^{
+        [self setNeedsStatusBarAppearanceUpdate];
+        self.titleLabel.alpha = 1.0f;
+    };
+
+    if (animated) {
+        [UIView animateWithDuration:0.3f animations:updateContentBlock];
+    }
+    else {
+        updateContentBlock();
+    }
+    
+    if (self.cropView.gridOverlayHidden) {
+        [self.cropView setGridOverlayHidden:NO animated:animated];
+    }
+    
+    if (self.navigationController == nil) {
+        [self.cropView setBackgroundImageViewHidden:NO animated:animated];
     }
 }
 
@@ -264,41 +268,81 @@
     else {
         bounds = self.parentViewController.view.bounds;
     }
-    
+	
+	
     CGRect frame = CGRectZero;
     if (!verticalLayout) {
         frame.origin.x = 44.0f;
-        frame.origin.y = 0.0f;
+		frame.origin.y = 0.0f;
+		
         frame.size.width = CGRectGetWidth(bounds) - 44.0f;
-        frame.size.height = CGRectGetHeight(bounds);
+		frame.size.height = CGRectGetHeight(bounds);
+		
     }
     else {
         frame.origin.x = 0.0f;
         
         if (_toolbarPosition == TOCropViewControllerToolbarPositionBottom) {
-            frame.origin.y = 0.0f;
+			frame.origin.y = 0.0f;
         } else {
-            frame.origin.y = 44.0f;
+			frame.origin.y = 44.0f;
         }
 
         frame.size.width = CGRectGetWidth(bounds);
-        frame.size.height = CGRectGetHeight(bounds) - 44.0f;
+		frame.size.height = CGRectGetHeight(bounds) - 44.0f;
     }
     
     return frame;
 }
 
+- (CGRect)frameForTitleLabelWithSize:(CGSize)size verticalLayout:(BOOL)verticalLayout
+{
+    CGRect frame = (CGRect){CGPointZero, size};
+    CGFloat width = self.view.bounds.size.width;
+
+    if (!verticalLayout) {
+        width -= 44.0f;
+    }
+
+    frame.origin.x = ceilf((width - frame.size.width) * 0.5f);
+    if (!verticalLayout) { frame.origin.x += 44.0f; }
+
+    frame.origin.y = self.topLayoutGuide.length + kTOCropViewControllerTitleTopPadding;
+
+    return frame;
+}
+
+- (void)adjustCropViewInsetsForTitleLabel
+{
+    if (!self.titleLabel) {
+        self.cropView.cropRegionInsets = UIEdgeInsetsZero;
+        return;
+    }
+
+    CGFloat verticalInset = 0.0f; // self.topLayoutGuide.length; // status bar //FIXME: Is this ever needed?
+    verticalInset += kTOCropViewControllerTitleTopPadding;
+    verticalInset += self.titleLabel.frame.size.height;
+
+    self.cropView.cropRegionInsets = UIEdgeInsetsMake(verticalInset, 0, 0, 0);
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
-    BOOL verticalLayout = CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds);
-    self.cropView.frame = [self frameForCropViewWithVerticalLayout:verticalLayout];
+
+    self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
     [self.cropView moveCroppedContentToCenterAnimated:NO];
-    
+
+    if (self.title.length) {
+        [self.titleLabel sizeToFit];
+        self.titleLabel.frame = [self frameForTitleLabelWithSize:self.titleLabel.frame.size verticalLayout:self.verticalLayout];
+        [self adjustCropViewInsetsForTitleLabel];
+        [self.cropView moveCroppedContentToCenterAnimated:NO];
+    }
+
     [UIView performWithoutAnimation:^{
         self.toolbar.statusBarVisible = (self.toolbarPosition == TOCropViewControllerToolbarPositionTop && !self.prefersStatusBarHidden);
-        self.toolbar.frame = [self frameForToolBarWithVerticalLayout:verticalLayout];
+        self.toolbar.frame = [self frameForToolBarWithVerticalLayout:self.verticalLayout];
         [self.toolbar setNeedsLayout];
     }];
 }
@@ -330,6 +374,7 @@
     self.cropView.frame = [self frameForCropViewWithVerticalLayout:!UIInterfaceOrientationIsPortrait(toInterfaceOrientation)];
     self.cropView.simpleRenderMode = YES;
     self.cropView.internalLayoutDisabled = YES;
+
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -357,6 +402,8 @@
     
     [self.cropView setSimpleRenderMode:NO animated:YES];
     self.cropView.internalLayoutDisabled = NO;
+	
+	self.titleLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, titleLabelHeight);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -452,10 +499,11 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }
     else {
+        
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0
     //TODO: Completely overhaul this once iOS 7 support is dropped
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                  delegate:self
                                                         cancelButtonTitle:cancelButtonTitle
@@ -471,6 +519,7 @@
         else
             [actionSheet showInView:self.view];
 #pragma clang diagnostic pop
+#endif
     }
 }
 
@@ -689,17 +738,32 @@
 #pragma mark - Button Feedback -
 - (void)cancelButtonTapped
 {
+    bool isDelegateOrCallbackHandled = NO;
+    
     if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCancelled:)]) {
         [self.delegate cropViewController:self didFinishCancelled:YES];
-        return;
+        
+        if (self.onDidFinishCancelled != nil) {
+            self.onDidFinishCancelled(YES);
+        }
+        
+        isDelegateOrCallbackHandled = YES;
     }
     
-    if (self.navigationController) {
-        [self.navigationController popViewControllerAnimated:YES];
+    if (self.onDidFinishCancelled != nil) {
+        self.onDidFinishCancelled(YES);
+        
+        isDelegateOrCallbackHandled = YES;
     }
-    else {
-        self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if (!isDelegateOrCallbackHandled) {
+        if (self.navigationController) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else {
+            self.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        }
     }
 }
 
@@ -740,59 +804,92 @@
             }
         }
         __weak typeof(activityController) blockController = activityController;
-        #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
         activityController.completionWithItemsHandler = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
             if (!completed)
                 return;
             
+            bool isCallbackOrDelegateHandled = NO;
+            
+            if (self.onDidFinishCancelled != nil) {
+                self.onDidFinishCancelled(NO);
+                isCallbackOrDelegateHandled = YES;
+            }
             if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCancelled:)]) {
                 [self.delegate cropViewController:self didFinishCancelled:NO];
+                isCallbackOrDelegateHandled = YES;
             }
-            else {
+            
+            if (!isCallbackOrDelegateHandled) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
                 blockController.completionWithItemsHandler = nil;
             }
         };
-        #else
+#else
         activityController.completionHandler = ^(NSString *activityType, BOOL completed) {
             if (!completed)
                 return;
             
+            bool isCallbackOrDelegateHandled = NO
+            
+            if (self.onDidFinishCancelled != nil) {
+                self.onDidFinishCancelled(NO)
+                isCallbackOrDelegateHandled = YES
+            }
             if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCancelled:)]) {
                 [self.delegate cropViewController:self didFinishCancelled:NO];
+                isCallbackOrDelegateHandled = YES
             }
-            else {
+            
+            if (!isCallbackOrDelegateHandled) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
                 blockController.completionHandler = nil;
             }
         };
-        #endif
+#endif
         
         return;
     }
-
-    BOOL delegateHandled = NO;
-
-    //If the delegate that only supplies crop data is provided, call it
+    
+    BOOL isCallbackOrDelegateHandled = NO;
+    
+    //If the delegate/block that only supplies crop data is provided, call it
     if ([self.delegate respondsToSelector:@selector(cropViewController:didCropImageToRect:angle:)]) {
         [self.delegate cropViewController:self didCropImageToRect:cropFrame angle:angle];
-        delegateHandled = YES;
+        isCallbackOrDelegateHandled = YES;
     }
 
-    //If cropping circular and the circular generation delegate is implemented, call it
-    if (self.croppingStyle == TOCropViewCroppingStyleCircular && [self.delegate respondsToSelector:@selector(cropViewController:didCropToCircularImage:withRect:angle:)]) {
+    if (self.onDidCropImageToRect != nil) {
+        self.onDidCropImageToRect(cropFrame, angle);
+        isCallbackOrDelegateHandled = YES;
+    }
+
+    // Check if the circular APIs were implemented
+    BOOL isCircularImageDelegateAvailable = [self.delegate respondsToSelector:@selector(cropViewController:didCropToCircularImage:withRect:angle:)];
+    BOOL isCircularImageCallbackAvailable = self.onDidCropToCircleImage != nil;
+
+    // Check if non-circular was implemented
+    BOOL isDidCropToImageDelegateAvailable = [self.delegate respondsToSelector:@selector(cropViewController:didCropToImage:withRect:angle:)];
+    BOOL isDidCropToImageCallbackAvailable = self.onDidCropToRect != nil;
+
+    //If cropping circular and the circular generation delegate/block is implemented, call it
+    if (self.croppingStyle == TOCropViewCroppingStyleCircular && (isCircularImageDelegateAvailable || isCircularImageCallbackAvailable)) {
         UIImage *image = [self.image croppedImageWithFrame:cropFrame angle:angle circularClip:YES];
         
-        //dispatch on the next run-loop so the animation isn't interuppted by the crop operation
+        //Dispatch on the next run-loop so the animation isn't interuppted by the crop operation
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.delegate cropViewController:self didCropToCircularImage:image withRect:cropFrame angle:angle];
+            if (isCircularImageDelegateAvailable) {
+                [self.delegate cropViewController:self didCropToCircularImage:image withRect:cropFrame angle:angle];
+            }
+            if (isCircularImageCallbackAvailable) {
+                self.onDidCropToCircleImage(image, cropFrame, angle);
+            }
         });
-
-        delegateHandled = YES;
+        
+        isCallbackOrDelegateHandled = YES;
     }
-
-    //If the delegate that requires the specific cropped image is provided, call it
-    if ([self.delegate respondsToSelector:@selector(cropViewController:didCropToImage:withRect:angle:)]) {
+    //If the delegate/block that requires the specific cropped image is provided, call it
+    else if (isDidCropToImageDelegateAvailable || isDidCropToImageCallbackAvailable) {
         UIImage *image = nil;
         if (angle == 0 && CGRectEqualToRect(cropFrame, (CGRect){CGPointZero, self.image.size})) {
             image = self.image;
@@ -801,20 +898,42 @@
             image = [self.image croppedImageWithFrame:cropFrame angle:angle circularClip:NO];
         }
         
-        //dispatch on the next run-loop so the animation isn't interuppted by the crop operation
+        //Dispatch on the next run-loop so the animation isn't interuppted by the crop operation
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.delegate cropViewController:self didCropToImage:image withRect:cropFrame angle:angle];
+            if (isDidCropToImageDelegateAvailable) {
+                [self.delegate cropViewController:self didCropToImage:image withRect:cropFrame angle:angle];
+            }
+            if (isDidCropToImageCallbackAvailable) {
+                self.onDidCropToRect(image, cropFrame, angle);
+            }
+            
         });
-
-        delegateHandled = YES;
+        
+        isCallbackOrDelegateHandled = YES;
     }
-
-    if (!delegateHandled) {
+    
+    if (!isCallbackOrDelegateHandled) {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
 #pragma mark - Property Methods -
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+
+    if (self.title.length == 0) {
+        [_titleLabel removeFromSuperview];
+        _cropView.cropRegionInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+        _titleLabel = nil;
+        return;
+    }
+
+    self.titleLabel.text = self.title;
+    [self.titleLabel sizeToFit];
+    self.titleLabel.frame = [self frameForTitleLabelWithSize:self.titleLabel.frame.size verticalLayout:self.verticalLayout];
+}
 
 - (TOCropView *)cropView {
     if (!_cropView) {
@@ -822,6 +941,7 @@
         _cropView.delegate = self;
         _cropView.frame = [UIScreen mainScreen].bounds;
         _cropView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_cropView];
     }
     return _cropView;
 }
@@ -829,15 +949,38 @@
 - (TOCropToolbar *)toolbar {
     if (!_toolbar) {
         _toolbar = [[TOCropToolbar alloc] initWithFrame:CGRectZero];
+        [self.view addSubview:_toolbar];
     }
     return _toolbar;
+}
+
+- (UILabel *)titleLabel
+{
+    if (!self.title.length) { return nil; }
+    if (_titleLabel) { return _titleLabel; }
+
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:15.0f];
+    _titleLabel.backgroundColor = [UIColor clearColor];
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.numberOfLines = 1;
+    _titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
+    _titleLabel.clipsToBounds = YES;
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.text = self.title;
+
+    [self.view insertSubview:self.titleLabel aboveSubview:self.cropView];
+
+    return _titleLabel;
 }
 
 - (void)setAspectRatioLockEnabled:(BOOL)aspectRatioLockEnabled
 {
     self.toolbar.clampButtonGlowing = aspectRatioLockEnabled;
     self.cropView.aspectRatioLockEnabled = aspectRatioLockEnabled;
-    self.aspectRatioPickerButtonHidden = (aspectRatioLockEnabled && self.resetAspectRatioEnabled == NO);
+    if (!self.aspectRatioPickerButtonHidden) {
+        self.aspectRatioPickerButtonHidden = (aspectRatioLockEnabled && self.resetAspectRatioEnabled == NO);
+    }
 }
 
 - (BOOL)aspectRatioLockEnabled
@@ -871,7 +1014,7 @@
     
     _rotateClockwiseButtonHidden = rotateClockwiseButtonHidden;
     
-    if (self.rotateButtonsHidden == NO) {
+    if (_rotateClockwiseButtonHidden == NO) {
         self.toolbar.rotateClockwiseButtonHidden = _rotateClockwiseButtonHidden;
     }
 }
@@ -889,7 +1032,9 @@
 - (void)setResetAspectRatioEnabled:(BOOL)resetAspectRatioEnabled
 {
     self.cropView.resetAspectRatioEnabled = resetAspectRatioEnabled;
-    self.aspectRatioPickerButtonHidden = (resetAspectRatioEnabled == NO && self.aspectRatioLockEnabled);
+    if (!self.aspectRatioPickerButtonHidden) {
+        self.aspectRatioPickerButtonHidden = (resetAspectRatioEnabled == NO && self.aspectRatioLockEnabled);
+    }
 }
 
 - (void)setCustomAspectRatio:(CGSize)customAspectRatio
@@ -921,6 +1066,11 @@
 - (CGRect)imageCropFrame
 {
     return self.cropView.imageCropFrame;
+}
+
+- (BOOL)verticalLayout
+{
+    return CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds);
 }
 
 @end

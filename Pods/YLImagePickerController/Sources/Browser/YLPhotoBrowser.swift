@@ -76,7 +76,6 @@ class YLPhotoBrowser: UIViewController {
     
     override func viewDidLoad() {
         
-        self.automaticallyAdjustsScrollViewInsets = false
         view.backgroundColor = PhotoBrowserBG
         view.isUserInteractionEnabled = true
         
@@ -107,6 +106,12 @@ class YLPhotoBrowser: UIViewController {
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+        
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(YLPhotoCell.self, forCellWithReuseIdentifier: "YLPhotoCell")
         collectionView.register(YLVideoCell.self, forCellWithReuseIdentifier: "YLVideoCell")
@@ -120,8 +125,7 @@ class YLPhotoBrowser: UIViewController {
         view.addSubview(collectionView)
         
         // collectionView 约束
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.addLayoutConstraint(toItem: view, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
+        collectionView.addConstraints(toItem: view, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         
         let imagePicker = navigationController as! YLImagePickerController
@@ -133,24 +137,19 @@ class YLPhotoBrowser: UIViewController {
         // 下面的toobbar
         view.addSubview(toolbarBottom)
         // 约束
-        toolbarBottom.translatesAutoresizingMaskIntoConstraints = false
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.left, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.right, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.bottom, toItem: view, constant: 0)
-        toolbarBottom.addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: 44)
-        
+        toolbarBottom.addConstraints(attributes: [.left,.right,.bottom,.height], toItem: view, attributes: nil, constants: [0,0,0,44])
         view.layoutIfNeeded()
     }
     
     /// 返回
-    func backBtnHandle() {
+    @objc func backBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         editTransitioningDelegate(photo!)
         self.navigationController?.popViewController(animated: true)
     }
     
     /// 点击 是否选择按钮
-    func photoTagBtnHandle() {
+    @objc func photoTagBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         delegate?.epPhotoBrowserByPhotoTagBtnHandle(photo?.assetModel)
         
@@ -168,12 +167,12 @@ class YLPhotoBrowser: UIViewController {
         
         if assetModel?.isSelected == true {
             
-            let image = UIImage.yl_imageName("photo_selected")
+            let image = UIImage.yl_imageName("photo_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle(String(assetModel?.selectedSerialNumber ?? 0), for: UIControlState.normal)
         }else {
             
-            let image = UIImage.yl_imageName("photo_no_selected")
+            let image = UIImage.yl_imageName("photo_no_selected")?.yl_scaleToSize(CGSize.init(width: 27, height: 28))
             photoTagBtn.setBackgroundImage(image, for: UIControlState.normal)
             photoTagBtn.setTitle("", for: UIControlState.normal)
         }
@@ -181,7 +180,7 @@ class YLPhotoBrowser: UIViewController {
     }
     
     /// 发送按钮
-    func sendBtnHandle() {
+    @objc func sendBtnHandle() {
         let photo = getDataByCurrentIndex(currentIndex)
         delegate?.epPhotoBrowserBySendBtnHandle(photo?.assetModel)
     }
@@ -259,7 +258,7 @@ class YLPhotoBrowser: UIViewController {
             transitionBrowserImgFrame = YLPhotoBrowser.getImageViewFrame(CGSize.init(width: view.frame.width, height: view.frame.width))
         }
         
-        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
+        animatedTransition?.update(photo.image,transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: transitionBrowserImgFrame)
         
     }
     
@@ -378,7 +377,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
     func epPhotoPanGestureRecognizerEnd(_ currentImageViewFrame: CGRect, photo: YLPhoto) {
         
         animatedTransition?.gestureRecognizer = nil
-        animatedTransition?.update(photo.image,transitionImageView: nil, transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
+        animatedTransition?.update(photo.image,transitionOriginalImgFrame: photo.frame, transitionBrowserImgFrame: currentImageViewFrame)
     }
     
     func epPhotoSingleTap() {
@@ -395,7 +394,7 @@ extension YLPhotoBrowser: YLPhotoCellDelegate {
                 
                 var scale:CGFloat = 0
                 
-                let height = YLPhotoBrowser.getImageViewFrame(image.size).height
+                let height = ceil(YLPhotoBrowser.getImageViewFrame(image.size).height)
                 if height >= view.frame.height {
                     scale = 2
                 }else {

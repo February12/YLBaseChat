@@ -10,6 +10,22 @@ import UIKit
 import ImageIO
 
 extension UIImage {
+    
+    /// 指定大小
+    func yl_scaleToSize(_ size:CGSize) -> UIImage {
+        // 创建一个bitmap的context
+        // 并把它设置成为当前正在使用的context
+        UIGraphicsBeginImageContext(size);
+        // 绘制改变大小的图片
+        self.draw(in: CGRect.init(x: 0, y: 0, width: size.width, height: size.height))
+        // 从当前context中创建一个改变大小后的图片
+        let img:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
+        // 使当前的context出堆栈
+        UIGraphicsEndImageContext();
+        // 返回新的改变大小后的图片
+        return img;
+    }
+    
     /// 获取 YLImagePickerController.bundle 图片
     class func yl_imageName(_ name: String) -> UIImage? {
         
@@ -116,78 +132,150 @@ extension UIColor {
     }
 }
 
-
 // MARK: - 约束拓展
 extension UIView {
     
-    /// 宽或高(一条约束)
-    func addLayoutConstraint(attribute: NSLayoutAttribute,
-                             constant: CGFloat) {
-        
-        let constraint = NSLayoutConstraint.init(item: self, attribute: attribute, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: constant)
-        
-        NSLayoutConstraint.activate([constraint])
-    }
+    /*----------------------------添加约束----------------------------*/
     
-    /// 宽高(两个约束)
-    func addLayoutConstraint(widthConstant: CGFloat,heightConstant: CGFloat) {
-        addLayoutConstraint(attribute: NSLayoutAttribute.width, constant: widthConstant)
-        addLayoutConstraint(attribute: NSLayoutAttribute.height, constant: heightConstant)
+    /// 添加约束
+    func addConstraints(toItem: Any,edgeInsets: UIEdgeInsets) {
+        addConstraints(attributes: [.top,.bottom,.left,.right], toItem: toItem, attributes: nil, constants:[edgeInsets.top,edgeInsets.bottom,edgeInsets.left,edgeInsets.right])
+        
     }
-    
-    /// 与父视图相同的 NSLayoutAttribute(一条约束)
-    func addLayoutConstraint(attribute: NSLayoutAttribute,
-                             toItem: Any,
-                             constant: CGFloat) {
-        
-        let constraint = NSLayoutConstraint.init(item: self, attribute: attribute, relatedBy: NSLayoutRelation.equal, toItem: toItem, attribute: attribute, multiplier: 1, constant: constant)
-        
-        NSLayoutConstraint.activate([constraint])
+    /// 添加约束 attr2s为nil时表示和attr1s 相同
+    func addConstraints(attributes attr1s: [NSLayoutAttribute],
+                        toItem: Any?,
+                        attributes attr2s: [NSLayoutAttribute]?,
+                        constant: CGFloat) {
+        for (i,attr1) in attr1s.enumerated() {
+            let attr2 = attr2s == nil ? attr1:attr2s![i]
+            addConstraint(attribute: attr1, relatedBy: .equal, toItem: toItem, attribute: attr2, multiplier: 1, constant: constant)
+        }
     }
-    
-    /// 与父视图相同的 NSLayoutAttribute(多条约束)
-    func addLayoutConstraint(attributes: [NSLayoutAttribute],
-                             toItem: Any,
-                             constants: [CGFloat]) {
-        
-        for (i,attribute) in attributes.enumerated() {
+    /// 添加约束 attr2s为nil时表示和attr1s 相同
+    func addConstraints(attributes attr1s: [NSLayoutAttribute],
+                        toItem: Any?,
+                        attributes attr2s: [NSLayoutAttribute]?,
+                        constants: [CGFloat]) {
+        for (i,attr1) in attr1s.enumerated() {
+            let attr2 = attr2s == nil ? attr1:attr2s![i]
             let constant = constants[i]
-            addLayoutConstraint(attribute: attribute, toItem: toItem, constant: constant)
+            addConstraint(attribute: attr1, toItem: toItem, attribute: attr2, constant: constant)
+        }
+    }
+    /// 添加约束
+    func addConstraint(attribute attr1: NSLayoutAttribute,
+                       toItem: Any?,
+                       attribute attr2: NSLayoutAttribute,
+                       constant: CGFloat) {
+        addConstraint(attribute: attr1, relatedBy: .equal, toItem: toItem, attribute: attr2, multiplier: 1, constant: constant)
+    }
+    /// 添加约束
+    func addConstraint(attribute attr1: NSLayoutAttribute,
+                       relatedBy relation: NSLayoutRelation,
+                       toItem: Any?,
+                       attribute attr2: NSLayoutAttribute,
+                       multiplier: CGFloat,
+                       constant: CGFloat) {
+        
+        var toItem = toItem
+        var attr2 = attr2
+        
+        if translatesAutoresizingMaskIntoConstraints == true {
+            translatesAutoresizingMaskIntoConstraints = false
         }
         
-    }
-    
-    /// 与父视图相同或不相同的 NSLayoutAttribute(一条约束)
-    func addLayoutConstraint(attribute attr1: NSLayoutAttribute,
-                             toItem: Any,
-                             attribute attr2: NSLayoutAttribute,
-                             constant: CGFloat) {
+        if attr1 == .width || attr1 == .height {
+            toItem = nil
+            attr2 = .notAnAttribute
+        }
         
-        let constraint = NSLayoutConstraint.init(item: self, attribute: attr1, relatedBy: NSLayoutRelation.equal, toItem: toItem, attribute: attr2, multiplier: 1, constant: constant)
+        let constraint = NSLayoutConstraint.init(item: self, attribute: attr1, relatedBy: relation, toItem: toItem, attribute: attr2, multiplier: multiplier, constant: constant)
         
         NSLayoutConstraint.activate([constraint])
     }
     
-    /// 与父视图相同或不相同的 NSLayoutAttribute(多条约束)
-    func addLayoutConstraint(attributes attr1s: [NSLayoutAttribute],
-                             toItem: Any,
-                             attributes attr2s: [NSLayoutAttribute],
-                             constants: [CGFloat]) {
-        for (i,attribute1) in attr1s.enumerated() {
-            let attribute2 = attr2s[i]
-            let constant = constants[i]
-            addLayoutConstraint(attribute: attribute1, toItem: toItem, attribute: attribute2, constant: constant)
-        }
+    /*----------------------------修改约束----------------------------*/
+    
+    /// 修改约束
+    func updateConstraints(toItem: Any,edgeInsets: UIEdgeInsets) {
+        updateConstraints(attributes: [.top,.bottom,.left,.right], toItem: toItem, attributes: nil, constants:[edgeInsets.top,edgeInsets.bottom,edgeInsets.left,edgeInsets.right])
         
     }
+    /// 修改约束 attr2s为nil时表示和attr1s 相同
+    func updateConstraints(attributes attr1s: [NSLayoutAttribute],
+                           toItem: Any?,
+                           attributes attr2s: [NSLayoutAttribute]?,
+                           constant: CGFloat) {
+        for (i,attr1) in attr1s.enumerated() {
+            let attr2 = attr2s == nil ? attr1:attr2s![i]
+            updateConstraint(attribute: attr1, relatedBy: .equal, toItem: toItem, attribute: attr2, multiplier: 1, constant: constant)
+        }
+    }
+    /// 修改约束 attr2s为nil时表示和attr1s 相同
+    func updateConstraints(attributes attr1s: [NSLayoutAttribute],
+                           toItem: Any?,
+                           attributes attr2s: [NSLayoutAttribute]?,
+                           constants: [CGFloat]) {
+        for (i,attr1) in attr1s.enumerated() {
+            let attr2 = attr2s == nil ? attr1:attr2s![i]
+            let constant = constants[i]
+            updateConstraint(attribute: attr1, toItem: toItem, attribute: attr2, constant: constant)
+        }
+    }
+    /// 修改约束
+    func updateConstraint(attribute attr1: NSLayoutAttribute,
+                          toItem: Any?,
+                          attribute attr2: NSLayoutAttribute,
+                          constant: CGFloat) {
+        updateConstraint(attribute: attr1, relatedBy: .equal, toItem: toItem, attribute: attr2, multiplier: 1, constant: constant)
+    }
+    /// 修改约束
+    func updateConstraint(attribute attr1: NSLayoutAttribute,
+                          relatedBy relation: NSLayoutRelation,
+                          toItem: Any?,
+                          attribute attr2: NSLayoutAttribute,
+                          multiplier: CGFloat,
+                          constant: CGFloat) {
+        
+        removeConstraint(attribute: attr1, toItem: toItem, attribute: attr2)
+        
+        addConstraint(attribute: attr1, relatedBy: relation, toItem: toItem, attribute: attr2, multiplier: multiplier, constant: constant)
+    }
     
-    /// 根据 UIEdgeInsets (四条约束)
-    func addLayoutConstraint(toItem: Any,edgeInsets: UIEdgeInsets) {
+    /*----------------------------删除约束----------------------------*/
+    
+    /// 删除约束 attr2s为nil时表示和attr1s 相同
+    func removeConstraints(attributes attr1s: [NSLayoutAttribute],
+                           toItem: Any?,
+                           attributes attr2s: [NSLayoutAttribute]?) {
+        for (i,attr1) in attr1s.enumerated() {
+            let attr2 = attr2s == nil ? attr1:attr2s![i]
+            removeConstraint(attribute: attr1, toItem: toItem, attribute: attr2)
+        }
+    }
+    /// 删除约束
+    func removeConstraint(attribute attr1: NSLayoutAttribute,
+                          toItem: Any?,
+                          attribute attr2: NSLayoutAttribute) {
         
-        addLayoutConstraint(attribute: NSLayoutAttribute.top, toItem:toItem, constant: edgeInsets.top)
-        addLayoutConstraint(attribute: NSLayoutAttribute.left,  toItem:toItem, constant: edgeInsets.left)
-        addLayoutConstraint(attribute: NSLayoutAttribute.right,  toItem:toItem, constant: edgeInsets.right)
-        addLayoutConstraint(attribute: NSLayoutAttribute.bottom,  toItem:toItem, constant: edgeInsets.bottom)
-        
+        if attr1 == .width  || attr1 == .height {
+            for constraint in constraints {
+                if constraint.firstItem?.isEqual(self) == true &&
+                    constraint.firstAttribute == attr1 {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+        }else if let superview = self.superview {
+            for constraint in superview.constraints {
+                if constraint.firstItem?.isEqual(self) == true &&
+                    constraint.firstAttribute == attr1 &&
+                    constraint.secondItem?.isEqual(toItem) == true &&
+                    constraint.secondAttribute == attr2 {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+        }
     }
 }

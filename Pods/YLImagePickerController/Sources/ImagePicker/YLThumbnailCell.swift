@@ -83,7 +83,7 @@ class YLThumbnailCell: UICollectionViewCell {
         }
     }
     
-    func imageViewHandle() {
+    @objc func imageViewHandle() {
         if let assetModel = self.assetModel {
             delegate?.epImageViewHandle(assetModel)
         }

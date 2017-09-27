@@ -60,17 +60,13 @@ class YLVideoCell: UICollectionViewCell {
         
         // 视频播放器
         self.addSubview(playerView)
-        playerView.translatesAutoresizingMaskIntoConstraints = false
-        playerView.addLayoutConstraint(toItem: self, edgeInsets: UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0))
-        
+        playerView.addConstraints(toItem: self, edgeInsets: .init(top: 0, left: 0, bottom: 0, right: 0))
         playerLayer.player = player
         playerLayer.frame = self.bounds
         playerView.layer.addSublayer(playerLayer)
         
         playerView.addSubview(playImageView)
-        playImageView.translatesAutoresizingMaskIntoConstraints = false
-        playImageView.addLayoutConstraint(attributes: [.centerX,.centerY], toItem: self, constants: [0,0])
-        playImageView.addLayoutConstraint(widthConstant: 50, heightConstant: 50)
+        playImageView.addConstraints(attributes: [.centerX,.centerY,.width,.height], toItem: self, attributes: nil, constants: [0,0,50,50])
         
         // 手势
         let singleTap = UITapGestureRecognizer.init(target: self, action: #selector(YLPhotoCell.singleTap))
@@ -80,7 +76,7 @@ class YLVideoCell: UICollectionViewCell {
     }
     
     /// 滚动视图监听
-    func scrollViewDelegate(_ not: Notification) {
+    @objc func scrollViewDelegate(_ not: Notification) {
     
         if let obj = not.object as? Dictionary<String, String> {
             
@@ -109,7 +105,7 @@ class YLVideoCell: UICollectionViewCell {
     }
     
     /// 单击手势
-    func singleTap() {
+    @objc func singleTap() {
         
         if playImageView.isHidden == false {
             player.play()
