@@ -204,7 +204,7 @@ class YLInputView: UIView,UITextViewDelegate {
 extension YLInputView {
 
     // textView 文本内容改变
-    func textViewDidChanged() {
+    @objc func textViewDidChanged() {
         perform(#selector(YLInputView.updateDisplayByInputContentTextChange), with: nil, afterDelay: 0.1)
     }
     

@@ -1,10 +1,10 @@
 PODS:
   - Kingfisher (4.0.1)
-  - Realm (2.10.1):
-    - Realm/Headers (= 2.10.1)
-  - Realm/Headers (2.10.1)
-  - RealmSwift (2.10.1):
-    - Realm (= 2.10.1)
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
   - SnapKit (4.0.0)
   - TOCropViewController (2.1.0)
   - YLImagePickerController (0.0.9):
@@ -14,7 +14,7 @@ PODS:
   - YYText (1.0.7)
 
 DEPENDENCIES:
-  - RealmSwift (~> 2.10.1)
+  - RealmSwift (~> 3.0.2)
   - SnapKit (~> 4.0.0)
   - YLImagePickerController (~> 0.0.9)
   - YLPhotoBrowser-Swift (~> 0.0.1)
@@ -22,14 +22,14 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Kingfisher: b771785e9461ed4b8686d40e7145f9e58100cb24
-  Realm: fc7a317a5c2c9ba91f5f235ede4e2ea76e9eba0c
-  RealmSwift: 505ed6c15942a2e76f5cfa78a8667cfa997ee75b
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
   YLImagePickerController: 54a669c5ce7b5928ecf6321b706c4cec46294d67
   YLPhotoBrowser-Swift: 5b8abd4b63ace0bab9841eaf1c9f9b7016719037
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 1bfdc63794029c89260339ab107958bc086db76d
+PODFILE CHECKSUM: 2d79d13235c9fd6c101ac011312e80f63b4bf15b
 
 COCOAPODS: 1.2.1

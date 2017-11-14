@@ -41,13 +41,13 @@ extension UIView {
     }
     
     func yl_autoH() {
-        setContentHuggingPriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.vertical)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.vertical)
+        setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: UILayoutConstraintAxis.vertical)
     }
     
     func yl_autoW() {
-        setContentHuggingPriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.horizontal)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: UILayoutConstraintAxis.horizontal)
+        setContentHuggingPriority(UILayoutPriority.required, for: UILayoutConstraintAxis.horizontal)
+        setContentCompressionResistancePriority(UILayoutPriority.required, for: UILayoutConstraintAxis.horizontal)
     }
 }
 

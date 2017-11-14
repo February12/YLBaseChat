@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29FFACFF73F7B70AD81DD44E /* Pods_YLBaseChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */; };
 		7903C3A61EC4257F0015D151 /* RealmManagers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7903C3A51EC4257F0015D151 /* RealmManagers.swift */; };
 		7923C7EB1EC58CBC00B922E9 /* BaseChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923C7EA1EC58CBC00B922E9 /* BaseChatVC.swift */; };
 		7924402B1ED4384A00D3E2DF /* emojiImage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 792440081ED4384A00D3E2DF /* emojiImage.plist */; };
@@ -62,11 +61,11 @@
 		79DA2FB91EC956B9005B8D9A /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DA2FB81EC956B9005B8D9A /* Definition.swift */; };
 		79E47CDE1ED6691F00D129C1 /* BaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */; };
 		79FAE1821EE0FEC900CC2CC2 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */; };
+		8E189B6FD36CB8D882437CC9 /* Pods_YLBaseChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4631DA2ACE08EC89987159E /* Pods_YLBaseChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YLBaseChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.debug.xcconfig"; sourceTree = "<group>"; };
+		47D41E1FDB8F8141703518E4 /* Pods-YLBaseChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.debug.xcconfig"; sourceTree = "<group>"; };
 		7903C3A51EC4257F0015D151 /* RealmManagers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManagers.swift; sourceTree = "<group>"; };
 		7923C7EA1EC58CBC00B922E9 /* BaseChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatVC.swift; sourceTree = "<group>"; };
 		792440081ED4384A00D3E2DF /* emojiImage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emojiImage.plist; sourceTree = "<group>"; };
@@ -123,7 +122,8 @@
 		79DA2FB81EC956B9005B8D9A /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		79E47CDD1ED6691F00D129C1 /* BaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatCell.swift; sourceTree = "<group>"; };
 		79FAE1811EE0FEC900CC2CC2 /* RecordingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
-		E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
+		E4631DA2ACE08EC89987159E /* Pods_YLBaseChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YLBaseChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7447FB09FAB2E2F4E771CE2 /* Pods-YLBaseChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YLBaseChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29FFACFF73F7B70AD81DD44E /* Pods_YLBaseChat.framework in Frameworks */,
+				8E189B6FD36CB8D882437CC9 /* Pods_YLBaseChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,8 +201,8 @@
 			children = (
 				794C30781EC1580100AB4605 /* YLBaseChat */,
 				794C30771EC1580100AB4605 /* Products */,
-				FC254F3399E57ECCA00BC6EF /* Pods */,
-				EF76B2E0E1C8B0EA4D1191BD /* Frameworks */,
+				D29E68D207C6EDFF0ECC8B27 /* Pods */,
+				AFEF9F0A9FD2A9FF3349D057 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -290,19 +290,19 @@
 			path = CellViews;
 			sourceTree = "<group>";
 		};
-		EF76B2E0E1C8B0EA4D1191BD /* Frameworks */ = {
+		AFEF9F0A9FD2A9FF3349D057 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				05C908AE6C05F21FE78D4A61 /* Pods_YLBaseChat.framework */,
+				E4631DA2ACE08EC89987159E /* Pods_YLBaseChat.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FC254F3399E57ECCA00BC6EF /* Pods */ = {
+		D29E68D207C6EDFF0ECC8B27 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */,
-				E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */,
+				47D41E1FDB8F8141703518E4 /* Pods-YLBaseChat.debug.xcconfig */,
+				F7447FB09FAB2E2F4E771CE2 /* Pods-YLBaseChat.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -314,12 +314,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 794C30881EC1580100AB4605 /* Build configuration list for PBXNativeTarget "YLBaseChat" */;
 			buildPhases = (
-				F8AC4CBBBD994510C93EE0B5 /* [CP] Check Pods Manifest.lock */,
+				C93DE83E4A51E0F54BA2381E /* [CP] Check Pods Manifest.lock */,
 				794C30721EC1580100AB4605 /* Sources */,
 				794C30731EC1580100AB4605 /* Frameworks */,
 				794C30741EC1580100AB4605 /* Resources */,
-				FC0ADE0C588993F776E34A65 /* [CP] Embed Pods Frameworks */,
-				31782628DBA851E55B093853 /* [CP] Copy Pods Resources */,
+				ACB928BE0A05CE3B75DCA37E /* [CP] Embed Pods Frameworks */,
+				E6006F99CF40D1F2DF0E49DC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -408,22 +408,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		31782628DBA851E55B093853 /* [CP] Copy Pods Resources */ = {
+		ACB928BE0A05CE3B75DCA37E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F8AC4CBBBD994510C93EE0B5 /* [CP] Check Pods Manifest.lock */ = {
+		C93DE83E4A51E0F54BA2381E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -438,19 +438,19 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		FC0ADE0C588993F776E34A65 /* [CP] Embed Pods Frameworks */ = {
+		E6006F99CF40D1F2DF0E49DC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YLBaseChat/Pods-YLBaseChat-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -592,7 +592,7 @@
 		};
 		794C30891EC1580100AB4605 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F18E4657CAAAC013BEB62D1 /* Pods-YLBaseChat.debug.xcconfig */;
+			baseConfigurationReference = 47D41E1FDB8F8141703518E4 /* Pods-YLBaseChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MHFW5W9L73;
@@ -601,13 +601,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yl.YLBaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		794C308A1EC1580100AB4605 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E808F9210DAB82AEC4E86637 /* Pods-YLBaseChat.release.xcconfig */;
+			baseConfigurationReference = F7447FB09FAB2E2F4E771CE2 /* Pods-YLBaseChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MHFW5W9L73;
@@ -616,7 +616,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yl.YLBaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

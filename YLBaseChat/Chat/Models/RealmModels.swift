@@ -11,7 +11,7 @@ import RealmSwift
 
 // 自定义拷贝
 extension Object {
-    func clone() -> Object {
+    @objc func clone() -> Object {
         return Object()
     }
 }
@@ -33,9 +33,9 @@ enum MessageBodyType:Int{
 // 用户model
 class Conversation: Object {
     
-    dynamic var conversationId = NSUUID().uuidString // 用户id
+    @objc dynamic var conversationId = NSUUID().uuidString // 用户id
     
-    dynamic var nickname = "" // 昵称
+    @objc dynamic var nickname = "" // 昵称
     
     let messages = List<Message>()  // 用户对应的聊天消息
     
@@ -58,13 +58,13 @@ class Conversation: Object {
 // 消息model
 class Message: Object {
     
-    dynamic var messageId = NSUUID().uuidString // 消息id
+    @objc dynamic var messageId = NSUUID().uuidString // 消息id
     
-    dynamic var timestamp = ""   // 时间戳
+    @objc dynamic var timestamp = ""   // 时间戳
     
-    dynamic var direction = 0    // 消息方向
+    @objc dynamic var direction = 0    // 消息方向
     
-    dynamic var messageBody:MessageBody! // 消息体
+    @objc dynamic var messageBody:MessageBody! // 消息体
     
     override static func primaryKey() -> String? {
         return "messageId"
@@ -83,14 +83,14 @@ class Message: Object {
 // 消息体
 class MessageBody: Object {
     
-    dynamic var type = 0
+    @objc dynamic var type = 0
     // 文字
-    dynamic var text = ""
+    @objc dynamic var text = ""
     // 图片
-    dynamic var image:NSData? = nil
+    @objc dynamic var image:NSData? = nil
     // 语音
-    dynamic var voicePath = ""
-    dynamic var voiceDuration = 0
+    @objc dynamic var voicePath = ""
+    @objc dynamic var voiceDuration = 0
     
     override func clone() -> MessageBody {
         let messageBody = MessageBody()

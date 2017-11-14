@@ -124,9 +124,9 @@ class YLReplyView: UIView,YLInputViewDelegate {
         
         if attributedText.length == 0 {return}
         
-        attributedText.enumerateAttributes(in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.longestEffectiveRangeNotRequired) {(attrs:[String:Any], range:NSRange, _) in
+        attributedText.enumerateAttributes(in: NSRange(location: 0, length: attributedText.length), options: .longestEffectiveRangeNotRequired) { (attrs:[NSAttributedStringKey:Any], range:NSRange, _) in
             
-            if let attachment = attrs["NSAttachment"] as? NSTextAttachment  {
+            if let attachment = attrs[NSAttributedStringKey("NSAttachment")] as? NSTextAttachment  {
                 
                 let img = attachment.image!
                 
@@ -243,7 +243,7 @@ class YLReplyView: UIView,YLInputViewDelegate {
 extension YLReplyView{
     
     // 添加表情面板
-    func efAddFacePanelView() -> UIView {
+    @objc func efAddFacePanelView() -> UIView {
         
         let faceView:YLFaceView = Bundle.main.loadNibNamed("YLFaceView", owner: self, options: nil)?.first as! YLFaceView
         
@@ -253,7 +253,7 @@ extension YLReplyView{
     }
     
     // 添加更多面板
-    func efAddMorePanelView() -> UIView {
+    @objc func efAddMorePanelView() -> UIView {
         let panelView = UIView()
         panelView.backgroundColor = UIColor.white
         
@@ -274,13 +274,13 @@ extension YLReplyView{
     }
     
     // 已经恢复普通状态
-    func efDidRecoverReplyViewStateForNormal() {}
+    @objc func efDidRecoverReplyViewStateForNormal() {}
     
     // 已经恢复编辑状态
-    func efDidRecoverReplyViewStateForEdit() {}
+    @objc func efDidRecoverReplyViewStateForEdit() {}
     
     // 收起输入框
-    func efPackUpInputView() {
+    @objc func efPackUpInputView() {
         if  evReplyViewState == .input ||
             evReplyViewState == .face ||
             evReplyViewState == .more {
@@ -289,9 +289,9 @@ extension YLReplyView{
     }
     
     // 发送消息
-    func efSendMessageText(_ text: String) {}
-    func efSendMessageImage(_ images: [UIImage]?) {}
-    func efSendMessageVoice(_ path: String?,duration: Int){}
+    @objc func efSendMessageText(_ text: String) {}
+    @objc func efSendMessageImage(_ images: [UIImage]?) {}
+    @objc func efSendMessageVoice(_ path: String?,duration: Int){}
 }
 
 

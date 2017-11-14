@@ -39,7 +39,7 @@ class BaseChatVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.colorFromRGB(0xdcdcdc)
         
         title = "聊天室"
         
@@ -57,7 +57,6 @@ class BaseChatVC: UIViewController {
         chatView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        
         
         tableView.register(ChatTextCell.self, forCellReuseIdentifier: "ChatTextCell")
         tableView.register(ChatImageCell.self, forCellReuseIdentifier: "ChatImageCell")
@@ -187,7 +186,7 @@ class BaseChatVC: UIViewController {
                 cell.messageAnimationVoiceImageView.startAnimating()
                 
                 if let range = message.messageBody.voicePath.range(of: "Caches") {
-                    let path = NSHomeDirectory() + "/Library/" + message.messageBody.voicePath.substring(from: range.lowerBound)
+                    let path = NSHomeDirectory() + "/Library/" + message.messageBody.voicePath.dropFirst(range.lowerBound.encodedOffset)
                     VoiceManager.shared.play(path, {[weak self] in
                         self?.stopPlaying()
                     })

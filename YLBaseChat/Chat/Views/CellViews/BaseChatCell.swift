@@ -181,7 +181,7 @@ class BaseChatCell: UITableViewCell {
                 messageTimeLabel.text =  timeStr
                 
                 // 计算宽度
-                let width = NSString(string: timeStr).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName:messageTimeLabel.font], context: nil).size.width + 10
+                let width = NSString(string: timeStr).boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font:messageTimeLabel.font], context: nil).size.width + 10
                 
                 messageTimeLabel.snp.remakeConstraints({ (make) in
                     make.top.equalTo(20);

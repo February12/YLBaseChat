@@ -58,7 +58,10 @@ extension String {
         for result:NSTextCheckingResult in regexArray {
             
             let range = result.range
-            let name = emojiDic?[content.substring(with: yl_range(range)!)]
+            let startIndex = String.Index(encodedOffset: range.location)
+            let endIndex = String.Index(encodedOffset: range.location + range.length)
+            
+            let name = emojiDic?[content[startIndex..<endIndex]]
             
             let img = UIImage(named: name as! String)?.yl_scaleToSize(size)
             let attachment = NSMutableAttributedString.yy_attachmentString(withContent: img, contentMode: .center, attachmentSize: size, alignTo: font, alignment: YYTextVerticalAlignment.center)
@@ -69,16 +72,4 @@ extension String {
         
         return mutableText
     }
-    
-    // NSRange -> Range<String.Index>
-    func yl_range(_ nsRange: NSRange) -> Range<String.Index>? {
-        guard
-            let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex),
-            let to16 = utf16.index(from16, offsetBy: nsRange.length, limitedBy: utf16.endIndex),
-            let from = String.Index(from16, within: self),
-            let to = String.Index(to16, within: self)
-            else { return nil }
-        return from..<to
-    }
-    
 }

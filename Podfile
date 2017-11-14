@@ -3,11 +3,12 @@ platform :ios, '8.0'
 
 target 'YLBaseChat' do
 # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+inhibit_all_warnings!
 use_frameworks!
 
 # Pods for YLBaseChat
   
-pod 'RealmSwift','~> 2.10.1'
+pod 'RealmSwift', '~> 3.0.2'
 pod 'SnapKit','~> 4.0.0'
 pod 'YYText','~> 1.0.7'
 pod 'YLImagePickerController','~> 0.0.9'

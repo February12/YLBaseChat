@@ -26,6 +26,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.rowHeight = 50
+        tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         view.addSubview(tableView)
@@ -36,8 +38,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         let conversation = Conversation()
         conversation.nickname = "龙五"
-        
-        RealmManagers.shared.addSynModel(conversation.clone())
         
         let message = Message()
         message.timestamp = "1494573288"
